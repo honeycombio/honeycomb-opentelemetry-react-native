@@ -1,2 +1,3 @@
-# {project-name} changelog
+# Honeycomb OpenTelemetry SDK Changelog
 
+## v.Next
