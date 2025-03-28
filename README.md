@@ -1,10 +1,37 @@
-# Default Community Health Files
+# Honeycomb OpenTelemetry React Native
 
-This repository contains default community health files for repositories in the Honeycomb organization and will automatically be picked up if they are not overwritten.
+[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/honeycomb-opentelemetry-react-native)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
+[![CircleCI](https://circleci.com/gh/honeycombio/honeycomb-opentelemetry-react-native.svg?style=shield)](https://circleci.com/gh/honeycombio/honeycomb-opentelemetry-react-native)
 
-More details on this repository structure can be found here: https://docs.github.com/en/github/building-a-strong-community/creating-a-default-community-health-file
+Honeycomb wrapper for [OpenTelemetry](https://opentelemetry.io) in React Native apps.
 
-# {project-name}
+**STATUS: this library is experimental.** Data shapes are unstable and subject to change. We are actively seeking feedback to ensure usability.
 
-<!-- OSS metadata badge - rename repo link and set status in OSSMETADATA -->
-<!-- [![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/{repo-name})](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md) -->
+## Getting started
+
+### Adding the dependency
+
+TODO
+
+### Initializing the SDK
+
+TODO
+
+## Configuration Options
+
+| Option               | Type                           | Required? | Description                  |
+|----------------------|--------------------------------|-----------|------------------------------|
+
+## Default Attributes
+All spans will include the following attributes
+
+TODO
+
+## Auto-instrumentation
+
+TODO
+
+## Manual Instrumentation
+
+TODO
+
