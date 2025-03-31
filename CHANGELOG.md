@@ -1,3 +1,3 @@
-# Honeycomb OpenTelemetry SDK Changelog
+# Honeycomb React Native SDK Changelog
 
 ## v.Next
