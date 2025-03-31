@@ -1,2 +1,3 @@
-# {project-name} changelog
+# Honeycomb React Native SDK Changelog
 
+## v.Next
