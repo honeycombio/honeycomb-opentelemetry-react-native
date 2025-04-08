@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "honeycomb-opentelemetry-react-native": ["./src/index"]
+      "@honeycombio/opentelemetry-react-native": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
