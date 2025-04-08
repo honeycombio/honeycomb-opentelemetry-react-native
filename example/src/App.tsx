@@ -2,7 +2,7 @@ import { Button, Platform, Text, View, StyleSheet } from 'react-native';
 import {
   HoneycombReactNativeSDK,
   multiply,
-} from 'honeycomb-opentelemetry-react-native';
+} from '@honeycombio/opentelemetry-react-native';
 import { DiagLogLevel, trace } from '@opentelemetry/api';
 
 function onTraceClick() {
