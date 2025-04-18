@@ -71,9 +71,51 @@ sdk.start();
 
 ## Manual Instrumentation
 
+### Navigation
+Navigation instrumentation depends on if you are using React Native Router or Expo Router for navigation. 
+Honeycomb SDK provides tools to assist in instrumentation for both frameworks. Both emit identical traces
+for UI events.
+
+#### React Native Router
+Honeycomb's SDK provides a higher order component.
+You can attach it to your `Navigation` or `NavigationContainer` component.
+
+```TSX
+import { instrumentNavigationContainer } from '@honeycombio/opentelemetry-react-native';
+import { NavigationContainer } from '@react-navigation/native';
+
+const InstrumentedNavigationContainer = instrumentNavigationContainer(NavigationContainer);
+
+export default function App() {
+  return (
+    <InstrumentedNavigationContainer>
+      {/* Navigation/UI code*/}
+    </InstrumentedNavigationContainer>
+  );
+}
+```
+
+#### Expo Router
+Honeycomb's SDK provides a hook that can be placed in your root layout file. 
+
+```TSX
+import { useNavigationInstrumentation } from '@honeycombio/opentelemetry-react-native';
+
+export default function RootLayout() {
+
+  useNavigationInstrumentation();
+
+  // Remaining setup code
+
+  return (
+    {/* Navigation/UI code*/}
+  );
+}
+```
+
 ### Sending a custom span.
 
-```
+```typescript
 let span = trace
   .getTracer('your-tracer-name')
   .startSpan('some-span');
