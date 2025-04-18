@@ -24,21 +24,21 @@ export function instrumentNavigationContainer<
           }
         }}
         onStateChange={(state) => {
-          const timeStamp = Date.now();
+          const timestamp = Date.now();
           const previousRoute = routeNameRef.current;
           const currentRoute = navigationRef.current?.getCurrentRoute()?.name;
 
           if (currentRoute && previousRoute !== currentRoute) {
             trace
               .getTracer('io.honeycomb.navigation')
-              .startSpan('screen appeared', { startTime: timeStamp })
+              .startSpan('screen appeared', { startTime: timestamp })
               .setAttribute('screen.route', currentRoute)
               .end();
 
             if (previousRoute) {
               trace
                 .getTracer('io.honeycomb.navigation')
-                .startSpan('screen disappeared', { startTime: timeStamp })
+                .startSpan('screen disappeared', { startTime: timestamp })
                 .setAttribute('screen.route', currentRoute)
                 .end();
             }
