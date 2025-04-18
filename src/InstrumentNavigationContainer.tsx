@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { type Span, trace } from '@opentelemetry/api';
+import { trace } from '@opentelemetry/api';
 
 import {
   useNavigationContainerRef,
@@ -13,7 +13,6 @@ export function instrumentNavigationContainer<
   return ({ onReady, onStateChange, children, ...props }: T) => {
     const navigationRef = useNavigationContainerRef();
     const routeNameRef = useRef<string>(undefined);
-    const spanRef = useRef<Span>(undefined);
 
     return (
       <WrappedNavigation
@@ -30,17 +29,19 @@ export function instrumentNavigationContainer<
           const currentRoute = navigationRef.current?.getCurrentRoute()?.name;
 
           if (currentRoute && previousRoute !== currentRoute) {
-            const span = trace
+            trace
               .getTracer('io.honeycomb.navigation')
               .startSpan('screen appeared', { startTime: timeStamp })
-              .setAttribute('screen.route', currentRoute);
+              .setAttribute('screen.route', currentRoute)
+              .end();
 
-            if (spanRef.current) {
-              const prevSpan = spanRef.current;
-              prevSpan.end(timeStamp);
+            if (previousRoute) {
+              trace
+                .getTracer('io.honeycomb.navigation')
+                .startSpan('screen disappeared', { startTime: timeStamp })
+                .setAttribute('screen.route', currentRoute)
+                .end();
             }
-
-            spanRef.current = span;
 
             if (onStateChange) {
               return onStateChange(state);
