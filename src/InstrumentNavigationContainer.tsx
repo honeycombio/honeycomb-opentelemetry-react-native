@@ -43,6 +43,8 @@ export function instrumentNavigationContainer<
                 .end();
             }
 
+            routeNameRef.current = currentRoute;
+
             if (onStateChange) {
               return onStateChange(state);
             }
