@@ -10,7 +10,7 @@ import {
 export function instrumentNavigationContainer<
   T extends NavigationContainerProps = NavigationContainerProps,
 >(WrappedNavigation: React.ComponentType<T>) {
-  return ({ onReady, onStateChange, ...props }: T) => {
+  return ({ onReady, onStateChange, children, ...props }: T) => {
     const navigationRef = useNavigationContainerRef();
     const routeNameRef = useRef<string>(undefined);
     const spanRef = useRef<Span>(undefined);
@@ -31,7 +31,7 @@ export function instrumentNavigationContainer<
 
           if (currentRoute && previousRoute !== currentRoute) {
             const span = trace
-              .getTracer('io.honeycomb.screens')
+              .getTracer('io.honeycomb.navigation')
               .startSpan('screen appeared', { startTime: timeStamp })
               .setAttribute('screen.route', currentRoute);
 
@@ -48,7 +48,9 @@ export function instrumentNavigationContainer<
           }
         }}
         {...(props as T)}
-      />
+      >
+        {children}
+      </WrappedNavigation>
     );
   };
 }
