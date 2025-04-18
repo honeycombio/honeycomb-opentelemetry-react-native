@@ -2,6 +2,8 @@
 
 ## v.Next
 
+- feat: Navigation Instrumentation for Expo Router and React Native Router.
+- feat: Create `HoneycombReactNativeSDK` and `HoneycombReactNativeOptions`.
 - feat: Uncaught Exception handler
 - feat: Create `HoneycombReactNativeSDK` and `HoneycombReactNativeOptions`.
 - chore: Need to specify that this is a public npm package.
