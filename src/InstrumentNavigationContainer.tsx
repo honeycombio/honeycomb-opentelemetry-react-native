@@ -7,6 +7,8 @@ import {
   type NavigationContainerProps,
 } from '@react-navigation/native';
 
+// TODO: this code is only manually tested using a modified example app, automated tests should be added
+
 export function instrumentNavigationContainer<
   T extends NavigationContainerProps = NavigationContainerProps,
 >(WrappedNavigation: React.ComponentType<T>) {
