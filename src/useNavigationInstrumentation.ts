@@ -12,7 +12,7 @@ export default function useNavigationInstrumentation() {
     trace
       .getTracer('io.honeycomb.navigation')
       .startSpan('screen appeared', { startTime: timestamp })
-      .setAttribute('screen.name', currentRoute)
+      .setAttribute('screen.route', currentRoute)
       .end();
 
     if (previousRoute) {
