@@ -1853,6 +1853,7 @@ __metadata:
     turbo: ^1.10.7
     typescript: ^5.2.2
   peerDependencies:
+    "@react-navigation/native": "*"
     react: "*"
     react-native: "*"
   languageName: unknown
