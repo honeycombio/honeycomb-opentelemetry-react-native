@@ -21,7 +21,7 @@ export default function useNavigationInstrumentation() {
       trace
         .getTracer('io.honeycomb.navigation')
         .startSpan('screen disappeared', { startTime: timestamp })
-        .setAttribute('screen.route', currentRoute)
+        .setAttribute('screen.route', previousRoute)
         .end();
     }
 
