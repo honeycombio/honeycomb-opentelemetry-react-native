@@ -2,5 +2,5 @@
 
 ## v.Next
 
-feat: Navigation Instrumentation for Expo Router and React Native Router.
+feat: Navigation Instrumentation for Expo Router and ReactNative Router.
 feat: Create `HoneycombReactNativeSDK` and `HoneycombReactNativeOptions`.
