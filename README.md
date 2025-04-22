@@ -72,11 +72,11 @@ sdk.start();
 ## Manual Instrumentation
 
 ### Navigation
-Navigation instrumentation depends on if you are using React Native Router or Expo Router for navigation. 
+Navigation instrumentation depends on if you are using React NativeRouter or Expo Router for navigation. 
 Honeycomb SDK provides tools to assist in instrumentation for both frameworks. Both emit identical traces
 for UI events.
 
-#### React Native Router
+#### ReactNative Router
 Honeycomb's SDK provides a higher order component.
 You can attach it to your `Navigation` or `NavigationContainer` component.
 
