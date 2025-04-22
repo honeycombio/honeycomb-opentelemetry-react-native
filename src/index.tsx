@@ -1,4 +1,3 @@
-export { instrumentNavigationContainer } from './instrumentNavigationContainer';
 export { default as useNavigationInstrumentation } from './useNavigationInstrumentation';
 import HoneycombOpentelemetryReactNative from './NativeHoneycombOpentelemetryReactNative';
 
