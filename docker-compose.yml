@@ -1,0 +1,15 @@
+services:
+  react-native:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.react-native
+    ports:
+      - '8081:8081'
+  collector:
+    image: otel/opentelemetry-collector:0.92.0
+    command: ['--config=/etc/otel-collector-config.yaml']
+    volumes:
+      - './smoke-tests/collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml'
+      - './smoke-tests/collector:/var/lib'
+    ports:
+      - '4318:4318'
