@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites time="0.016">
+<testsuite name="smoke-e2e.bats" tests="1" failures="0" errors="0" skipped="0" time="0.016" timestamp="2025-05-01T03:22:45" hostname="Bees-MacBook-Pro.local">
+    <testcase classname="smoke-e2e.bats" name="SDK can send spans" time="0.016" />
+
+</testsuite>
+</testsuites>

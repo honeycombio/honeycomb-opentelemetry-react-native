@@ -39,21 +39,75 @@ yarn example android
 
 ## Smoke Tests
 
-### Prerequisites
+Smoke tests are run by automatically:
+1. starting a local collector in a container that exports to a file,
+2. launching the react native service in a container,
+3. launching the app in an iOS simulator / Android emulator,
+3. controlling the app using `detox` UI tests, and then 
+4. testing assertions against the telemetry output using `bats-core` and `jq`.
 
-In order to run detox tests, you'll need `applesimutils`.
+**Required for Smoke Tests:**
+
+- Xcode Command-line Tools
+- [Android SDK Command-line Tools](https://developer.android.com/tools)
+- [`bats-core`](https://bats-core.readthedocs.io/en/stable/)
+- [`jq`](https://jqlang.github.io/jq/)
+- Docker & Docker Compose
+  - [Docker Desktop](https://www.docker.com/products/docker-desktop/) is a reliable choice if you don't have your own preference.
+
+**iOS SDK Setup**
+
+To install the Xcode Command Line Tools, first install and run Xcode. Then run:
+
+```sh
+xcode-select --install
+```
+
+`detox` requires `applesimutils'.
+
 ```sh
 brew tap wix/brew
 brew install applesimutils
 ```
 
-To run the tests, first start metro.
+**Android SDK Setup**
+
+After installing Android Studio, set `ANDROID_HOME` to the location of your Android SDK, which is usually something like `$HOME/Library/Android/sdk`.
+
 ```sh
-npm start
+export ANDROID_HOME="$HOME/Library/Android/sdk"
 ```
 
-Then run the `detox` tests.
+If you don't already have Java, no need to install it separately: Android Studio includes it.
+
 ```sh
-detox test --configuration ios.sim.debug
-detox test --configuration android.emu.debug
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+```
+
+To install Command-line Tools go to Tools > SDK Manager > Android SDK > SDK Tools.
+
+**Bash Tools Setup**
+
+Install `bats-core` and `jq` for local testing:
+
+```sh
+brew install bats-core
+brew install jq
+```
+
+**Running Tests**
+
+Smoke tests can be run with `make` targets.
+
+```sh
+make smoke-ios
+make smoke-android
+```
+
+The results of both the tests themselves and the telemetry collected by the collector are in a file `data.json` in the `smoke-tests/collector/` directory.
+
+After smoke tests are done, tear down docker containers:
+
+```sh
+make unsmoke
 ```
