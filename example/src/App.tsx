@@ -30,6 +30,7 @@ export default function App() {
       <Button
         onPress={onTraceClick}
         title="Send a trace."
+        testID="send_trace"
         color="#841584"
         accessibilityLabel="trace_demo_button"
       />
