@@ -73,42 +73,55 @@ sdk.start();
 
 ### Navigation
 Navigation instrumentation depends on if you are using React NativeRouter or Expo Router for navigation. 
-Honeycomb SDK provides tools to assist in instrumentation for both frameworks. Both emit identical traces
-for UI events.
+Honeycomb SDK provides a component (`<NavigationInstrumentation>`) that you can place in your main app or layout file. Below are examples
+on using it with both ReactNative Router.
 
 #### ReactNative Router
-Honeycomb's SDK provides a higher order component.
-You can attach it to your `Navigation` or `NavigationContainer` component.
+In ReactNative Router you will need to pass the ref into your navigation container as well as
+into the `<NavigationInstrumentation>` component.
+
+Note: the `<NavigationInstrumentation>` component has to be a child of your `<NavigationContainer>` component.
 
 ```TSX
-import { instrumentNavigationContainer } from '@honeycombio/opentelemetry-react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationInstrumentation } from '@honeycombio/opentelemetry-react-native';
+import { useNavigationContainerRef, NavigationContainer } from '@react-navigation/native';
 
-const InstrumentedNavigationContainer = instrumentNavigationContainer(NavigationContainer);
 
 export default function App() {
+  const navigationRef = useNavigationContainerRef();
+
   return (
-    <InstrumentedNavigationContainer>
-      {/* Navigation/UI code*/}
-    </InstrumentedNavigationContainer>
+    <NavigationContainer
+      ref={navigationRef}
+    >
+      <NavigationInstrumentation
+        ref={navigationRef}
+      >
+        {/* Navigation/UI code*/}
+      </NavigationInstrumentation>
+    </NavigationContainer>
   );
 }
 ```
 
 #### Expo Router
-Honeycomb's SDK provides a hook that can be placed in your root layout file. 
+The same component can also be used with expo's provided `useNavigationContainerRef` hook.
+Since Expo generates its own `NavigationContainer` you do not need to pass the ref in again.
 
 ```TSX
-import { useNavigationInstrumentation } from '@honeycombio/opentelemetry-react-native';
+import { NavigationInstrumentation } from '@honeycombio/opentelemetry-react-native';
+import { useNavigationContainerRef } from 'expo-router';
 
-export default function RootLayout() {
 
-  useNavigationInstrumentation();
-
-  // Remaining setup code
+export default function App() {
+  const navigationRef = useNavigationContainerRef();
 
   return (
-    {/* Navigation/UI code*/}
+    <NavigationInstrumentation
+      ref={navigationRef}
+    >
+      {/* Navigation/UI code*/}
+    </NavigationInstrumentation>
   );
 }
 ```
