@@ -2,4 +2,5 @@
 
 ## v.Next
 
-feat: Create `HoneycombReactNativeSDK` and `HoneycombReactNativeOptions`.
+- feat: Create `HoneycombReactNativeSDK` and `HoneycombReactNativeOptions`.
+- chore: Need to specify that this is a public npm package.
