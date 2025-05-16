@@ -23,4 +23,12 @@ describe('Example', () => {
   it('should send a trace', async () => {
     await element(by.id('send_trace')).tap();
   });
+
+  it('should have a Throw an Error button', async () => {
+    await expect(element(by.id('throw_error'))).toBeVisible();
+  });
+
+  it('should throw an error', async () => {
+    await element(by.id('throw_error')).tap();
+  });
 });

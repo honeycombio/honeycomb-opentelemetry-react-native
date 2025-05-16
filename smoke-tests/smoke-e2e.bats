@@ -15,3 +15,7 @@ setup_file() {
   assert_equal "$result" '"button-click"'
 }
 
+@test "Uncaught Errors are recorded" {
+  result=$(span_names_for "io.honeycomb.react-native.uncaught-exceptions")
+  assert_equal "$result" "exception"
+}
