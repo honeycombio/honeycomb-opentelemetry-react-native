@@ -5,6 +5,11 @@ import {
   HoneycombWebSDK,
 } from '@honeycombio/opentelemetry-web';
 
+export {
+  UncaughtExceptionInstrumentation,
+  type UncaughtExceptionInstrumentationConfig,
+} from './UncaughtExceptionInstrumentation';
+
 // This function is an example of how to proxy native code.
 // TODO: Remove this, once we have other native code.
 export function multiply(a: number, b: number): number {
