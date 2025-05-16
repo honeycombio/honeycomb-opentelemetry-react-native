@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Button, Platform, Text, View, StyleSheet } from 'react-native';
-import { HoneycombReactNativeSDK } from '@honeycombio/opentelemetry-react-native';
+import {
+  HoneycombReactNativeSDK,
+  UncaughtExceptionInstrumentation,
+} from '@honeycombio/opentelemetry-react-native';
 import { DiagLogLevel, trace } from '@opentelemetry/api';
 
 const localhost = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
@@ -9,8 +12,13 @@ const sdk = new HoneycombReactNativeSDK({
   endpoint: `http://${localhost}:4318`,
   serviceName: 'reactnative-example',
   logLevel: DiagLogLevel.DEBUG,
+  instrumentations: [new UncaughtExceptionInstrumentation()],
 });
 sdk.start();
+
+function onErrorClick() {
+  throw new Error('test error');
+}
 
 function onTraceClick() {
   let span = trace
@@ -44,6 +52,13 @@ export default function App() {
         testID="flush"
         color="#841584"
         accessibilityLabel="flush_button"
+      />
+      <Button
+        onPress={onErrorClick}
+        title="Throw an Error"
+        testID="throw_error"
+        color="#841515"
+        accessibilityLabel="throw_error_button"
       />
       <Text id="status" testID="status">
         {statusText}
