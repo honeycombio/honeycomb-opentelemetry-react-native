@@ -2,6 +2,8 @@ import { trace } from '@opentelemetry/api';
 import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useEffect, useRef } from 'react';
 
+const LIBRARY_NAME = '@honeycomb/navigation';
+
 type NavigationInstrumentationProps = React.PropsWithChildren<{
   ref: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
 }>;
@@ -23,14 +25,14 @@ export function NavigationInstrumentation({
       const { name: currentRoute } = ref.getCurrentRoute() ?? {};
       if (currentRoute) {
         trace
-          .getTracer('io.honeycomb.navigation')
+          .getTracer(LIBRARY_NAME)
           .startSpan('screen appeared', { startTime: timestamp })
           .setAttribute('screen.route', currentRoute)
           .end();
       }
       if (previousRoute) {
         trace
-          .getTracer('io.honeycomb.navigation')
+          .getTracer(LIBRARY_NAME)
           .startSpan('screen disappeared', { startTime: timestamp })
           .setAttribute('screen.route', previousRoute)
           .end();
