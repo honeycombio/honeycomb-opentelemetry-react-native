@@ -53,6 +53,6 @@ echo "+++ Creating the virtual device."
 echo ""
 # Ignore errors in case the device already exists.
 echo "avdmanager create avd -n \"$DEVICE_NAME\" -k \"$SYSTEM_IMAGE\""
-yes no | avdmanager create avd -n "$DEVICE_NAME" -k "$SYSTEM_IMAGE" || true
+echo no | avdmanager create avd -n "$DEVICE_NAME" -k "$SYSTEM_IMAGE" || true
 avdmanager list avd
 
