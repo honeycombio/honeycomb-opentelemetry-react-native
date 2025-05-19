@@ -82,8 +82,21 @@ jobs:
             bats --version
       - run: xcodebuild -version
       - run:
-          name: "Start Collector & Mock Server"
-          command: make smoke-docker
+          name: Install OTel Collector
+          environment:
+            COLLECTOR_VERSION: "0.111.0"
+          command: |
+            curl --proto '=https' --tlsv1.2 -fOL https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v${COLLECTOR_VERSION}/otelcol_${COLLECTOR_VERSION}_darwin_arm64.tar.gz
+            tar -xvf otelcol_${COLLECTOR_VERSION}_darwin_arm64.tar.gz
+      - run:
+          name: Start OTel Collector
+          command: touch ./smoke-tests/collector/data.json && ./otelcol --config=./smoke-tests/collector/otel-collector-config.yaml --set="exporters::file::path=./smoke-tests/collector/data.json"
+          background: true
+      - run:
+          name: Start Mock Server
+          working_directory: smoke-tests/mock-server
+          command: npm install && npm start
+          background: true
       - run:
           name: "Run iOS UI Tests"
           command: make ios-test
