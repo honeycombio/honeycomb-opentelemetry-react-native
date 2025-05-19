@@ -51,23 +51,23 @@ attribute_for_log_key() {
         jq ".${3}Value"
 }
 
-# Gets all attributes for all logs where a single values matches
+# Gets all attributes for all spans where a single values matches
 # Arguments:
 #   $1 - scope
 #   $2 - attribute value
 #   $3 - attribute type
-attributes_for_log_with_value() {
-    logs_from_scope_named $1 | \
+attributes_for_span_with_value() {
+    spans_from_scope_named $1 | \
         jq "select(.attributes[].value.${3}Value == \"$2\") | .attributes[]"
 }
 
-# Gets an attribute for an exception log of a particular type
+# Gets an attribute for an exception trace of a particular type
 # Arguments:
 #   $1 - exception type
 #   $2 - attribute name
 #   $3 - attribute type
-attribute_for_exception_log_of_type() {
-    attributes_for_log_with_value "io.honeycomb.error" $1 string | \
+attribute_for_exception_trace_of_type() {
+    attributes_for_log_with_value "@honeycombio/instrumentation-global-errors" $1 string | \
         jq "select (.key == \"$2\").value | .${3}Value"
 }
 
