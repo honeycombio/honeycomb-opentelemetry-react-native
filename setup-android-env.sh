@@ -39,7 +39,7 @@ echo ""
 bash -c 'yes || true' | sdkmanager --licenses >/dev/null
 
 echo ""
-echo "+++ Downloading the correct system image, if needed.
+echo "+++ Downloading the correct system image, if needed."
 echo ""
 echo "The following SDKs are available."
 sdkmanager --list
