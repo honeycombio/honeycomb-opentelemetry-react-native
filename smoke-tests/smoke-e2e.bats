@@ -16,6 +16,6 @@ setup_file() {
 }
 
 @test "Uncaught Errors are recorded" {
-  result=$(span_names_for "io.honeycomb.react-native.uncaught-exceptions")
+  result=$(span_names_for "@honeycombio/instrumentation-global-errors'")
   assert_equal "$result" "exception"
 }

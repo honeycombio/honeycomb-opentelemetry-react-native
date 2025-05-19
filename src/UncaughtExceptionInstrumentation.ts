@@ -6,7 +6,7 @@ import { type InstrumentationConfig } from '@opentelemetry/instrumentation';
 import type { Span } from '@opentelemetry/api';
 import { VERSION } from './version';
 
-const LIBRARY_NAME = 'io.honeycomb.react-native.uncaught-exceptions';
+const LIBRARY_NAME = '@honeycombio/instrumentation-global-errors';
 
 type ApplyCustomAttributesOnSpanFunction = (span: Span, error: Error) => void;
 
