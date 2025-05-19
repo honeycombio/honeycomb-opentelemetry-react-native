@@ -39,8 +39,6 @@ jobs:
       tag: default
     steps:
       - checkout
-      - run: brew tap wix/brew
-      - run: brew install applesimutils
       - run: yarn install
       - bats/install
       - run:
@@ -75,6 +73,8 @@ jobs:
           platform: "iOS"
           device: "iPhone 15"
       - checkout
+      - run: brew tap wix/brew
+      - run: brew install applesimutils
       - run: yarn install
       - bats/install
       - run:
