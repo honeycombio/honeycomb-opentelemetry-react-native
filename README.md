@@ -51,7 +51,7 @@ TODO
 ## Auto-instrumentation
 
 ### Error handler
-The honeycomb React Native SDK includes a global error handler for uncaught exceptions. To use it, include it in the `instrumentations` config property.
+The Honeycomb React Native SDK includes a global error handler for uncaught exceptions. To use it, include it in the `instrumentations` config property.
 
 ```TypeScript
 import { 
