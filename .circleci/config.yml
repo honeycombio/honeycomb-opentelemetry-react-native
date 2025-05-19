@@ -19,6 +19,7 @@ jobs:
       tag: default
     steps:
       - checkout
+      - run: yarn install
       - run: make lint
 
   unit_test:
@@ -28,6 +29,7 @@ jobs:
       tag: default
     steps:
       - checkout
+      - run: yarn install
       - run: yarn test
 
   smoke_tests_android:
@@ -37,6 +39,7 @@ jobs:
       tag: default
     steps:
       - checkout
+      - run: yarn install
       - bats/install
       - run:
           name: What's the BATS?
@@ -70,6 +73,7 @@ jobs:
           platform: "iOS"
           device: "iPhone 15"
       - checkout
+      - run: yarn install
       - bats/install
       - run:
           name: What's the BATS?
