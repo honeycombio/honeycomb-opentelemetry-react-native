@@ -20,6 +20,10 @@ function onErrorClick() {
   throw new Error('test error');
 }
 
+function onStringErrorClick() {
+  throw 'string error';
+}
+
 function onTraceClick() {
   let span = trace
     .getTracer('honeycomb-react-native-example')
@@ -59,6 +63,13 @@ export default function App() {
         testID="throw_error"
         color="#841515"
         accessibilityLabel="throw_error_button"
+      />
+      <Button
+        onPress={onStringErrorClick}
+        title="Throw a String"
+        testID="throw_string"
+        color="#841515"
+        accessibilityLabel="throw_string_button"
       />
       <Text id="status" testID="status">
         {statusText}
