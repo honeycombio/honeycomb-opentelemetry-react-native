@@ -6,8 +6,7 @@ UNAME=$(uname -o)
 if [[ "$UNAME" == "Darwin" ]]; then
     ABI="arm64-v8a"
 else
-    # ABI="x86_64"
-    ABI="arm64-v8a"
+    ABI="x86_64"
 fi
 SYSTEM_IMAGE="system-images;android-35;google_apis;$ABI"
 DEVICE_NAME="Pixel_8_API_35"
