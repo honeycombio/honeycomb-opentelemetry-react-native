@@ -46,3 +46,10 @@ sdkmanager --list
 echo "Installing $SYSTEM_IMAGE"
 bash -c 'yes || true' | sdkmanager --verbose --install "$SYSTEM_IMAGE"
 sdkmanager --update
+
+#
+# Create the virtual device.
+#
+# Ignore errors in case the device already exists.
+avdmanager create avd -n "$DEVICE_NAME" -k "$SYSTEM_IMAGE" || true
+
