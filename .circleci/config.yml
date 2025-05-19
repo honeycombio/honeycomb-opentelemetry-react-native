@@ -1,0 +1,133 @@
+
+version: '2.1'
+
+orbs:
+  android: circleci/android@2.5
+  bats: circleci/bats@1.0.0
+  macos: circleci/macos@2
+
+parameters:
+  java-version:
+    type: integer
+    default: 17
+
+jobs:
+  lint:
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: default
+    steps:
+      - checkout
+      - run: make lint
+
+  unit_test:
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: default
+    steps:
+      - checkout
+      - run: yarn test
+
+  smoke_tests_android:
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: default
+    steps:
+      - checkout
+      - bats/install
+      - run:
+          name: What's the BATS?
+          command: |
+            which bats
+            bats --version
+      - run:
+          name: "Start Collector & Mock Server"
+          command: make smoke-docker
+      - android/change-java-version:
+          java-version: << pipeline.parameters.java-version >>
+      - run:
+          name: "Run Android UI Tests"
+          command: make android-test
+      - store_artifacts:
+          path: example/build/outputs/connected_android_test_additional_output
+      - run:
+          name: "Check Smoke Test Assertions"
+          command: make smoke-bats
+
+  smoke_tests_ios:
+    macos:
+      xcode: 15.4.0
+    resource_class: macos.m1.medium.gen1
+
+    steps:
+      - attach_workspace:
+          at: ./
+      - macos/preboot-simulator:
+          version: "17.5"
+          platform: "iOS"
+          device: "iPhone 15"
+      - checkout
+      - bats/install
+      - run:
+          name: What's the BATS?
+          command: |
+            which bats
+            bats --version
+      - run: xcodebuild -version
+      - run:
+          name: "Start Collector & Mock Server"
+          command: make smoke-docker
+      - run:
+          name: "Run iOS UI Tests"
+          command: make ios-test
+      - run:
+          name: "Check Smoke Test Assertions"
+          command: make smoke-bats
+
+filters_main_only: &filters_main_only
+  filters:
+    tags:
+      only: /.*/
+    branches:
+      only: main
+
+filters_tags_only: &filters_tags_only
+  filters:
+    tags:
+      only: /^v.*/
+    branches:
+      ignore: /.*/
+
+filters_always: &filters_always
+  filters:
+    tags:
+      only: /.*/
+
+workflows:
+  build:
+    jobs:
+      - unit_test:
+          <<: *filters_always
+      - lint:
+          <<: *filters_always
+      - smoke_tests_android:
+          <<: *filters_always
+      - smoke_tests_ios:
+          <<: *filters_always
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - unit_test
+      - lint
+      - smoke_tests_android
+      - smoke_tests_ios
+
