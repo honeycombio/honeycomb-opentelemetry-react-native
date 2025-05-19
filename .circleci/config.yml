@@ -75,16 +75,16 @@ jobs:
 
   smoke_tests_ios:
     macos:
-      xcode: 15.4.0
+      xcode: 16.2.0
     resource_class: macos.m1.medium.gen1
 
     steps:
       - attach_workspace:
           at: ./
       - macos/preboot-simulator:
-          version: "17.5"
+          version: "18.2"
           platform: "iOS"
-          device: "iPhone 15"
+          device: "iPhone 16"
       - checkout
       - run: brew tap wix/brew
       - run: brew install applesimutils
