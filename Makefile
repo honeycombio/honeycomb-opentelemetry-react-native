@@ -39,12 +39,14 @@ android-test: android-emulator
 	@echo ""
 	@echo "+++ Running Android tests."
 	@echo ""
+	yarn example detox build --configuration android.emu.debug
 	yarn example detox test --configuration android.emu.debug
 
 ios-test:
 	@echo ""
 	@echo "+++ Running iOS tests."
 	@echo ""
+	yarn example detox build --configuration ios.sim.debug
 	yarn example detox test --configuration ios.sim.debug
 
 smoke-bats: smoke-tests/collector/data.json
