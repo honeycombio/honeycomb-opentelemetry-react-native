@@ -15,7 +15,12 @@ setup_file() {
   assert_equal "$result" '"button-click"'
 }
 
-@test "Uncaught Errors are recorded" {
-  result=$(span_names_for "@honeycombio/instrumentation-global-errors'")
-  assert_equal "$result" "exception"
+@test "Uncaught Errors are recorded properly" {
+  result=$(attribute_for_exception_trace_of_type "Error" "error.message" "string")
+  assert_equal "$result" "test error"
+}
+
+@test "Uncaught non-Error Objects recorded properly" {
+  result=$(attribute_for_exception_trace_of_type "NonError Type Thrown" "error.message" "string")
+  assert_equal "$result" "string error"
 }
