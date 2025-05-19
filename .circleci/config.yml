@@ -47,6 +47,9 @@ jobs:
             which bats
             bats --version
       - run:
+          name: "Start React Native"
+          command: make smoke-react-native
+      - run:
           name: Install OTel Collector
           environment:
             COLLECTOR_VERSION: "0.126.0"

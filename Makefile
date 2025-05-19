@@ -17,6 +17,12 @@ smoke-tests/collector/data.json:
 	@echo ""
 	@touch $@ && chmod o+w $@
 
+smoke-react-native:
+	@echo ""
+	@echo "+++ Spinning up react-native."
+	@echo ""
+	docker compose up --build react-native --detach
+
 smoke-docker: smoke-tests/collector/data.json
 	@echo ""
 	@echo "+++ Spinning up the smokers."
