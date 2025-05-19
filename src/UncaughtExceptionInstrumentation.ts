@@ -42,11 +42,16 @@ export class UncaughtExceptionInstrumentation extends InstrumentationAbstract {
   }
 
   onError = (caughtError: any, isFatal?: boolean) => {
-    const error: Error = caughtError;
+    const error: Error =
+      caughtError.stack && caughtError.message && caughtError.name
+        ? caughtError
+        : {
+            name: 'Non Error Type Thrown',
+            message: `${caughtError}`,
+            stack: caughtError.stack ?? '',
+          };
 
-    if (error) {
-      recordException(error, {}, this.tracer, this.applyCustomAttributesOnSpan);
-    }
+    recordException(error, {}, this.tracer, this.applyCustomAttributesOnSpan);
 
     if (this._oldErrorHandler) {
       return this._oldErrorHandler(caughtError, isFatal);
