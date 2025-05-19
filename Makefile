@@ -14,6 +14,7 @@ clean-smoke-tests:
 smoke-tests/collector/data.json:
 	@echo ""
 	@echo "+++ Zhuzhing smoke test's Collector data.json"
+	@echo ""
 	@touch $@ && chmod o+w $@
 
 smoke-docker: smoke-tests/collector/data.json
