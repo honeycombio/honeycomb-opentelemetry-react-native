@@ -46,7 +46,7 @@ export class UncaughtExceptionInstrumentation extends InstrumentationAbstract {
       caughtError.stack && caughtError.message && caughtError.name
         ? caughtError
         : {
-            name: 'Non Error Type Thrown',
+            name: 'UnknownErrorType',
             message: `${caughtError}`,
             stack: caughtError.stack ?? '',
           };

@@ -21,6 +21,6 @@ setup_file() {
 }
 
 @test "Uncaught non-Error Objects recorded properly" {
-  result=$(attribute_for_exception_trace_of_type "NonError Type Thrown" "error.message" "string")
+  result=$(attribute_for_exception_trace_of_type "UnknownErrorType" "error.message" "string")
   assert_equal "$result" "string error"
 }
