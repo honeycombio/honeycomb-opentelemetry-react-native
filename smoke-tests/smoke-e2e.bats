@@ -15,3 +15,12 @@ setup_file() {
   assert_equal "$result" '"button-click"'
 }
 
+@test "Uncaught Errors are recorded properly" {
+  result=$(attribute_for_exception_trace_of_type "Error" "exception.message" "string")
+  assert_equal "$result" '"test error"'
+}
+
+@test "Uncaught non-Error Objects recorded properly" {
+  result=$(attribute_for_exception_trace_of_type "UnknownErrorType" "exception.message" "string")
+  assert_equal "$result" '"string error"'
+}
