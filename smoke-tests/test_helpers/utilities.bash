@@ -67,7 +67,7 @@ attributes_for_span_with_value() {
 #   $2 - attribute name
 #   $3 - attribute type
 attribute_for_exception_trace_of_type() {
-    attributes_for_log_with_value "@honeycombio/instrumentation-global-errors" $1 string | \
+    attributes_for_span_with_value "@honeycombio/instrumentation-global-errors" $1 string | \
         jq "select (.key == \"$2\").value | .${3}Value"
 }
 
