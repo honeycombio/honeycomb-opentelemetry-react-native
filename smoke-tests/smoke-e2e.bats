@@ -16,11 +16,11 @@ setup_file() {
 }
 
 @test "Uncaught Errors are recorded properly" {
-  result=$(attribute_for_exception_trace_of_type "Error" "error.message" "string")
-  assert_equal "$result" "test error"
+  result=$(attribute_for_exception_trace_of_type "Error" "exception.message" "string")
+  assert_equal "$result" '"test error"'
 }
 
 @test "Uncaught non-Error Objects recorded properly" {
-  result=$(attribute_for_exception_trace_of_type "UnknownErrorType" "error.message" "string")
-  assert_equal "$result" "string error"
+  result=$(attribute_for_exception_trace_of_type "UnknownErrorType" "exception.message" "string")
+  assert_equal "$result" '"string error"'
 }
