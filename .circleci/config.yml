@@ -47,8 +47,14 @@ jobs:
             which bats
             bats --version
       - run:
-          name: "Start React Native"
-          command: make smoke-react-native
+          name: Install React Native
+          working_directory: example
+          command: yarn install
+      - run:
+          name: Start React Native
+          working_directory: example
+          command: yarn start
+          background: true
       - run:
           name: Install OTel Collector
           environment:
@@ -115,7 +121,7 @@ jobs:
       - run:
           name: Install OTel Collector
           environment:
-            COLLECTOR_VERSION: "0.111.0"
+            COLLECTOR_VERSION: "0.126.0"
           command: |
             curl --proto '=https' --tlsv1.2 -fOL https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v${COLLECTOR_VERSION}/otelcol_${COLLECTOR_VERSION}_darwin_arm64.tar.gz
             tar -xvf otelcol_${COLLECTOR_VERSION}_darwin_arm64.tar.gz
