@@ -100,6 +100,15 @@ jobs:
             bats --version
       - run: xcodebuild -version
       - run:
+          name: Install React Native
+          working_directory: example
+          command: yarn install
+      - run:
+          name: Start React Native
+          working_directory: example
+          command: yarn start
+          background: true
+      - run:
           name: Install OTel Collector
           environment:
             COLLECTOR_VERSION: "0.111.0"
