@@ -8,6 +8,9 @@ import { DiagLogLevel, trace } from '@opentelemetry/api';
 
 const localhost = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
 
+//Swaps out the default error handler so we can test errors
+ErrorUtils.setGlobalHandler(() => {});
+
 const sdk = new HoneycombReactNativeSDK({
   endpoint: `http://${localhost}:4318`,
   serviceName: 'reactnative-example',
