@@ -109,6 +109,10 @@ jobs:
           command: yarn start
           background: true
       - run:
+          name: Cocoapods Install
+          working_directory: example/ios
+          command: pod install
+      - run:
           name: Install OTel Collector
           environment:
             COLLECTOR_VERSION: "0.111.0"
