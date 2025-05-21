@@ -1,12 +1,11 @@
 # Releasing
 
-- `Add steps to prepare release`
-- Update [CHANGELOG.md](CHANGELOG.md) with the changes since the last release.
-- Update the version in [./src/version.ts](./src/version.ts)
+This is a manual process for now, eventually this will move to CI without a manual `npm login` required.
+
+- Make sure [CHANGELOG.md](CHANGELOG.md) is up to date with the changes since the last release.
+- Run `npm login` and follow the prompts to log into npm.
+- Run `npm run release` and follow the prompts to release to GitHub and npm.
+- Make sure the version in package.json is updated.
 - Commit changes, push, and open a release preparation pull request for review.
-- Once the pull request is merged, fetch the updated `main` branch.
-- Apply a tag for the new version on the merged commit (e.g. `git tag -a v1.2.3 -m "v1.2.3"`)
-- Push the tag upstream (this will kick off the release pipeline in CI) e.g. `git push origin v1.2.3`
-- Copy change log entry for newest version into draft GitHub release created as part of CI publish steps.
-  - Make sure to "generate release notes" in github for full changelog notes and any new contributors
-- Publish the github draft release and this will kick off publishing to GitHub and the NPM registry.
+- In the meantime, the release will go out so check the release notes in GitHub and publish the release.
+- Merge the release PR so that the `package.json` version is up to date.
