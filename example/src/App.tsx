@@ -1,7 +1,6 @@
 import {
   createStaticNavigation,
   useNavigationContainerRef,
-  type ParamListBase,
   type StaticParamList,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -30,7 +29,7 @@ declare global {
 const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
-  const navRef = useNavigationContainerRef<ParamListBase>();
+  const navRef = useNavigationContainerRef<ReactNavigation.RootParamList>();
 
   return (
     <NavigationInstrumentation ref={navRef}>
