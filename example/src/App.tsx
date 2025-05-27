@@ -5,6 +5,7 @@ import {
   UncaughtExceptionInstrumentation,
 } from '@honeycombio/opentelemetry-react-native';
 import { DiagLogLevel, trace } from '@opentelemetry/api';
+import { NavigationContainer } from '@react-navigation/native';
 
 const localhost = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
 
@@ -45,39 +46,41 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Button
-        onPress={onTraceClick}
-        title="Send a trace"
-        testID="send_trace"
-        color="#841584"
-        accessibilityLabel="send_trace_button"
-      />
-      <Button
-        onPress={onFlushClick}
-        title="Flush"
-        testID="flush"
-        color="#841584"
-        accessibilityLabel="flush_button"
-      />
-      <Button
-        onPress={onErrorClick}
-        title="Throw an Error"
-        testID="throw_error"
-        color="#841515"
-        accessibilityLabel="throw_error_button"
-      />
-      <Button
-        onPress={onStringErrorClick}
-        title="Throw a String"
-        testID="throw_string"
-        color="#841515"
-        accessibilityLabel="throw_string_button"
-      />
-      <Text id="status" testID="status">
-        {statusText}
-      </Text>
-    </View>
+    <NavigationContainer>
+      <View style={styles.container}>
+        <Button
+          onPress={onTraceClick}
+          title="Send a trace"
+          testID="send_trace"
+          color="#841584"
+          accessibilityLabel="send_trace_button"
+        />
+        <Button
+          onPress={onFlushClick}
+          title="Flush"
+          testID="flush"
+          color="#841584"
+          accessibilityLabel="flush_button"
+        />
+        <Button
+          onPress={onErrorClick}
+          title="Throw an Error"
+          testID="throw_error"
+          color="#841515"
+          accessibilityLabel="throw_error_button"
+        />
+        <Button
+          onPress={onStringErrorClick}
+          title="Throw a String"
+          testID="throw_string"
+          color="#841515"
+          accessibilityLabel="throw_string_button"
+        />
+        <Text id="status" testID="status">
+          {statusText}
+        </Text>
+      </View>
+    </NavigationContainer>
   );
 }
 
