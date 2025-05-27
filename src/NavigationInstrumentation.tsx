@@ -15,7 +15,7 @@ export function NavigationInstrumentation({
   const routeNameRef = useRef<string>(undefined);
 
   useEffect(() => {
-    if (!ref) {
+    if (!ref || !ref.isReady()) {
       //Error
       return;
     }
