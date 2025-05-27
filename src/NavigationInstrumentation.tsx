@@ -2,7 +2,7 @@ import { trace } from '@opentelemetry/api';
 import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useEffect, useRef } from 'react';
 
-const LIBRARY_NAME = '@honeycomb/navigation';
+const LIBRARY_NAME = '@honeycombio/navigation';
 
 type NavigationInstrumentationProps<T extends {}> = React.PropsWithChildren<{
   ref: NavigationContainerRefWithCurrent<T>;
