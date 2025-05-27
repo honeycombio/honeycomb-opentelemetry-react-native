@@ -16,7 +16,6 @@ export function NavigationInstrumentation({
 
   useEffect(() => {
     if (!ref || !ref.isReady()) {
-      //Error
       return;
     }
     ref.addListener('state', () => {
