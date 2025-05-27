@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 const LIBRARY_NAME = '@honeycomb/navigation';
 
 type NavigationInstrumentationProps = React.PropsWithChildren<{
-  ref: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
+  ref: NavigationContainerRefWithCurrent<any>;
 }>;
 
 export function NavigationInstrumentation({

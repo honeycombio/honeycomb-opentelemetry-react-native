@@ -2,14 +2,7 @@ import { trace } from '@opentelemetry/api';
 import { useState } from 'react';
 import { Button, Text, View, StyleSheet } from 'react-native';
 import { sdk } from './honeycomb';
-
-function onErrorClick() {
-  throw new Error('test error');
-}
-
-function onStringErrorClick() {
-  throw 'string error';
-}
+import { useNavigation } from '@react-navigation/native';
 
 function onTraceClick() {
   let span = trace
@@ -21,6 +14,8 @@ function onTraceClick() {
 
 export default function MainScreen() {
   const [statusText, setStatusText] = useState('');
+
+  const navigation = useNavigation();
 
   async function onFlushClick() {
     setStatusText('Flushing...');
@@ -45,18 +40,11 @@ export default function MainScreen() {
         accessibilityLabel="flush_button"
       />
       <Button
-        onPress={onErrorClick}
-        title="Throw an Error"
-        testID="throw_error"
-        color="#841515"
-        accessibilityLabel="throw_error_button"
-      />
-      <Button
-        onPress={onStringErrorClick}
-        title="Throw a String"
-        testID="throw_string"
-        color="#841515"
-        accessibilityLabel="throw_string_button"
+        onPress={() => navigation.navigate('Errors')}
+        title="Errors"
+        testID="goto_errors"
+        color="#2552ab"
+        accessibilityLabel="navigate_to_errors"
       />
       <Text id="status" testID="status">
         {statusText}
