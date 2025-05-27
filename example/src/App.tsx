@@ -29,7 +29,7 @@ declare global {
 const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
-  const navRef = useNavigationContainerRef<ReactNavigation.RootParamList>();
+  const navRef = useNavigationContainerRef<RootStackParamList>();
 
   return (
     <NavigationInstrumentation ref={navRef}>

@@ -1,18 +1,14 @@
 import { trace } from '@opentelemetry/api';
-import type {
-  NavigationContainerRefWithCurrent,
-  ParamListBase,
-} from '@react-navigation/native';
+import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useEffect, useRef } from 'react';
 
 const LIBRARY_NAME = '@honeycomb/navigation';
 
-type NavigationInstrumentationProps<T extends ParamListBase> =
-  React.PropsWithChildren<{
-    ref: NavigationContainerRefWithCurrent<T>;
-  }>;
+type NavigationInstrumentationProps<T extends {}> = React.PropsWithChildren<{
+  ref: NavigationContainerRefWithCurrent<T>;
+}>;
 
-export function NavigationInstrumentation<T extends ParamListBase>({
+export function NavigationInstrumentation<T extends {}>({
   ref,
   children,
 }: NavigationInstrumentationProps<T>) {

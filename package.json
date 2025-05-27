@@ -70,7 +70,7 @@
     "@evilmartians/lefthook": "^1.5.0",
     "@react-native-community/cli": "15.0.1",
     "@react-native/eslint-config": "^0.73.1",
-    "@react-navigation/native": "^7.1.6",
+    "@react-navigation/native": "7.1.9",
     "@release-it/conventional-changelog": "^9.0.2",
     "@types/jest": "^29.5.5",
     "@types/react": "^19.0.0",
@@ -89,7 +89,6 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "@react-navigation/native": "*",
     "expo-router": "*",
     "react": "*",
     "react-native": "*"
