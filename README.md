@@ -71,9 +71,64 @@ sdk.start();
 
 ## Manual Instrumentation
 
+### Navigation
+Navigation instrumentation depends on if you are using React NativeRouter or Expo Router for navigation. 
+Honeycomb SDK provides a component (`<NavigationInstrumentation>`) that you can place in your main app or layout file. Below are examples
+on using it with both ReactNative Router.
+
+#### ReactNative Router
+In ReactNative Router you will need to pass the ref into your navigation container as well as
+into the `<NavigationInstrumentation>` component.
+
+Note: the `<NavigationInstrumentation>` component has to be a child of your `<NavigationContainer>` component.
+
+```TSX
+import { NavigationInstrumentation } from '@honeycombio/opentelemetry-react-native';
+import { useNavigationContainerRef, NavigationContainer } from '@react-navigation/native';
+
+
+export default function App() {
+  const navigationRef = useNavigationContainerRef();
+
+  return (
+    <NavigationContainer
+      ref={navigationRef}
+    >
+      <NavigationInstrumentation
+        ref={navigationRef}
+      >
+        {/* Navigation/UI code*/}
+      </NavigationInstrumentation>
+    </NavigationContainer>
+  );
+}
+```
+
+#### Expo Router
+The same component can also be used with expo's provided `useNavigationContainerRef` hook.
+Since Expo generates its own `NavigationContainer` you do not need to pass the ref in again.
+
+```TSX
+import { NavigationInstrumentation } from '@honeycombio/opentelemetry-react-native';
+import { useNavigationContainerRef } from 'expo-router';
+
+
+export default function App() {
+  const navigationRef = useNavigationContainerRef();
+
+  return (
+    <NavigationInstrumentation
+      ref={navigationRef}
+    >
+      {/* Navigation/UI code*/}
+    </NavigationInstrumentation>
+  );
+}
+```
+
 ### Sending a custom span.
 
-```
+```typescript
 let span = trace
   .getTracer('your-tracer-name')
   .startSpan('some-span');

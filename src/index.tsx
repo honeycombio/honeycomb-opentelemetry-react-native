@@ -1,3 +1,4 @@
+export { NavigationInstrumentation } from './NavigationInstrumentation';
 import HoneycombOpentelemetryReactNative from './NativeHoneycombOpentelemetryReactNative';
 
 import {

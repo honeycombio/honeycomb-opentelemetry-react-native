@@ -24,19 +24,31 @@ describe('Example', () => {
     await element(by.id('send_trace')).tap();
   });
 
-  it('should have a Throw an Error button', async () => {
-    await expect(element(by.id('throw_error'))).toBeVisible();
-  });
+  describe('errors tests', () => {
+    beforeEach(async () => {
+      await waitFor(element(by.id('goto_errors')))
+        .toBeVisible()
+        .withTimeout(3000);
+      await element(by.id('goto_errors')).tap();
+    });
 
-  it('should throw an error', async () => {
-    await element(by.id('throw_error')).tap();
-  });
+    afterEach(async () => {
+      await element(by.id('goto_main')).tap();
+    });
+    it('should have a Throw an Error button', async () => {
+      await expect(element(by.id('throw_error'))).toBeVisible();
+    });
 
-  it('should have a Throw a String button', async () => {
-    await expect(element(by.id('throw_string'))).toBeVisible();
-  });
+    it('should throw an error', async () => {
+      await element(by.id('throw_error')).tap();
+    });
 
-  it('should throw a String', async () => {
-    await element(by.id('throw_string')).tap();
+    it('should have a Throw a String button', async () => {
+      await expect(element(by.id('throw_string'))).toBeVisible();
+    });
+
+    it('should throw a String', async () => {
+      await element(by.id('throw_string')).tap();
+    });
   });
 });
