@@ -189,10 +189,12 @@ workflows:
           <<: *filters_always
       - smoke_tests_ios:
           <<: *filters_always
-        publish_npm:
+      - publish_npm:
           <<: *filters_tags_only
+          context: Honeycomb Secrets for Public Repos
       - publish_github:
           <<: *filters_tags_only
+          context: Honeycomb Secrets for Public Repos
   nightly:
     triggers:
       - schedule:
