@@ -141,6 +141,24 @@ jobs:
           name: "Check Smoke Test Assertions"
           command: make smoke-bats
 
+  publish_github:
+    executor: github
+    steps:
+      - run:
+          name: "GHR Draft"
+          command: ghr -draft -n ${CIRCLE_TAG} -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} ${CIRCLE_TAG}
+
+  publish_npm:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: ./
+      - run:
+          name: store npm auth token
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run: npm run build
+      - run: npm publish --access public
+
 filters_main_only: &filters_main_only
   filters:
     tags:
