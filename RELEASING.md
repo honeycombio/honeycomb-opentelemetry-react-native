@@ -1,6 +1,6 @@
 # Releasing
 
-This is a manual process for now, eventually this will move to CI without a manual `npm login` required.
+This is the process to release the Honeycomb OpenTelemetry React Native SDK to NPM
 
 - Create and checkout a release branch `release-x.y.z` for the release candidate.
 - Make sure [CHANGELOG.md](CHANGELOG.md) is up to date with the changes since the last release and the next release version.
