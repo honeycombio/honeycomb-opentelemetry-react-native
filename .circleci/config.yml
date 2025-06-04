@@ -203,13 +203,13 @@ workflows:
           context: Honeycomb Secrets for Public Repos
           requires:
             - smoke_tests_android
-            - smoke_test_ios
+            - smoke_tests_ios
       - publish_github:
           <<: *filters_tags_only
           context: Honeycomb Secrets for Public Repos
           requires:
             - smoke_tests_android
-            - smoke_test_ios
+            - smoke_tests_ios
   nightly:
     triggers:
       - schedule:
