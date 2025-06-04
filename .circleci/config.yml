@@ -201,9 +201,15 @@ workflows:
       - publish_npm:
           <<: *filters_tags_only
           context: Honeycomb Secrets for Public Repos
+          requires:
+            - smoke_tests_android
+            - smoke_test_ios
       - publish_github:
           <<: *filters_tags_only
           context: Honeycomb Secrets for Public Repos
+          requires:
+            - smoke_tests_android
+            - smoke_test_ios
   nightly:
     triggers:
       - schedule:
