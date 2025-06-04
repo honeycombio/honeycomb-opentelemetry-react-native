@@ -189,6 +189,10 @@ workflows:
           <<: *filters_always
       - smoke_tests_ios:
           <<: *filters_always
+        publish_npm:
+          <<: *filters_tags_only
+      - publish_github:
+          <<: *filters_tags_only
   nightly:
     triggers:
       - schedule:
@@ -202,4 +206,6 @@ workflows:
       - lint
       - smoke_tests_android
       - smoke_tests_ios
+      - publish_npm
+      - publish_github
 
