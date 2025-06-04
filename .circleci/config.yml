@@ -6,6 +6,14 @@ orbs:
   bats: circleci/bats@1.0.0
   macos: circleci/macos@2
 
+executors:
+  node:
+    docker:
+      - image: cimg/node:lts
+  github:
+    docker:
+      - image: cibuilds/github:0.13.0
+
 parameters:
   java-version:
     type: integer
