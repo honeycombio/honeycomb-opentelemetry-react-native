@@ -164,7 +164,8 @@ jobs:
       - run:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      - run: npm publish --access public
+      - run: npm run prepare
+      - run: npm run release
 
 filters_main_only: &filters_main_only
   filters:
