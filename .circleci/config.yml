@@ -19,6 +19,25 @@ parameters:
     type: integer
     default: 17
 
+filters_main_only: &filters_main_only
+  filters:
+    tags:
+      only: /.*/
+    branches:
+      only: main
+
+filters_tags_only: &filters_tags_only
+  filters:
+    tags:
+      only: /^v.*/
+    branches:
+      ignore: /.*/
+
+filters_always: &filters_always
+  filters:
+    tags:
+      only: /.*/
+
 jobs:
   lint:
     executor:
@@ -164,28 +183,9 @@ jobs:
       - run:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      - run: npm ci
+      - run: npm install
       - run: npm run prepare
       - run: npm publish --access public
-
-filters_main_only: &filters_main_only
-  filters:
-    tags:
-      only: /.*/
-    branches:
-      only: main
-
-filters_tags_only: &filters_tags_only
-  filters:
-    tags:
-      only: /^v.*/
-    branches:
-      ignore: /.*/
-
-filters_always: &filters_always
-  filters:
-    tags:
-      only: /.*/
 
 workflows:
   build:
