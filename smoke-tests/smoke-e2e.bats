@@ -24,3 +24,9 @@ setup_file() {
   result=$(attribute_for_exception_trace_of_type "UnknownErrorType" "exception.message" "string")
   assert_equal "$result" '"string error"'
 }
+
+@test "Navigation events are recorded" {
+  result=$(attribute_for_span_key "@honeycombio/navigation" "screen appeared" "screen.route" "string" | sort | uniq)
+  assert_equal "$result" '"Errors"
+"Main"'
+}
