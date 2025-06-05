@@ -222,6 +222,4 @@ workflows:
       - lint
       - smoke_tests_android
       - smoke_tests_ios
-      - publish_npm
-      - publish_github
 
