@@ -184,7 +184,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - run: yarn install --frozen-lockfile
       - run: yarn prepare
-      - run: yarn publish --access public
+      - run: yarn npm publish --access public
 
 workflows:
   build:
