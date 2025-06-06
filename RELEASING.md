@@ -8,6 +8,7 @@ This is the process to release the Honeycomb OpenTelemetry React Native SDK to N
 - Commit changes, push, and open a release preparation pull request for review.
 - Once all tests pass and the release is approved, you may merge the PR into main.
 - pull the latest version of main locally `git pull`
-- create a new tag for the release `git tag -a x.y.z -m x.y.z`
-- Push the tag, this will kick off the CI for releasing to NPM and create a draft GH release if successful. `git push x.y.z`
+- create a new tag for the release `git tag -a v0.0.0 -m v0.0.0`
+- Push the tag. `git push 0.0.0`
+- this will kick off the CI for releasing to NPM and create a draft GH release if successful.
 - Once CI is completed, edit the draft release to match the changelog.
