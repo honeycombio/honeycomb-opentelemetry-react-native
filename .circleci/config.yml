@@ -7,9 +7,6 @@ orbs:
   macos: circleci/macos@2
 
 executors:
-  node:
-    docker:
-      - image: cimg/node:lts
   github:
     docker:
       - image: cibuilds/github:0.13.0
@@ -176,16 +173,18 @@ jobs:
           command: ghr -draft -n ${CIRCLE_TAG} -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} ${CIRCLE_TAG}
 
   publish_npm:
-    executor: node
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: default
     steps:
-      - attach_workspace:
-          at: ./
+      - checkout
       - run:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      - run: npm install
-      - run: npm run prepare
-      - run: npm publish --access public
+      - run: yarn install --frozen-lockfile
+      - run: yarn prepare
+      - run: yarn publish --access public
 
 workflows:
   build:
