@@ -2,6 +2,8 @@
 
 ## v.Next
 
+## v0.3.0
+
 - feat: Automatic Releasing via CI
 - feat: Navigation Instrumentation for Expo Router and React Native Router.
 - feat: Create `HoneycombReactNativeSDK` and `HoneycombReactNativeOptions`.
