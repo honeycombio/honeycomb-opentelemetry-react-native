@@ -6,6 +6,11 @@ orbs:
   bats: circleci/bats@1.0.0
   macos: circleci/macos@2
 
+executors:
+  github:
+    docker:
+      - image: cibuilds/github:0.13.0
+
 parameters:
   java-version:
     type: integer
@@ -174,6 +179,14 @@ jobs:
       - run: yarn prepare
       - run: npm publish --access public
 
+  publish_github:
+    executor: github
+    steps:
+      - run:
+          name: "GHR Draft"
+          command: ghr -draft -n 0.4.0 -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} 0.4.0
+
+
 workflows:
   build:
     jobs:
@@ -191,6 +204,9 @@ workflows:
           requires:
             - smoke_tests_ios
             - smoke_tests_android
+      - publish_github:
+          <<: *filters_always
+          context: Honeycomb Secrets for Public Repos
   nightly:
     triggers:
       - schedule:
