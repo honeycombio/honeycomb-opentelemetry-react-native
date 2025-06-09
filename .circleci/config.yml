@@ -6,11 +6,6 @@ orbs:
   bats: circleci/bats@1.0.0
   macos: circleci/macos@2
 
-executors:
-  github:
-    docker:
-      - image: cibuilds/github:0.13.0
-
 parameters:
   java-version:
     type: integer
@@ -165,13 +160,6 @@ jobs:
           name: "Check Smoke Test Assertions"
           command: make smoke-bats
 
-  publish_github:
-    executor: github
-    steps:
-      - run:
-          name: "GHR Draft"
-          command: ghr -draft -n ${CIRCLE_TAG} -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} ${CIRCLE_TAG}
-
   publish_npm:
     executor:
       name: android/android-machine
@@ -203,11 +191,6 @@ workflows:
           requires:
             - smoke_tests_ios
             - smoke_tests_android
-      - publish_github:
-          <<: *filters_tags_only
-          context: Honeycomb Secrets for Public Repos
-          requires:
-            - publish_npm
   nightly:
     triggers:
       - schedule:
