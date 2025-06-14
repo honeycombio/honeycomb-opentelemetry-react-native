@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/honeycombio/honeycomb-opentelemetry-react-native.git", :tag => "#{s.version}" }
   s.swift_version = "5.10"
 
-  s.source_files = "ios/**/*.{h,m,mm,cpp}"
+  s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
   s.private_header_files = "ios/generated/**/*.h"
 
   spm_dependency(s,
