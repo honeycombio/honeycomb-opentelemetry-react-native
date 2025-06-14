@@ -11,12 +11,16 @@ const localhost = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
 //Swaps out the default error handler so we can test errors
 ErrorUtils.setGlobalHandler(() => {});
 
-const sdk = new HoneycombReactNativeSDK({
+const options = {
   endpoint: `http://${localhost}:4318`,
   serviceName: 'reactnative-example',
   logLevel: DiagLogLevel.DEBUG,
   instrumentations: [new UncaughtExceptionInstrumentation()],
-});
+};
+
+const sdk = new HoneycombReactNativeSDK(options);
+//await
+sdk.configureNative(options);
 sdk.start();
 
 function onErrorClick() {

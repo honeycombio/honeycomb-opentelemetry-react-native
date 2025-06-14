@@ -108,9 +108,17 @@ android {
             proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
         }
     }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
+    // This is required by opentelemetry-android.
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
+
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
@@ -122,6 +130,8 @@ dependencies {
 
     androidTestImplementation('com.wix:detox:+')
     implementation 'androidx.appcompat:appcompat:1.1.0'
+
+    implementation "io.opentelemetry.android:android-agent:0.11.0-alpha"
 }
 
 // Run Codegen during development for the example app.

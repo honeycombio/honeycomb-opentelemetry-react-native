@@ -39,4 +39,8 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       },
     });
   }
+
+  async configureNative(options?: HoneycombReactNativeOptions) {
+    await HoneycombOpentelemetryReactNative.configure({ ...options });
+  }
 }

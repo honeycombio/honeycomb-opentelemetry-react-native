@@ -1,5 +1,8 @@
 #import "HoneycombOpentelemetryReactNative.h"
 
+#import <Foundation/Foundation.h>
+//#import "HoneycombOpentelemetryReactNative-Swift.h"
+
 @implementation HoneycombOpentelemetryReactNative
 RCT_EXPORT_MODULE()
 
@@ -7,6 +10,14 @@ RCT_EXPORT_MODULE()
     NSNumber *result = @(a * b);
 
     return result;
+}
+
+- (NSNumber *)configure:(NSDictionary *)options {
+    NSLog(@"configure has been called");
+
+    //HoneycombWrapper *wrapper = [[HoneycombWrapper alloc] init];
+
+    return @YES;
 }
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
