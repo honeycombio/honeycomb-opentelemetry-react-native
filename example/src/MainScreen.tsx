@@ -13,7 +13,7 @@ function onTraceClick() {
 }
 
 async function sendNetworkRequest() {
-  await fetch('honeycomb.io.test/testget');
+  await fetch('http://honeycomb.io.test/testget');
 }
 
 export default function MainScreen() {

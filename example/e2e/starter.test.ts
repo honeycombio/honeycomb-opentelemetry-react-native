@@ -1,4 +1,5 @@
 import { by, device, expect, element, waitFor } from 'detox';
+import nock from 'nock';
 
 describe('Example', () => {
   beforeAll(async () => {
@@ -22,6 +23,20 @@ describe('Example', () => {
 
   it('should send a trace', async () => {
     await element(by.id('send_trace')).tap();
+  });
+
+  describe('network tests', () => {
+    beforeEach(() => {
+      nock('honeycomb.io.test').get('/testget').reply(200);
+    });
+
+    afterEach(() => {
+      nock.cleanAll();
+    });
+
+    it('should send a network request', async () => {
+      await element(by.id('send_network_request')).tap();
+    });
   });
 
   describe('errors tests', () => {
