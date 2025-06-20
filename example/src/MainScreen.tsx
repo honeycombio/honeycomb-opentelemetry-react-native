@@ -12,6 +12,10 @@ function onTraceClick() {
   span.end();
 }
 
+async function sendNetworkRequest() {
+  await fetch('honeycomb.io.test/testget');
+}
+
 export default function MainScreen() {
   const [statusText, setStatusText] = useState('');
 
@@ -31,6 +35,13 @@ export default function MainScreen() {
         testID="send_trace"
         color="#841584"
         accessibilityLabel="send_trace_button"
+      />
+      <Button
+        onPress={sendNetworkRequest}
+        title="Send a network request"
+        testID="send_network_request"
+        color="#841584"
+        accessibilityLabel="send_network_request"
       />
       <Button
         onPress={onFlushClick}
