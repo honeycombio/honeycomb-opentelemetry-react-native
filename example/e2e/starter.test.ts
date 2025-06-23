@@ -27,7 +27,7 @@ describe('Example', () => {
 
   describe('network tests', () => {
     beforeEach(() => {
-      nock('honeycomb.io.test').get('/testget').reply(200);
+      nock('http://honeycomb.io.test').get('/testget').reply(200);
     });
 
     afterEach(() => {
