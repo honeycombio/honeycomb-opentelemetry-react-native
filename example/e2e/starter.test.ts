@@ -17,14 +17,6 @@ describe('Example', () => {
       .withTimeout(3000);
   });
 
-  it('should have Send a trace button', async () => {
-    await expect(element(by.id('send_trace'))).toBeVisible();
-  });
-
-  it('should send a trace', async () => {
-    await element(by.id('send_trace')).tap();
-  });
-
   describe('network tests', () => {
     beforeEach(() => {
       nock('http://honeycomb.io.test').get('/testget').reply(200);
@@ -37,6 +29,14 @@ describe('Example', () => {
     it('should send a network request', async () => {
       await element(by.id('send_network_request')).tap();
     });
+  });
+
+  it('should have Send a trace button', async () => {
+    await expect(element(by.id('send_trace'))).toBeVisible();
+  });
+
+  it('should send a trace', async () => {
+    await element(by.id('send_trace')).tap();
   });
 
   describe('errors tests', () => {
