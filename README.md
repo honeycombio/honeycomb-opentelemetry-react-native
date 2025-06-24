@@ -57,10 +57,10 @@ The following auto-instrumentations are included by default:
 
 You can disable them by using the following configuration options:
 
-| Option               | Type                           | Required? | Description                                                                      |
-|----------------------|--------------------------------|-----------|----------------------------------------------------------------------------------|
-| `uncaughtExceptionInstrumentationEnabled`             | Bool     | No        | Whether to enable uncaught exception instrumentation. (default: true) |
-| `fetchInstrumentationEnabled`.                        | Bool     | No        | Whether to enable fetch instrumentation. (default: true)              |
+| Option                                                | Type                                   | Required? | default value     | Description                                              |
+|-------------------------------------------------------|----------------------------------------|-----------|-------------------|----------------------------------------------------------|
+| `uncaughtExceptionInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | Whether to enable uncaught exception instrumentation.    |
+| `fetchInstrumentationConfig`                          | FetchInstrumentationConfig             | No        | { enabled: true } | Whether to enable fetch instrumentation.                 |
 
 
 ### Error handler
