@@ -5,12 +5,14 @@ import {
   type HoneycombOptions,
   HoneycombWebSDK,
 } from '@honeycombio/opentelemetry-web';
-import type { UncaughtExceptionInstrumentationConfig } from './UncaughtExceptionInstrumentation';
 import {
   FetchInstrumentation,
   type FetchInstrumentationConfig,
 } from '@opentelemetry/instrumentation-fetch';
-import { UncaughtExceptionInstrumentation } from '../lib/typescript/commonjs/src';
+import {
+  UncaughtExceptionInstrumentation,
+  type UncaughtExceptionInstrumentationConfig,
+} from './UncaughtExceptionInstrumentation';
 
 export {
   UncaughtExceptionInstrumentation,
