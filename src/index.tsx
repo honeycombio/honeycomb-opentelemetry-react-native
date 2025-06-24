@@ -5,6 +5,8 @@ import {
   type HoneycombOptions,
   HoneycombWebSDK,
 } from '@honeycombio/opentelemetry-web';
+import type { UncaughtExceptionInstrumentationConfig } from './UncaughtExceptionInstrumentation';
+import type { FetchInstrumentationConfig } from '@opentelemetry/instrumentation-fetch';
 
 export {
   UncaughtExceptionInstrumentation,
@@ -20,7 +22,10 @@ export function multiply(a: number, b: number): number {
 /**
  * The options used to configure the Honeycomb React Native SDK.
  */
-interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {}
+interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
+  uncaughtExceptionInstrumentationConfig: UncaughtExceptionInstrumentationConfig;
+  fetchInstrumentationConfig: FetchInstrumentationConfig;
+}
 
 /**
  * The entry point to Honeycomb in React Native apps.
