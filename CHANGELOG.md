@@ -2,6 +2,8 @@
 
 ## v.Next
 
+- `fetch` and `uncaught exception` instrumentation are included and enabled by default.
+
 ## v0.3.0
 
 - feat: Automatic Releasing via CI
