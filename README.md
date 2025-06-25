@@ -59,8 +59,8 @@ You can disable them by using the following configuration options:
 
 | Option                                                | Type                                   | Required? | default value     | Description                                              |
 |-------------------------------------------------------|----------------------------------------|-----------|-------------------|----------------------------------------------------------|
-| `uncaughtExceptionInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | Whether to enable uncaught exception instrumentation.    |
-| `fetchInstrumentationConfig`                          | FetchInstrumentationConfig             | No        | { enabled: true } | Whether to enable fetch instrumentation.                 |
+| `uncaughtExceptionInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for uncaught exception instrumentation.    |
+| `fetchInstrumentationConfig`                          | FetchInstrumentationConfig             | No        | { enabled: true } | configuration for fetch instrumentation.                 |
 
 
 ### Error handler
