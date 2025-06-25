@@ -1,7 +1,11 @@
 import { InstrumentationAbstract } from '@honeycombio/opentelemetry-web';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import { VERSION } from './version';
-import { AppState, type AppStateStatus } from 'react-native';
+import {
+  AppState,
+  type AppStateStatus,
+  type NativeEventSubscription,
+} from 'react-native';
 
 const LIBRARY_NAME = '@honeycombio/stuck-event-loop';
 
@@ -22,6 +26,7 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
   private _loopSampleIntervalMs: number;
   private _stallThresholdMs: number;
   private _timeoutRef: ReturnType<typeof setTimeout> | null = null;
+  private _appStateRef: NativeEventSubscription | null = null;
 
   private _isAppSuspended: boolean;
 
@@ -50,20 +55,30 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
   enable(): void {
     if (this._isEnabled) {
       this._diag.debug('Instrumentation already enabled');
-
-      AppState.addEventListener(
+    }
+    if (AppState?.isAvailable) {
+      this._appStateRef = AppState.addEventListener(
         'change',
         this._suspendResumeHandler.bind(this)
       );
-      // TODO: enable the rest of the owl
     }
+
+    this._lastLoopTimestamp = Date.now();
+
+    this._checkEventLoop();
   }
   disable(): void {
     if (!this._isEnabled) {
       this._diag.debug('Instrumentation already disabled');
     }
 
-    // TODO: disable the rest of the owl.
+    if (this._timeoutRef !== null) {
+      clearTimeout(this._timeoutRef);
+    }
+
+    if (this._appStateRef !== null) {
+      this._appStateRef?.remove();
+    }
   }
 
   protected init(): void {}
