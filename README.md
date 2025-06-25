@@ -50,24 +50,21 @@ TODO
 
 ## Auto-instrumentation
 
+The following auto-instrumentations are included by default:
+
+- Error Handler
+- Fetch Instrumentation
+
+You can disable them by using the following configuration options:
+
+| Option                                                | Type                                   | Required? | default value     | Description                                              |
+|-------------------------------------------------------|----------------------------------------|-----------|-------------------|----------------------------------------------------------|
+| `uncaughtExceptionInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for uncaught exception instrumentation.    |
+| `fetchInstrumentationConfig`                          | FetchInstrumentationConfig             | No        | { enabled: true } | configuration for fetch instrumentation.                 |
+
+
 ### Error handler
-The Honeycomb React Native SDK includes a global error handler for uncaught exceptions. To use it, include it in the `instrumentations` config property.
-
-```TypeScript
-import { 
-  HoneycombReactNativeSDK,
-  UncaughtExceptionInstrumentation,
-} from '@honeycombio/opentelemetry-react-native';
-
-const sdk = new HoneycombReactNativeSDK({
-  apiKey: 'api-key-goes-here',
-  serviceName: 'your-great-browser-application',
-  instrumentations: [
-    new UncaughtExceptionInstrumentation() // Any uncaught errors will be automatically recorded
-  ],
-});
-sdk.start();
-```
+The Honeycomb React Native SDK includes a global error handler for uncaught exceptions by default.
 
 ## Manual Instrumentation
 
