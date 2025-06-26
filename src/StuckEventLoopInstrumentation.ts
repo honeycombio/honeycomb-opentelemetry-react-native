@@ -12,6 +12,11 @@ const LIBRARY_NAME = '@honeycombio/stuck-event-loop';
 const DEFAULT_LOOP_SAMPLE_INTERVAL_MS = 50;
 const DEFAULT_STALL_THRESHOLD_MS = 50;
 
+interface StuckEventLoopInfo {
+  delayMs: number;
+  timestampMs: number;
+}
+
 export interface StuckEventLoopInstrumentationConfig
   extends InstrumentationConfig {
   loopSampleIntervalMs?: number;
@@ -92,7 +97,10 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
       intervalSinceLastCheck >=
       this._loopSampleIntervalMs + this._stallThresholdMs
     ) {
-      this._emitSlowEventLoopSpan(intervalSinceLastCheck, nowTimestamp);
+      this._emitSlowEventLoopSpan({
+        delayMs: intervalSinceLastCheck,
+        timestampMs: nowTimestamp,
+      });
     }
 
     this._lastLoopTimestamp = nowTimestamp;
@@ -105,11 +113,19 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
     }
   }
 
-  private _emitSlowEventLoopSpan(
-    _loopDelayMs: number,
-    _timestampMs: number
-  ): void {
-    //TODO: emit the owl span
+  private _emitSlowEventLoopSpan({
+    delayMs,
+    timestampMs,
+  }: StuckEventLoopInfo): void {
+    const slowEventLoopSpan = this.tracer.startSpan('slow event loop', {
+      startTime: timestampMs,
+    });
+
+    // hermes is not listed in the JS semantic conventions so we
+    // are going to use the `hermes` namespace and the node/web/v8 naming convention
+    slowEventLoopSpan.setAttribute('hermies.eventloop.delay', delayMs);
+
+    slowEventLoopSpan.end();
   }
 
   private _suspendResumeHandler(appState: AppStateStatus): void {
