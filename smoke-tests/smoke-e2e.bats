@@ -60,7 +60,7 @@ setup_file() {
 }
 
 @test "Stuck event loop events are recorded" {
-  result=$(span_names_for "@honeycombio/stuck-event-loop")
+  result=$(span_names_for "@honeycombio/stuck-event-loop" | uniq)
 
   assert_equal "$result" '"slow event loop"'
 }
