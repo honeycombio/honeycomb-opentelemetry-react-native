@@ -13,8 +13,8 @@ export const sdk = new HoneycombReactNativeSDK({
   logLevel: DiagLogLevel.DEBUG,
   // times are extended to accommodate emulator testing, which is slower than most mobile devices
   stuckEventLoopInstrumentationConfig: {
-    loopSampleIntervalMs: 200,
-    stallThresholdMs: 200,
+    loopSampleIntervalMs: 400,
+    stallThresholdMs: 100,
   },
 });
 
