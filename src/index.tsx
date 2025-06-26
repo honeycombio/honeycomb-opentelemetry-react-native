@@ -15,6 +15,11 @@ import {
 } from './UncaughtExceptionInstrumentation';
 
 export {
+  StuckEventLoopInstrumentation,
+  type StuckEventLoopInstrumentationConfig,
+} from './StuckEventLoopInstrumentation';
+
+export {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
