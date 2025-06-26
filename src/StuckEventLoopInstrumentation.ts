@@ -1,6 +1,7 @@
 import { InstrumentationAbstract } from '@honeycombio/opentelemetry-web';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import { VERSION } from './version';
+import type { Span } from '@opentelemetry/api';
 import {
   AppState,
   type AppStateStatus,
@@ -17,14 +18,21 @@ interface StuckEventLoopInfo {
   timestampMs: number;
 }
 
+type ApplyCustomAttributesOnSpanFunction = (
+  span: Span,
+  stuckEventLoopInfo: StuckEventLoopInfo
+) => void;
+
 export interface StuckEventLoopInstrumentationConfig
   extends InstrumentationConfig {
   loopSampleIntervalMs?: number;
   stallThresholdMs?: number;
+  applyCustomAttributesOnSpan?: ApplyCustomAttributesOnSpanFunction;
 }
 
 export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
   private _isEnabled: boolean;
+  readonly applyCustomAttributesOnSpan?: ApplyCustomAttributesOnSpanFunction;
 
   private _lastLoopTimestamp: number = 0;
 
@@ -39,9 +47,11 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
     enabled = true,
     loopSampleIntervalMs = DEFAULT_LOOP_SAMPLE_INTERVAL_MS,
     stallThresholdMs = DEFAULT_STALL_THRESHOLD_MS,
+    applyCustomAttributesOnSpan,
   }: StuckEventLoopInstrumentationConfig = {}) {
     const config: StuckEventLoopInstrumentationConfig = {
       enabled,
+      applyCustomAttributesOnSpan,
     };
 
     super(LIBRARY_NAME, VERSION, config);
@@ -55,6 +65,7 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
     }
 
     this._isEnabled = enabled;
+    this.applyCustomAttributesOnSpan = applyCustomAttributesOnSpan;
   }
 
   enable(): void {
@@ -124,6 +135,13 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
     // hermes is not listed in the JS semantic conventions so we
     // are going to use the `hermes` namespace and the node/web/v8 naming convention
     slowEventLoopSpan.setAttribute('hermies.eventloop.delay', delayMs);
+
+    if (this.applyCustomAttributesOnSpan) {
+      this.applyCustomAttributesOnSpan(slowEventLoopSpan, {
+        delayMs,
+        timestampMs,
+      });
+    }
 
     slowEventLoopSpan.end();
   }
