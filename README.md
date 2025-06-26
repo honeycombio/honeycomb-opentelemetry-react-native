@@ -54,6 +54,7 @@ The following auto-instrumentations are included by default:
 
 - Error Handler
 - Fetch Instrumentation
+- Stuck event loop instrumentation
 
 You can disable them by using the following configuration options:
 
@@ -61,6 +62,7 @@ You can disable them by using the following configuration options:
 |-------------------------------------------------------|----------------------------------------|-----------|-------------------|----------------------------------------------------------|
 | `uncaughtExceptionInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for uncaught exception instrumentation.    |
 | `fetchInstrumentationConfig`                          | FetchInstrumentationConfig             | No        | { enabled: true } | configuration for fetch instrumentation.                 |
+| `stuckEventLoopInstrumentationConfig`                 | stuckEventLoopInstrumentationConfig    | No        | { enabled: true } | configuration for stuck event loop instrumentation.      |
 
 
 ### Error handler
