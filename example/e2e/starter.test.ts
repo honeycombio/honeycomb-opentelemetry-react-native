@@ -50,5 +50,13 @@ describe('Example', () => {
     it('should throw a String', async () => {
       await element(by.id('throw_string')).tap();
     });
+
+    it('should have a Stall Event Loop button', async () => {
+      await expect(element(by.id('stall_event_loop'))).toBeVisible();
+    });
+
+    it('should stall the event loop', async () => {
+      await element(by.id('stall_event_loop')).tap();
+    });
   });
 });
