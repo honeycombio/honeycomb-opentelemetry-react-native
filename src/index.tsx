@@ -24,8 +24,13 @@ import {
   ATTR_TELEMETRY_DISTRO_VERSION,
   ATTR_TELEMETRY_SDK_LANGUAGE,
 } from '@opentelemetry/semantic-conventions/incubating';
+
 import { VERSION } from './version';
 import { Platform } from 'react-native';
+import {
+  StuckEventLoopInstrumentation,
+  type StuckEventLoopInstrumentationConfig,
+} from './StuckEventLoopInstrumentation';
 
 export {
   StuckEventLoopInstrumentation,
@@ -49,6 +54,7 @@ export function multiply(a: number, b: number): number {
 interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
   uncaughtExceptionInstrumentationConfig?: UncaughtExceptionInstrumentationConfig;
   fetchInstrumentationConfig?: FetchInstrumentationConfig;
+  stuckEventLoopInstrumentationConfig?: StuckEventLoopInstrumentationConfig;
 }
 
 /**
@@ -89,6 +95,14 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
 
     if (options?.resource) {
       resource = resource.merge(options.resource);
+    }
+
+    if (options?.stuckEventLoopInstrumentationConfig?.enabled !== false) {
+      instrumentations.push(
+        new StuckEventLoopInstrumentation(
+          options?.stuckEventLoopInstrumentationConfig
+        )
+      );
     }
 
     super({
