@@ -13,6 +13,10 @@ import {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
+import {
+  StuckEventLoopInstrumentation,
+  type StuckEventLoopInstrumentationConfig,
+} from './StuckEventLoopInstrumentation';
 
 export {
   StuckEventLoopInstrumentation,
@@ -36,6 +40,7 @@ export function multiply(a: number, b: number): number {
 interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
   uncaughtExceptionInstrumentationConfig?: UncaughtExceptionInstrumentationConfig;
   fetchInstrumentationConfig?: FetchInstrumentationConfig;
+  stuckEventLoopInstrumentationConfig?: StuckEventLoopInstrumentationConfig;
 }
 
 /**
@@ -55,6 +60,14 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       instrumentations.push(
         new UncaughtExceptionInstrumentation(
           options?.uncaughtExceptionInstrumentationConfig
+        )
+      );
+    }
+
+    if (options?.stuckEventLoopInstrumentationConfig?.enabled !== false) {
+      instrumentations.push(
+        new StuckEventLoopInstrumentation(
+          options?.stuckEventLoopInstrumentationConfig
         )
       );
     }
