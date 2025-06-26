@@ -38,7 +38,7 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
 
   private _loopSampleIntervalMs: number;
   private _stallThresholdMs: number;
-  private _timeoutRef: ReturnType<typeof setTimeout> | null = null;
+  private _intervalRef: ReturnType<typeof setInterval> | null = null;
   private _appStateRef: NativeEventSubscription | null = null;
 
   private _isAppSuspended: boolean;
@@ -83,15 +83,18 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
 
     this._isEnabled = true;
 
-    this._checkEventLoop();
+    this._intervalRef = setInterval(
+      this._checkEventLoop.bind(this),
+      this._loopSampleIntervalMs
+    );
   }
   disable(): void {
     if (!this._isEnabled) {
       this._diag.debug('Instrumentation already disabled');
     }
 
-    if (this._timeoutRef !== null) {
-      clearTimeout(this._timeoutRef);
+    if (this._intervalRef !== null) {
+      clearInterval(this._intervalRef);
     }
 
     if (this._appStateRef !== null) {
@@ -118,11 +121,10 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
 
     this._lastLoopTimestamp = nowTimestamp;
 
-    if (this._isEnabled && !this._isAppSuspended) {
-      this._timeoutRef = setTimeout(
-        this._checkEventLoop.bind(this),
-        this._loopSampleIntervalMs
-      );
+    if (!this._isEnabled || this._isAppSuspended) {
+      if (this._intervalRef) {
+        clearInterval(this._intervalRef);
+      }
     }
   }
 
@@ -152,15 +154,18 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
     if (appState === 'active') {
       this._isAppSuspended = false;
 
-      if (this._isEnabled && this._timeoutRef !== null) {
+      if (this._isEnabled && this._intervalRef === null) {
         this._lastLoopTimestamp = Date.now();
 
-        this._checkEventLoop();
+        this._intervalRef = setInterval(
+          this._checkEventLoop.bind(this),
+          this._loopSampleIntervalMs
+        );
       }
     } else {
       this._isAppSuspended = true;
-      if (this._timeoutRef !== null) {
-        clearTimeout(this._timeoutRef);
+      if (this._intervalRef !== null) {
+        clearInterval(this._intervalRef);
       }
     }
   }
