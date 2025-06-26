@@ -81,6 +81,8 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
 
     this._lastLoopTimestamp = Date.now();
 
+    this._isEnabled = true;
+
     this._checkEventLoop();
   }
   disable(): void {

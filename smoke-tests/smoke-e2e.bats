@@ -58,3 +58,9 @@ setup_file() {
   assert_equal "$result" '"Errors"
 "Main"'
 }
+
+@test "Stuck event loop events are recorded" {
+  result=$(span_names_for "@honeycombio/stuck-event-loop")
+
+  assert_equal "$result" '"slow event loop"'
+}
