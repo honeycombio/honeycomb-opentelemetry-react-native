@@ -28,6 +28,11 @@ import { VERSION } from './version';
 import { Platform } from 'react-native';
 
 export {
+  StuckEventLoopInstrumentation,
+  type StuckEventLoopInstrumentationConfig,
+} from './StuckEventLoopInstrumentation';
+
+export {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
