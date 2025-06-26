@@ -5,6 +5,7 @@
 - `fetch` and `uncaught exception` instrumentation are included and enabled by default.
 - Resources Attributes now match React native environment
 - OS name and version now included in resource attributes
+- slow event loop autoinstrumentation
 
 ## v0.3.0
 
