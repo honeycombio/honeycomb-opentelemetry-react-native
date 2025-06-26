@@ -3,6 +3,7 @@
 ## v.Next
 
 - `fetch` and `uncaught exception` instrumentation are included and enabled by default.
+- slow event loop autoinstrumentation
 
 ## v0.3.0
 

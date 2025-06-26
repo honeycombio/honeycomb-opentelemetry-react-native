@@ -9,6 +9,17 @@ function onStringErrorClick() {
   throw 'string error';
 }
 
+function stallEventLoop() {
+  const expensiveObject: { value: string[] } = {
+    value: Array(100000).fill('expensive'),
+  };
+
+  // This works in sync, so it should stall the js event loop
+  for (let i = 0; i < 50; i++) {
+    JSON.parse(JSON.stringify(expensiveObject));
+  }
+}
+
 export default function ErrorScreen() {
   const navigation = useNavigation();
 
@@ -27,6 +38,13 @@ export default function ErrorScreen() {
         testID="throw_string"
         color="#841515"
         accessibilityLabel="throw_string_button"
+      />
+      <Button
+        onPress={stallEventLoop}
+        title="Stall event loop"
+        testID="stall_event_loop"
+        color="#841515"
+        accessibilityLabel="stall_event_loop_button"
       />
       <Button
         onPress={() => navigation.navigate('Main')}
