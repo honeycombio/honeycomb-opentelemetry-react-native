@@ -10,7 +10,7 @@ import {
 
 const LIBRARY_NAME = '@honeycombio/stuck-event-loop';
 
-const DEFAULT_LOOP_SAMPLE_INTERVAL_MS = 50;
+const DEFAULT_LOOP_SAMPLE_INTERVAL_MS = 200;
 const DEFAULT_STALL_THRESHOLD_MS = 50;
 
 interface StuckEventLoopInfo {
