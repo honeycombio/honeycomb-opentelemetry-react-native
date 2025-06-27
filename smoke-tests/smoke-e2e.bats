@@ -40,7 +40,7 @@ setup_file() {
 
   osName=$(resource_attribute_named 'os.name' 'string' | uniq)
   if [[ "$osName" == '"android"' ]]; then
-    assert_equal "$osname" '"android"'
+    assert_equal "$osName" '"android"'
   else
     assert_equal "$osName" '"ios"'
   fi
