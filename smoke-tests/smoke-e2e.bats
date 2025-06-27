@@ -39,7 +39,7 @@ setup_file() {
   assert_equal "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermiesjs"'
 
   osName=$(resource_attribute_named 'os.name' 'string' | uniq)
-  if [[ "$osName" == "android" ]]; then
+  if [[ "$osName" == '"android"' ]]; then
     assert_equal "$osname" '"android"'
   else
     assert_equal "$osName" '"ios"'
