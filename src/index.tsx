@@ -13,6 +13,19 @@ import {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
+import {
+  resourceFromAttributes,
+  type Resource,
+} from '@opentelemetry/resources';
+import {
+  ATTR_OS_NAME,
+  ATTR_OS_VERSION,
+  ATTR_TELEMETRY_DISTRO_NAME,
+  ATTR_TELEMETRY_DISTRO_VERSION,
+  ATTR_TELEMETRY_SDK_LANGUAGE,
+} from '@opentelemetry/semantic-conventions/incubating';
+import { VERSION } from './version';
+import { Platform } from 'react-native';
 
 export {
   UncaughtExceptionInstrumentation,
@@ -54,11 +67,32 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       );
     }
 
+    let resource: Resource = resourceFromAttributes({
+      // Honeycomb distro attributes
+      'honeycomb.distro.version': VERSION,
+      'honeycomb.distro.runtime_version': 'react native',
+
+      // Opentelemetry attributes
+      [ATTR_TELEMETRY_DISTRO_NAME]: '@honeycombio/opentelemetry-react-native',
+      [ATTR_TELEMETRY_DISTRO_VERSION]: VERSION,
+      [ATTR_TELEMETRY_SDK_LANGUAGE]: 'hermiesjs',
+
+      // OS attributes
+      [ATTR_OS_NAME]: Platform.OS,
+      [ATTR_OS_VERSION]: Platform.Version,
+    });
+
+    if (options?.resource) {
+      resource = resource.merge(options.resource);
+    }
+
     super({
       ...options,
 
       // Add default instrumentations
       instrumentations,
+
+      resource,
 
       // Override web options that make no sense for React Native.
       disableBrowserAttributes: true,

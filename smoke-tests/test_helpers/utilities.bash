@@ -134,6 +134,32 @@ assert_equal() {
     fi
 }
 
+# Fail and display details if the expected does not match one of the values. 
+# Details include both values.
+#
+# Inspired by bats-assert * bats-support, but dramatically simplified
+# Arguments:
+# $1 - actual result
+# ${@:2:} - possible expected results
+assert_equal_or() {
+  local actual=$1
+
+  local expected=${@:2}
+
+  if ! [[ ${expected[@]} =~ $actual ]]; then
+    {
+        echo
+        echo "-- 💥 values are not equal 💥 --"
+        echo "expected : ${expected[@]}"
+        echo "actual   : $actual"
+        echo "--"
+        echo
+    } >&2 # output error to STDERR
+    return 1
+  fi
+
+}
+
 # Fail and display details if the actual value is empty.
 # Arguments: $1 - actual result
 assert_not_empty_string() {

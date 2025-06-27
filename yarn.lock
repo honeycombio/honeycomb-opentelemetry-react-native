@@ -1836,6 +1836,8 @@ __metadata:
     "@honeycombio/opentelemetry-web": ^0.17.0
     "@opentelemetry/instrumentation": ^0.201.0
     "@opentelemetry/instrumentation-fetch": ^0.202.0
+    "@opentelemetry/resources": ^2.0.1
+    "@opentelemetry/semantic-conventions": ^1.34.0
     "@react-native-community/cli": 15.0.1
     "@react-native/eslint-config": ^0.73.1
     "@react-navigation/native": 7.1.9
@@ -2729,7 +2731,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/resources@npm:2.0.1":
+"@opentelemetry/resources@npm:2.0.1, @opentelemetry/resources@npm:^2.0.1":
   version: 2.0.1
   resolution: "@opentelemetry/resources@npm:2.0.1"
   dependencies:
@@ -2821,6 +2823,13 @@ __metadata:
   version: 1.30.0
   resolution: "@opentelemetry/semantic-conventions@npm:1.30.0"
   checksum: 53d3489f11eeae07d12e878e4ae6df2de72b6a05ea434cfa2c2301023b9d3df35bcaafaeb294be708b93ae946b510067baf35008a3fd0275f52f0e0790014240
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/semantic-conventions@npm:^1.34.0":
+  version: 1.34.0
+  resolution: "@opentelemetry/semantic-conventions@npm:1.34.0"
+  checksum: ea6a95616f9c0cc2c52439fe3966ff03ac21d9d0d906dca30246c23cee0152525eb6033a83a36951a52b7f1b043423bbb7aefe53d98cbb83feb9b0e91c8bc158
   languageName: node
   linkType: hard
 
