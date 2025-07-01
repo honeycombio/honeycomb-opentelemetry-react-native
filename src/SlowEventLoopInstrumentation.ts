@@ -8,29 +8,29 @@ import {
   type NativeEventSubscription,
 } from 'react-native';
 
-const LIBRARY_NAME = '@honeycombio/stuck-event-loop';
+const LIBRARY_NAME = '@honeycombio/slow-event-loop';
 
 const DEFAULT_LOOP_SAMPLE_INTERVAL_MS = 50;
 const DEFAULT_STALL_THRESHOLD_MS = 50;
 
-interface StuckEventLoopInfo {
+interface SlowEventLoopInfo {
   delayMs: number;
   timestampMs: number;
 }
 
 type ApplyCustomAttributesOnSpanFunction = (
   span: Span,
-  stuckEventLoopInfo: StuckEventLoopInfo
+  slowEventLoopInfo: SlowEventLoopInfo
 ) => void;
 
-export interface StuckEventLoopInstrumentationConfig
+export interface SlowEventLoopInstrumentationConfig
   extends InstrumentationConfig {
   loopSampleIntervalMs?: number;
   stallThresholdMs?: number;
   applyCustomAttributesOnSpan?: ApplyCustomAttributesOnSpanFunction;
 }
 
-export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
+export class SlowEventLoopInstrumentation extends InstrumentationAbstract {
   private _isEnabled: boolean;
   readonly applyCustomAttributesOnSpan?: ApplyCustomAttributesOnSpanFunction;
 
@@ -48,8 +48,8 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
     loopSampleIntervalMs = DEFAULT_LOOP_SAMPLE_INTERVAL_MS,
     stallThresholdMs = DEFAULT_STALL_THRESHOLD_MS,
     applyCustomAttributesOnSpan,
-  }: StuckEventLoopInstrumentationConfig = {}) {
-    const config: StuckEventLoopInstrumentationConfig = {
+  }: SlowEventLoopInstrumentationConfig = {}) {
+    const config: SlowEventLoopInstrumentationConfig = {
       enabled,
       applyCustomAttributesOnSpan,
     };
@@ -131,7 +131,7 @@ export class StuckEventLoopInstrumentation extends InstrumentationAbstract {
   private _emitSlowEventLoopSpan({
     delayMs,
     timestampMs,
-  }: StuckEventLoopInfo): void {
+  }: SlowEventLoopInfo): void {
     const slowEventLoopSpan = this.tracer.startSpan('slow event loop', {
       startTime: timestampMs,
     });

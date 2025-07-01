@@ -28,14 +28,14 @@ import {
 import { VERSION } from './version';
 import { Platform } from 'react-native';
 import {
-  StuckEventLoopInstrumentation,
-  type StuckEventLoopInstrumentationConfig,
-} from './StuckEventLoopInstrumentation';
+  SlowEventLoopInstrumentation,
+  type SlowEventLoopInstrumentationConfig,
+} from './SlowEventLoopInstrumentation';
 
 export {
-  StuckEventLoopInstrumentation,
-  type StuckEventLoopInstrumentationConfig,
-} from './StuckEventLoopInstrumentation';
+  SlowEventLoopInstrumentation,
+  type SlowEventLoopInstrumentationConfig,
+} from './SlowEventLoopInstrumentation';
 
 export {
   UncaughtExceptionInstrumentation,
@@ -54,7 +54,7 @@ export function multiply(a: number, b: number): number {
 interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
   uncaughtExceptionInstrumentationConfig?: UncaughtExceptionInstrumentationConfig;
   fetchInstrumentationConfig?: FetchInstrumentationConfig;
-  stuckEventLoopInstrumentationConfig?: StuckEventLoopInstrumentationConfig;
+  slowEventLoopInstrumentationConfig?: SlowEventLoopInstrumentationConfig;
 }
 
 /**
@@ -97,10 +97,10 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       resource = resource.merge(options.resource);
     }
 
-    if (options?.stuckEventLoopInstrumentationConfig?.enabled !== false) {
+    if (options?.slowEventLoopInstrumentationConfig?.enabled !== false) {
       instrumentations.push(
-        new StuckEventLoopInstrumentation(
-          options?.stuckEventLoopInstrumentationConfig
+        new SlowEventLoopInstrumentation(
+          options?.slowEventLoopInstrumentationConfig
         )
       );
     }
