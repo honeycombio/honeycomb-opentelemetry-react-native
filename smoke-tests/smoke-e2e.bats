@@ -58,3 +58,9 @@ setup_file() {
   assert_equal "$result" '"Errors"
 "Main"'
 }
+
+@test "Slow event loop events are recorded" {
+  result=$(span_names_for "@honeycombio/slow-event-loop" | uniq)
+
+  assert_equal "$result" '"slow event loop"'
+}

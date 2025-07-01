@@ -11,6 +11,11 @@ export const sdk = new HoneycombReactNativeSDK({
   endpoint: `http://${localhost}:4318`,
   serviceName: 'reactnative-example',
   logLevel: DiagLogLevel.DEBUG,
+  // times are extended to accommodate emulator testing, which is slower than most mobile devices
+  slowEventLoopInstrumentationConfig: {
+    loopSampleIntervalMs: 200,
+    stallThresholdMs: 200,
+  },
 });
 
 export function init() {
