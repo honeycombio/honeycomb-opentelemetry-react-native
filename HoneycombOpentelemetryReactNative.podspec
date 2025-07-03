@@ -14,8 +14,13 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/honeycombio/honeycomb-opentelemetry-react-native.git", :tag => "#{s.version}" }
   s.swift_version = "5.10"
 
-  s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
+  s.source_files = "ios/**/*.{m,mm,cpp,swift}"
   s.private_header_files = "ios/generated/**/*.h"
+
+  s.pod_target_xcconfig = {
+    "DEFINES_MODULE" => "YES",
+    'SWIFT_COMPILATION_MODE' => 'wholemodule',
+  }
 
   spm_dependency(s,
     url: 'https://github.com/honeycombio/honeycomb-opentelemetry-swift.git',

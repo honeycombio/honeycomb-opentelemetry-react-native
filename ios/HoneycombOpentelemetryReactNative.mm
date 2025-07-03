@@ -1,7 +1,7 @@
 #import "HoneycombOpentelemetryReactNative.h"
 
 #import <Foundation/Foundation.h>
-//#import "HoneycombOpentelemetryReactNative-Swift.h"
+#import <HoneycombOpentelemetryReactNative/HoneycombOpentelemetryReactNative-Swift.h>
 
 @implementation HoneycombOpentelemetryReactNative
 RCT_EXPORT_MODULE()
@@ -15,7 +15,9 @@ RCT_EXPORT_MODULE()
 - (NSNumber *)configure:(NSDictionary *)options {
     NSLog(@"configure has been called");
 
-    //HoneycombWrapper *wrapper = [[HoneycombWrapper alloc] init];
+    HoneycombWrapper *wrapper = [[HoneycombWrapper alloc] init];
+
+    [wrapper configure];
 
     return @YES;
 }
