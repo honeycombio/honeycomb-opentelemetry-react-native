@@ -4,9 +4,8 @@ import Honeycomb
   @objc public static func configure() {
     do {
         let options = try HoneycombOptions.Builder()
-            .setAPIKey("some-key")
-            .setServiceName("reactnative-demo-ios")
-            .setAPIEndpoint("https://api-dogfood.honeycomb.io")
+            .setServiceName("reactnative-example")
+            .setAPIEndpoint("http://localhost:4318")
             .build()
         try Honeycomb.configure(options: options)
     } catch {
