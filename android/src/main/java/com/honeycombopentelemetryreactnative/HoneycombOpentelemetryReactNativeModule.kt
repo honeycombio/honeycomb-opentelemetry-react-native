@@ -11,13 +11,23 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     return NAME
   }
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  override fun multiply(a: Double, b: Double): Double {
-    return a * b
-  }
-
   companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
+
+    const val otelRum = null;
+
+    fun configure() : void {
+                val options =
+            HoneycombOptions
+                .builder()
+                .setApiKey("test-key")
+                .setApiEndpoint("http://10.0.2.2:4318")
+                .setServiceName("reactnative-example")
+                .setMetricsDataset("reactnative-example-metrics")
+                .setDebug(true)
+                .build()
+
+        otelRum = Honeycomb.configure(this, options)
+    }
   }
 }
