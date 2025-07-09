@@ -1,5 +1,5 @@
 #import "HoneycombReactNative.h"
-#import "HoneycombOpentelemetryReactNative-Swift.h"
+#import <HoneycombOpentelemetryReactNative/HoneycombOpentelemetryReactNative-Swift.h>
 
 @implementation HoneycombReactNative
 
