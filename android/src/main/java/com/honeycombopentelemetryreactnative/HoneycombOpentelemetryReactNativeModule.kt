@@ -11,12 +11,6 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     return NAME
   }
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  override fun multiply(a: Double, b: Double): Double {
-    return a * b
-  }
-
   companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
   }
