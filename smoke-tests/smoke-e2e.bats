@@ -64,6 +64,9 @@ setup_file() {
 }
 
 @test "Network auto-instrumentation sends spans" {
-  result=$(attribute_for_span_key "@opentelemetry/instrumentation-fetch" "HTTP GET" "http.url" "string" | sort | uniq)
+  result=$(attribute_for_span_key "@opentelemetry/instrumentation-fetch" "HTTP GET" "http.url" "string" \
+    | sort \
+    | uniq \
+    | sed -e 's/10.0.2.2/localhost/')  # because android uses a different address
   assert_equal "$result" '"http://localhost:1080/simple-api"'
 }
