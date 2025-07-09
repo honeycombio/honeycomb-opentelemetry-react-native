@@ -86,27 +86,6 @@ When a slow event loop is detected, it will emit a 'slow event loop' span with t
 |---------------------------|-----------------------------------------------------|---------|
 | `hermes.eventloop.delay` | The total time of the detected delay in miliseconds | `104`.  |
 
-### Fetch Instrumentation
-requests made using fetch can be added using the OpenTelemetry's [Fetch request instrumentation](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-instrumentation-fetch) You may include this as follows.
-
-```TypeScript
-import { 
-  HoneycombReactNativeSDK,
-  UncaughtExceptionInstrumentation,
-} from '@honeycombio/opentelemetry-react-native';
-
-import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
-
-const sdk = new HoneycombReactNativeSDK({
-  apiKey: 'api-key-goes-here',
-  serviceName: 'your-great-browser-application',
-  instrumentations: [
-    new FetchInstrumentation() // All requests made with fetch will be recorded
-  ],
-});
-sdk.start();
-```
-
 ## Manual Instrumentation
 
 ### Navigation
