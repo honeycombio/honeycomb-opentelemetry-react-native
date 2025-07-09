@@ -6,7 +6,9 @@ import HoneycombOpentelemetryReactNative
 
 @main
 class AppDelegate: RCTAppDelegate {
+  
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    HoneycombWrapper.configure()
     self.moduleName = "HoneycombOpentelemetryReactNativeExample"
     self.dependencyProvider = RCTAppDependencyProvider()
 
@@ -14,9 +16,8 @@ class AppDelegate: RCTAppDelegate {
     // They will be passed down to the ViewController used by React Native.
     self.initialProps = [:]
     
-    HoneycombWrapper.configure()
-
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+
   }
 
   override func sourceURL(for bridge: RCTBridge) -> URL? {
