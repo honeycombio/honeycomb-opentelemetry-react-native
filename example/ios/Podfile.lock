@@ -1884,7 +1884,7 @@ SPEC CHECKSUMS:
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: bba368dacede4c9dec7a58c9be5a2d3e9ea30cc7
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
-  glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
+  glog: eb93e2f488219332457c3c4eafd2738ddc7e80b8
   hermes-engine: f493b0a600aed5dc06532141603688a30a5b2f61
   HoneycombOpentelemetryReactNative: 9a1d4a08ab1616c0fbd8c8880fd4845bd74a3bb3
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
