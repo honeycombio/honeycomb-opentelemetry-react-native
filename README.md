@@ -84,7 +84,7 @@ When a slow event loop is detected, it will emit a 'slow event loop' span with t
 
 | Field                     | Description                                         | Example |
 |---------------------------|-----------------------------------------------------|---------|
-| `hermies.eventloop.delay` | The total time of the detected delay in miliseconds | `104`.  |
+| `hermes.eventloop.delay` | The total time of the detected delay in miliseconds | `104`.  |
 
 ## Manual Instrumentation
 
