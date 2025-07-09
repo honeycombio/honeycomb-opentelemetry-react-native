@@ -4,9 +4,8 @@
 @implementation HoneycombReactNative
 
 + (void) configure {
-    HoneycombWrapper *wrapper = [[HoneycombWrapper alloc] init];
 
-    [wrapper configure];
+  [HoneycombWrapper configure];
 }
 
 @end

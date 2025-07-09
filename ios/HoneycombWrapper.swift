@@ -1,7 +1,7 @@
 import Honeycomb
 
 @objc public class HoneycombWrapper : NSObject {
-  @objc public func configure() {
+  @objc public static func configure() {
     do {
         let options = try HoneycombOptions.Builder()
             .setAPIKey("some-key")
