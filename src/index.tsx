@@ -1,5 +1,4 @@
 export { NavigationInstrumentation } from './NavigationInstrumentation';
-import HoneycombOpentelemetryReactNative from './NativeHoneycombOpentelemetryReactNative';
 
 import {
   type HoneycombOptions,
@@ -41,12 +40,6 @@ export {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
-
-// This function is an example of how to proxy native code.
-// TODO: Remove this, once we have other native code.
-export function multiply(a: number, b: number): number {
-  return HoneycombOpentelemetryReactNative.multiply(a, b);
-}
 
 /**
  * The options used to configure the Honeycomb React Native SDK.
