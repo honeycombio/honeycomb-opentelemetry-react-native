@@ -30,13 +30,12 @@ setup_file() {
 }
 
 @test "Resources attributes are correct value" {
-
   assert_not_empty "$(resource_attribute_named 'honeycomb.distro.version' 'string')"
   assert_equal "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)" '"react native"'
 
   assert_equal "$(resource_attribute_named 'telemetry.distro.name' 'string' | uniq)" '"@honeycombio/opentelemetry-react-native"'
   assert_not_empty "$(resource_attribute_named 'telemetry.distro.version' 'string')"
-  assert_equal "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermiesjs"'
+  assert_equal "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermesjs"'
 
   assert_equal_or "$(resource_attribute_named 'os.name' 'string' | uniq)" '"android"' '"ios"'
 
@@ -61,6 +60,10 @@ setup_file() {
 
 @test "Slow event loop events are recorded" {
   result=$(span_names_for "@honeycombio/slow-event-loop" | uniq)
-
   assert_equal "$result" '"slow event loop"'
+}
+
+@test "Network auto-instrumentation sends spans" {
+  result=$(attribute_for_span_key "@opentelemetry/instrumentation-fetch" "HTTP GET" "http.url" "string" | sort | uniq)
+  assert_equal "$result" '"http://localhost:1080/simple-api"'
 }

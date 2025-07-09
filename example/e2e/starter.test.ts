@@ -24,6 +24,12 @@ describe('Example', () => {
     await element(by.id('send_trace')).tap();
   });
 
+  describe('network tests', () => {
+    it('should send a network request', async () => {
+      await element(by.id('send_network_request')).tap();
+    });
+  });
+
   describe('errors tests', () => {
     beforeEach(async () => {
       await waitFor(element(by.id('goto_errors')))

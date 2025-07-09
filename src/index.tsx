@@ -86,7 +86,7 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       // Opentelemetry attributes
       [ATTR_TELEMETRY_DISTRO_NAME]: '@honeycombio/opentelemetry-react-native',
       [ATTR_TELEMETRY_DISTRO_VERSION]: VERSION,
-      [ATTR_TELEMETRY_SDK_LANGUAGE]: 'hermiesjs',
+      [ATTR_TELEMETRY_SDK_LANGUAGE]: 'hermesjs',
 
       // OS attributes
       [ATTR_OS_NAME]: Platform.OS,

@@ -138,7 +138,7 @@ export class SlowEventLoopInstrumentation extends InstrumentationAbstract {
 
     // hermes is not listed in the JS semantic conventions so we
     // are going to use the `hermes` namespace and the node/web/v8 naming convention
-    slowEventLoopSpan.setAttribute('hermies.eventloop.delay', delayMs);
+    slowEventLoopSpan.setAttribute('hermes.eventloop.delay', delayMs);
 
     if (this.applyCustomAttributesOnSpan) {
       this.applyCustomAttributesOnSpan(slowEventLoopSpan, {

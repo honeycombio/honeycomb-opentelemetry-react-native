@@ -1,7 +1,7 @@
 import { trace } from '@opentelemetry/api';
 import { useState } from 'react';
 import { Button, Text, View, StyleSheet } from 'react-native';
-import { sdk } from './honeycomb';
+import { localhost, sdk } from './honeycomb';
 import { useNavigation } from '@react-navigation/native';
 
 function onTraceClick() {
@@ -10,6 +10,16 @@ function onTraceClick() {
     .startSpan('button-click');
   console.log('the trace button was clicked!');
   span.end();
+}
+
+async function sendNetworkRequest() {
+  const url = new URL(`http://${localhost}:1080/simple-api`);
+  try {
+    const response = await fetch(url);
+    console.log(response);
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export default function MainScreen() {
@@ -31,6 +41,13 @@ export default function MainScreen() {
         testID="send_trace"
         color="#841584"
         accessibilityLabel="send_trace_button"
+      />
+      <Button
+        onPress={sendNetworkRequest}
+        title="Send a network request"
+        testID="send_network_request"
+        color="#841584"
+        accessibilityLabel="send_network_request"
       />
       <Button
         onPress={onFlushClick}

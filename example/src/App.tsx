@@ -5,11 +5,11 @@ import {
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from './MainScreen';
-import { init as honeyInit } from './honeycomb';
+import { init as initHoneycomb } from './honeycomb';
 import { NavigationInstrumentation } from '@honeycombio/opentelemetry-react-native';
 import ErrorScreen from './ErrorScreen';
 
-honeyInit();
+initHoneycomb();
 
 const RootStack = createNativeStackNavigator({
   screens: {
