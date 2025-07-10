@@ -19,14 +19,23 @@ setup_file() {
 
   result=$(resource_attributes_received | jq '.key' | sort | uniq)
 
-  assert_equal "$result" '"honeycomb.distro.runtime_version"
+  assert_equal "$result" '"device.id"
+"device.manufacturer"
+"device.model.identifier"
+"device.model.name"
+"honeycomb.distro.runtime_version"
 "honeycomb.distro.version"
+"os.description"
 "os.name"
+"os.type"
 "os.version"
+"rum.sdk.version"
 "service.name"
 "telemetry.distro.name"
 "telemetry.distro.version"
-"telemetry.sdk.language"'
+"telemetry.sdk.language"
+"telemetry.sdk.name"
+"telemetry.sdk.version"'
 }
 
 @test "Resources attributes are correct value" {
@@ -37,7 +46,7 @@ setup_file() {
   assert_not_empty "$(resource_attribute_named 'telemetry.distro.version' 'string')"
   assert_equal "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermesjs"'
 
-  assert_equal_or "$(resource_attribute_named 'os.name' 'string' | uniq)" '"android"' '"ios"'
+  assert_equal_or "$(resource_attribute_named 'os.name' 'string' | awk '{print tolower($0)}' | uniq)" '"android"' '"ios"'
 
   assert_not_empty "$(resource_attribute_named 'os.version' 'string')"
 }

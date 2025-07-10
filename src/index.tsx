@@ -17,11 +17,19 @@ import {
   type Resource,
 } from '@opentelemetry/resources';
 import {
+  ATTR_DEVICE_ID,
+  ATTR_DEVICE_MANUFACTURER,
+  ATTR_DEVICE_MODEL_IDENTIFIER,
+  ATTR_DEVICE_MODEL_NAME,
+  ATTR_OS_DESCRIPTION,
   ATTR_OS_NAME,
+  ATTR_OS_TYPE,
   ATTR_OS_VERSION,
   ATTR_TELEMETRY_DISTRO_NAME,
   ATTR_TELEMETRY_DISTRO_VERSION,
   ATTR_TELEMETRY_SDK_LANGUAGE,
+  ATTR_TELEMETRY_SDK_NAME,
+  ATTR_TELEMETRY_SDK_VERSION,
 } from '@opentelemetry/semantic-conventions/incubating';
 
 import { VERSION } from './version';
@@ -80,10 +88,21 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       [ATTR_TELEMETRY_DISTRO_NAME]: '@honeycombio/opentelemetry-react-native',
       [ATTR_TELEMETRY_DISTRO_VERSION]: VERSION,
       [ATTR_TELEMETRY_SDK_LANGUAGE]: 'hermesjs',
+      [ATTR_TELEMETRY_SDK_NAME]: 'opentelemetry',
+      [ATTR_TELEMETRY_SDK_VERSION]: VERSION,
 
       // OS attributes
       [ATTR_OS_NAME]: Platform.OS,
       [ATTR_OS_VERSION]: Platform.Version,
+      [ATTR_OS_DESCRIPTION]: Platform.OS,
+      [ATTR_OS_TYPE]: Platform.OS,
+
+      // Stubbed out attributes
+      [ATTR_DEVICE_ID]: '',
+      [ATTR_DEVICE_MANUFACTURER]: '',
+      [ATTR_DEVICE_MODEL_IDENTIFIER]: '',
+      [ATTR_DEVICE_MODEL_NAME]: '',
+      'rum.sdk.version': '',
     });
 
     if (options?.resource) {

@@ -2,6 +2,8 @@
 
 ## v.Next
 
+## v.0.4.0
+
 - `fetch` and `uncaught exception` instrumentation are included and enabled by default.
 - Resources Attributes now match React native environment
 - OS name and version now included in resource attributes
