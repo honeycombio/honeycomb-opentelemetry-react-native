@@ -1,7 +1,14 @@
 package com.honeycombopentelemetryreactnative
 
+import android.app.Application
+
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
+
+import io.opentelemetry.android.OpenTelemetryRum
+
+import io.honeycomb.opentelemetry.android.Honeycomb
+import io.honeycomb.opentelemetry.android.HoneycombOptions
 
 @ReactModule(name = HoneycombOpentelemetryReactNativeModule.NAME)
 class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationContext) :
@@ -14,12 +21,12 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
   companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
 
-    const val otelRum = null;
+    var otelRum : OpenTelemetryRum? = null
 
-    fun configure() : void {
-                val options =
+    fun configure(app: Application) {
+            val options =
             HoneycombOptions
-                .builder()
+                .builder(app)
                 .setApiKey("test-key")
                 .setApiEndpoint("http://10.0.2.2:4318")
                 .setServiceName("reactnative-example")
@@ -27,7 +34,7 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
                 .setDebug(true)
                 .build()
 
-        otelRum = Honeycomb.configure(this, options)
+        otelRum = Honeycomb.configure(app, options)
     }
   }
 }
