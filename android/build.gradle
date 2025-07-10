@@ -97,6 +97,7 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation "io.honeycomb.android:honeycomb-opentelemetry-android:0.0.11"
   implementation "io.opentelemetry:opentelemetry-api:1.49.0"
+  implementation "io.opentelemetry.semconv:opentelemetry-semconv-incubating:1.30.0-alpha"
   implementation "io.opentelemetry.android:core:0.11.0-alpha"
 }
 
