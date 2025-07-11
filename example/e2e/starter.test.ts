@@ -27,6 +27,9 @@ describe('Example', () => {
   describe('network tests', () => {
     it('should send a network request', async () => {
       await element(by.id('send_network_request')).tap();
+      await waitFor(element(by.id('status')))
+        .toHaveText('fetch complete')
+        .withTimeout(3000);
     });
   });
 
