@@ -43,7 +43,11 @@ export default function MainScreen() {
         accessibilityLabel="send_trace_button"
       />
       <Button
-        onPress={sendNetworkRequest}
+        onPress={async () => {
+          setStatusText('fetch started.');
+          await sendNetworkRequest();
+          setStatusText('fetch complete');
+        }}
         title="Send a network request"
         testID="send_network_request"
         color="#841584"
