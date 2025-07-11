@@ -44,24 +44,13 @@ describe('Example', () => {
     afterEach(async () => {
       await element(by.id('goto_main')).tap();
     });
-    it('should have a Throw an Error button', async () => {
-      await expect(element(by.id('throw_error'))).toBeVisible();
-    });
 
     it('should throw an error', async () => {
       await element(by.id('throw_error')).tap();
     });
 
-    it('should have a Throw a String button', async () => {
-      await expect(element(by.id('throw_string'))).toBeVisible();
-    });
-
     it('should throw a String', async () => {
       await element(by.id('throw_string')).tap();
-    });
-
-    it('should have a Stall Event Loop button', async () => {
-      await expect(element(by.id('stall_event_loop'))).toBeVisible();
     });
 
     it('should stall the event loop', async () => {
