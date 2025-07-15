@@ -3,8 +3,7 @@
 
 @implementation HoneycombReactNative
 
-+ (void) configure {
-
++ (void)configure {
   [HoneycombWrapper configure];
 }
 
