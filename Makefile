@@ -8,7 +8,9 @@ lint:
 	# Swift
 	swift format lint --strict --recursive ios/ example/ios/HoneycombOpentelemetryReactNativeExample
 	# C/C++/Objective-C/Objective-C++
-	find ios/ \( -name '*.h' -o -name '*.c' -o -name '*.cc' -o -name '*.m' -o -name '*.mm' \) -not -path '*/generated/*' | xargs  clang-format --Werror --dry-run
+	find ios/ \( -name '*.h' -o -name '*.c' -o -name '*.cc' -o -name '*.m' -o -name '*.mm' \) -not -path '*/generated/*' | xargs clang-format --Werror --dry-run
+	# Kotlin (example app only)
+	cd example/android/ && ./gradlew spotlessCheck
 
 format:
 	# TypeScript
@@ -17,6 +19,8 @@ format:
 	swift format format --in-place --recursive ios/ example/ios/HoneycombOpentelemetryReactNativeExample
 	# C/C++/Objective-C/Objective-C++
 	find ios/ \( -name '*.h' -o -name '*.c' -o -name '*.cc' -o -name '*.m' -o -name '*.mm' \) -not -path '*/generated/*' | xargs  clang-format -i
+	# Kotlin (example app only)
+	cd example/android/ && ./gradlew spotlessApply
 
 #: cleans up smoke test output
 clean-smoke-tests:

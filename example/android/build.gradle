@@ -18,6 +18,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("com.diffplug.spotless") version "6.25.0"
+}
+
 allprojects {
     repositories {
         maven {
@@ -27,3 +31,4 @@ allprojects {
 }
 
 apply plugin: "com.facebook.react.rootproject"
+apply from: "../../spotless.gradle"
