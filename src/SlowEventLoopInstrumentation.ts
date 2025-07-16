@@ -115,7 +115,7 @@ export class SlowEventLoopInstrumentation extends InstrumentationAbstract {
     ) {
       this._emitSlowEventLoopSpan({
         delayMs: intervalSinceLastCheck,
-        timestampMs: nowTimestamp,
+        timestampMs: this._lastLoopTimestamp,
       });
     }
 
@@ -147,7 +147,7 @@ export class SlowEventLoopInstrumentation extends InstrumentationAbstract {
       });
     }
 
-    slowEventLoopSpan.end();
+    slowEventLoopSpan.end(timestampMs + delayMs);
   }
 
   private _suspendResumeHandler(appState: AppStateStatus): void {
