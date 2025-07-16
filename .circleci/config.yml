@@ -75,31 +75,14 @@ jobs:
           working_directory: example
           command: yarn install
       - run:
-          name: Start React Native
-          working_directory: example
-          command: yarn start
-          background: true
-      - run:
-          name: Install OTel Collector
-          environment:
-            COLLECTOR_VERSION: "0.126.0"
-          command: |
-            curl --proto '=https' --tlsv1.2 -fOL https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v${COLLECTOR_VERSION}/otelcol_${COLLECTOR_VERSION}_linux_amd64.tar.gz
-            tar -xvf otelcol_${COLLECTOR_VERSION}_linux_amd64.tar.gz
-      - run:
-          name: Start OTel Collector
-          command: touch ./smoke-tests/collector/data.json && ./otelcol --config=./smoke-tests/collector/otel-collector-config.yaml --set="exporters::file::path=./smoke-tests/collector/data.json"
-          background: true
-      - run:
-          name: Start Mock Server
-          working_directory: smoke-tests/mock-server
-          command: npm install && npm start
-          background: true
+          name: "Start React Native & Collector & Mock Server"
+          command: make smoke-docker
       - android/change-java-version:
           java-version: << pipeline.parameters.java-version >>
-      - run:
-          name: "Run Android UI Tests"
-          command: make android-test
+      - android/start-emulator-and-run-tests:
+          system-image: system-images;android-30;google_apis;x86
+          test-command: make android-test
+          max-tries: 1
       - store_artifacts:
           path: example/build/outputs/connected_android_test_additional_output
       - run:
