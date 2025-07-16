@@ -45,8 +45,10 @@ jobs:
       - checkout
       - run: yarn install
       - run: make lint-typescript
-      - run: make lint-android
+      - run: sudo apt update
+      - run: sudo apt install clang-format
       - run: make lint-c
+      - run: make lint-android
 
   lint_swift:
     macos:
