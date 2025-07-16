@@ -9,7 +9,7 @@ BasedOnStyle: Chromium
 Standard: Cpp11
 
 # Indent 2 spaces at a time.
-IndentWidth: 4
+IndentWidth: 2
 
 # Keep lines under 100 columns long.
 ColumnLimit: 100

@@ -12,7 +12,7 @@ lint:
 
 format:
 	# Swift
-	swift format format --in-place --strict --recursive ios/
+	swift format format --in-place --recursive ios/ example/ios/HoneycombOpentelemetryReactNativeExample
 	# C/C++/Objective-C/Objective-C++
 	find ios/ \( -name '*.h' -o -name '*.c' -o -name '*.cc' -o -name '*.m' -o -name '*.mm' \) -not -path '*/generated/*' | xargs  clang-format -i
 
