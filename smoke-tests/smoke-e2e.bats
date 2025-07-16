@@ -51,6 +51,15 @@ setup_file() {
   assert_not_empty "$(resource_attribute_named 'os.version' 'string')"
 }
 
+@test "Session ID is synced between TypeScript and native SDKs" {
+  result=$(spans_received \
+    | jq .scopeSpans[]?.spans[]?.attributes[] \
+    | jq 'select (.key == "session.id").value.stringValue' \
+    | sort | uniq | wc -l | tr -d ' ')
+
+  assert_equal "$result" "1"
+}
+
 @test "Uncaught Errors are recorded properly" {
   result=$(attribute_for_exception_trace_of_type "Error" "exception.message" "string")
   assert_equal "$result" '"test error"'

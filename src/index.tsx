@@ -1,5 +1,4 @@
-export { NavigationInstrumentation } from './NavigationInstrumentation';
-
+import HoneycombOpentelemetryReactNative from './NativeHoneycombOpentelemetryReactNative';
 import {
   type HoneycombOptions,
   HoneycombWebSDK,
@@ -31,23 +30,29 @@ import {
   ATTR_TELEMETRY_SDK_NAME,
   ATTR_TELEMETRY_SDK_VERSION,
 } from '@opentelemetry/semantic-conventions/incubating';
-
 import { VERSION } from './version';
 import { Platform } from 'react-native';
 import {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
 } from './SlowEventLoopInstrumentation';
+import { type SessionProvider } from '@opentelemetry/web-common';
 
+export { NavigationInstrumentation } from './NavigationInstrumentation';
 export {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
 } from './SlowEventLoopInstrumentation';
-
 export {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
+
+class SessionIdProvider implements SessionProvider {
+  getSessionId(): string | null {
+    return HoneycombOpentelemetryReactNative.getSessionId();
+  }
+}
 
 /**
  * The options used to configure the Honeycomb React Native SDK.
@@ -122,11 +127,11 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
 
       // Add default instrumentations
       instrumentations,
-
       resource,
 
       // Override web options that make no sense for React Native.
       disableBrowserAttributes: true,
+      sessionProvider: new SessionIdProvider(),
       webVitalsInstrumentationConfig: {
         enabled: false,
       },

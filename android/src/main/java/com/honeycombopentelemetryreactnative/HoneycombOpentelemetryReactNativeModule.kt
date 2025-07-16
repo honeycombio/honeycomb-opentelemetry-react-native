@@ -19,6 +19,10 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     return NAME
   }
 
+  override fun getSessionId(): String? {
+    return HoneycombOpentelemetryReactNativeModule.otelRum?.rumSessionId
+  }
+
   companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
 
@@ -32,7 +36,7 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
           .setApiEndpoint("http://10.0.2.2:4318")
           .setServiceName("reactnative-example")
           .setMetricsDataset("reactnative-example-metrics")
-          .setResourceAttributes(mapOf( 
+          .setResourceAttributes(mapOf(
             TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",
             "honeycomb.distro.runtime_version" to "react native",
             "telemetry.sdk.language" to "hermesjs"))
