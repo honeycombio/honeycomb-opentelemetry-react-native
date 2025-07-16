@@ -3,7 +3,18 @@ build:
 	yarn install
 
 lint:
-	yarn lint
+	# TypeScript
+	yarn eslint src/ example/index.js example/src
+	# Swift
+	swift format lint --strict --recursive ios/ example/ios/HoneycombOpentelemetryReactNativeExample
+	# C/C++/Objective-C/Objective-C++
+	find ios/ \( -name '*.h' -o -name '*.c' -o -name '*.cc' -o -name '*.m' -o -name '*.mm' \) -not -path '*/generated/*' | xargs  clang-format --Werror --dry-run
+
+format:
+	# Swift
+	swift format format --in-place --strict --recursive ios/
+	# C/C++/Objective-C/Objective-C++
+	find ios/ \( -name '*.h' -o -name '*.c' -o -name '*.cc' -o -name '*.m' -o -name '*.mm' \) -not -path '*/generated/*' | xargs  clang-format -i
 
 #: cleans up smoke test output
 clean-smoke-tests:
