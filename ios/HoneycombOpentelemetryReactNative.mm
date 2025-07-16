@@ -1,4 +1,5 @@
 #import "HoneycombOpentelemetryReactNative.h"
+#import <HoneycombOpentelemetryReactNative/HoneycombOpentelemetryReactNative-Swift.h>
 
 @implementation HoneycombOpentelemetryReactNative
 RCT_EXPORT_MODULE()
@@ -7,6 +8,10 @@ RCT_EXPORT_MODULE()
     (const facebook::react::ObjCTurboModule::InitParams &)params
 {
     return std::make_shared<facebook::react::NativeHoneycombOpentelemetryReactNativeSpecJSI>(params);
+}
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getSessionId) {
+  return [HoneycombWrapper sessionId];
 }
 
 @end
