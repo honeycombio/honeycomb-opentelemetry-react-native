@@ -35,12 +35,14 @@ android-emulator:
 	@echo ""
 	bash ./setup-android-env.sh
 
-android-test: android-emulator
+android-detox:
 	@echo ""
 	@echo "+++ Running Android tests."
 	@echo ""
 	yarn example detox build --configuration android.emu.debug
 	yarn example detox test --configuration android.emu.debug
+
+android-test: android-emulator android-detox
 
 ios-test:
 	@echo ""
