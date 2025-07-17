@@ -75,8 +75,13 @@ jobs:
           working_directory: example
           command: yarn install
       - run:
-          name: "Start React Native & Collector & Mock Server"
-          command: make smoke-docker
+          name: Start React Native
+          working_directory: example
+          command: yarn start
+          background: true
+      - run:
+          name: "Start Collector & Mock Server"
+          command: make smoke-docker-without-react-native
       - android/change-java-version:
           java-version: << pipeline.parameters.java-version >>
       - android/start-emulator-and-run-tests:
@@ -87,6 +92,8 @@ jobs:
           max-tries: 1
       - store_artifacts:
           path: example/build/outputs/connected_android_test_additional_output
+      - store_artifacts:
+          path: example/android/build/reports/
       - run:
           name: "Check Smoke Test Assertions"
           command: make smoke-bats

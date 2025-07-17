@@ -23,6 +23,12 @@ smoke-docker: smoke-tests/collector/data.json
 	@echo ""
 	docker compose up --build react-native --build collector --build mock-server --detach
 
+smoke-docker-without-react-native: smoke-tests/collector/data.json
+	@echo ""
+	@echo "+++ Spinning up the smokers."
+	@echo ""
+	docker compose up --build collector --build mock-server --detach
+
 unsmoke:
 	@echo ""
 	@echo "+++ Spinning down the smokers."
