@@ -31,7 +31,7 @@ module.exports = {
     'android.debug.x86_64': {
       type: 'android.apk',
       binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
-      build: 'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug -PreactNativeArchitectures=x86_64',
+      build: 'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug -PreactNativeArchitectures=x86_64 --profile',
       reversePorts: [
         8081
       ]
@@ -60,12 +60,6 @@ module.exports = {
       device: {
         avdName: 'Pixel_8_API_35'
       }
-    },
-    circleci: {
-      type: 'android.emulator',
-      device: {
-        avdName: 'test'
-      }
     }
   },
   configurations: {
@@ -89,13 +83,13 @@ module.exports = {
       device: 'emulator',
       app: 'android.debug'
     },
-    'android.emu.circleci': {
-      device: 'circleci',
-      app: 'android.debug.x86_64'
-    },
     'android.emu.release': {
       device: 'emulator',
       app: 'android.release'
+    },
+    'android.emu.circleci': {
+      device: 'emulator',
+      app: 'android.debug.x86_64'
     }
   }
 };
