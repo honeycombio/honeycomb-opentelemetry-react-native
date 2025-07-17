@@ -81,7 +81,7 @@ module.exports = {
       device: 'emulator',
       app: 'android.debug'
     },
-    'android.emu.circlci': {
+    'android.emu.circleci': {
       device: 'circleci',
       app: 'android.debug'
     },
