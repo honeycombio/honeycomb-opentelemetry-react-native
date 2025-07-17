@@ -80,7 +80,8 @@ jobs:
       - android/change-java-version:
           java-version: << pipeline.parameters.java-version >>
       - android/start-emulator-and-run-tests:
-          system-image: system-images;android-30;google_apis;x86
+          avd-name: "Pixel_8_API_35"
+          system-image: system-images;android-30;google_apis;x86_64
           test-command: make android-circleci-test
           post-emulator-launch-assemble-command: ""
           max-tries: 1
