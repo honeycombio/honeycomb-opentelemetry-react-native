@@ -36,7 +36,7 @@ filters_always: &filters_always
       only: /.*/
 
 jobs:
-  lint:
+  lint_android:
     executor:
       name: android/android-machine
       resource-class: large
@@ -44,7 +44,19 @@ jobs:
     steps:
       - checkout
       - run: yarn install
-      - run: make lint
+      - run: make lint-typescript
+      - run: sudo apt update
+      - run: sudo apt install clang-format
+      - run: make lint-c
+      - run: make lint-android
+
+  lint_swift:
+    macos:
+      xcode: 16.2.0
+    resource_class: m4pro.medium
+    steps:
+      - checkout
+      - run: make lint-swift
 
   unit_test:
     executor:
@@ -191,7 +203,9 @@ workflows:
     jobs:
       - unit_test:
           <<: *filters_always
-      - lint:
+      - lint_android:
+          <<: *filters_always
+      - lint_swift:
           <<: *filters_always
       - smoke_tests_android:
           <<: *filters_always
@@ -218,7 +232,8 @@ workflows:
                 - main
     jobs:
       - unit_test
-      - lint
+      - lint_android
+      - lint_swift
       - smoke_tests_android
       - smoke_tests_ios
 
