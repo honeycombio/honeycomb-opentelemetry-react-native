@@ -2,8 +2,33 @@
 build:
 	yarn install
 
-lint:
-	yarn lint
+lint-typescript:
+	yarn eslint src/ example/index.js example/src
+
+lint-android:
+	cd example/android/ && ./gradlew spotlessCheck
+
+lint-c:
+	find ios/ \( -name '*.h' -o -name '*.c' -o -name '*.cc' -o -name '*.m' -o -name '*.mm' \) -not -path '*/generated/*' | xargs clang-format --Werror --dry-run
+
+lint-swift:
+	swift format lint --strict --recursive ios/ example/ios/HoneycombOpentelemetryReactNativeExample
+
+lint: lint-typescript lint-android lint-swift lint-c
+
+format-typescript:
+	yarn eslint --fix src/ example/index.js example/src
+
+format-android:
+	cd example/android/ && ./gradlew spotlessApply
+
+format-c:
+	find ios/ \( -name '*.h' -o -name '*.c' -o -name '*.cc' -o -name '*.m' -o -name '*.mm' \) -not -path '*/generated/*' | xargs clang-format -i
+
+format-swift:
+	swift format format --in-place --recursive ios/ example/ios/HoneycombOpentelemetryReactNativeExample
+
+format: format-typescript format-android format-swift format-c
 
 #: cleans up smoke test output
 clean-smoke-tests:
