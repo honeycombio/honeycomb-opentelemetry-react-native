@@ -52,6 +52,12 @@ module.exports = {
       device: {
         avdName: 'Pixel_8_API_35'
       }
+    },
+    circleci: {
+      type: 'android.emulator',
+      device: {
+        avdName: 'test'
+      }
     }
   },
   configurations: {
@@ -73,6 +79,10 @@ module.exports = {
     },
     'android.emu.debug': {
       device: 'emulator',
+      app: 'android.debug'
+    },
+    'android.emu.circlci': {
+      device: 'circleci',
       app: 'android.debug'
     },
     'android.emu.release': {
