@@ -28,6 +28,14 @@ module.exports = {
         8081
       ]
     },
+    'android.debug.x86_64': {
+      type: 'android.apk',
+      binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
+      build: 'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug -PreactNativeArchitectures=x86_64 --profile',
+      reversePorts: [
+        8081
+      ]
+    },
     'android.release': {
       type: 'android.apk',
       binaryPath: 'android/app/build/outputs/apk/release/app-release.apk',
@@ -78,6 +86,10 @@ module.exports = {
     'android.emu.release': {
       device: 'emulator',
       app: 'android.release'
+    },
+    'android.emu.circleci': {
+      device: 'emulator',
+      app: 'android.debug.x86_64'
     }
   }
 };

@@ -48,6 +48,12 @@ smoke-docker: smoke-tests/collector/data.json
 	@echo ""
 	docker compose up --build react-native --build collector --build mock-server --detach
 
+smoke-docker-without-react-native: smoke-tests/collector/data.json
+	@echo ""
+	@echo "+++ Spinning up the smokers."
+	@echo ""
+	docker compose up --build collector --build mock-server --detach
+
 unsmoke:
 	@echo ""
 	@echo "+++ Spinning down the smokers."
@@ -66,6 +72,13 @@ android-test: android-emulator
 	@echo ""
 	yarn example detox build --configuration android.emu.debug
 	yarn example detox test --configuration android.emu.debug
+
+android-circleci-test:
+	@echo ""
+	@echo "+++ Running Android tests."
+	@echo ""
+	yarn example detox build --configuration android.emu.circleci
+	yarn example detox test --configuration android.emu.circleci
 
 ios-test:
 	@echo ""
