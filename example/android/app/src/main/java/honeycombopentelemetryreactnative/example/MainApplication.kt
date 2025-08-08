@@ -42,7 +42,7 @@ class MainApplication : Application(), ReactApplication {
                 .setMetricsDataset("reactnative-example-metrics")
                 .setDebug(true)
 
-        HoneycombOpentelemetryReactNativeModule.configure(configure)
+        HoneycombOpentelemetryReactNativeModule.configure(this, configure)
         super.onCreate()
         SoLoader.init(this, OpenSourceMergedSoMapping)
         if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {

@@ -36,7 +36,7 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
             "telemetry.sdk.language" to "hermesjs"))
     }
 
-    fun configure(builder: HoneycombOptions.Builder) {
+    fun configure(app: Application, builder: HoneycombOptions.Builder) {
 
       val options = builder.build()
 
