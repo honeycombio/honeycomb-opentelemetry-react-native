@@ -3,8 +3,12 @@
 
 @implementation HoneycombReactNative
 
-+ (void)configure {
-  [HoneycombWrapper configure];
++ (void)configure: (HoneycombConfigure *) config {
+  [HoneycombWrapper configure:config];
+}
+
++ (HoneycombConfigure *)builder {
+  return [HoneycombWrapper builder];
 }
 
 @end

@@ -3,7 +3,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HoneycombReactNative : NSObject
-+ (void)configure;
++ (void)configure (HoneycombConfigure *);
++ (HoneycombConfigure *)builder;
 @end
 
 NS_ASSUME_NONNULL_END
