@@ -12,9 +12,9 @@ class AppDelegate: RCTAppDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         let config = HoneycombWrapper.builder()
-          .setServiceName("reactnative-example")
-          .setAPIEndpoint("http://localhost:4318")
-          .setDebug(true)
+            .setServiceName("reactnative-example")
+            .setAPIEndpoint("http://localhost:4318")
+            .setDebug(true)
         HoneycombWrapper.configure(config)
         self.moduleName = "HoneycombOpentelemetryReactNativeExample"
         self.dependencyProvider = RCTAppDependencyProvider()

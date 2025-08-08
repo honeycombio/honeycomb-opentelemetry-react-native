@@ -34,12 +34,13 @@ class MainApplication : Application(), ReactApplication {
         get() = getDefaultReactHost(applicationContext, reactNativeHost)
 
     override fun onCreate() {
-        const configure = HoneycombOpentelemetryReactNativeModule.builder(this)
-          .setApiKey("test-key")
-          .setApiEndpoint("http://10.0.2.2:4318")
-          .setServiceName("reactnative-example")
-          .setMetricsDataset("reactnative-example-metrics")
-          .setDebug(true)
+        val configure =
+            HoneycombOpentelemetryReactNativeModule.builder(this)
+                .setApiKey("test-key")
+                .setApiEndpoint("http://10.0.2.2:4318")
+                .setServiceName("reactnative-example")
+                .setMetricsDataset("reactnative-example-metrics")
+                .setDebug(true)
 
         HoneycombOpentelemetryReactNativeModule.configure(configure)
         super.onCreate()
