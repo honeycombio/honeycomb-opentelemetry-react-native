@@ -9,7 +9,6 @@ import io.opentelemetry.android.OpenTelemetryRum
 import io.opentelemetry.semconv.incubating.TelemetryIncubatingAttributes.TELEMETRY_DISTRO_NAME
 
 import io.honeycomb.opentelemetry.android.Honeycomb
-import io.honeycomb.opentelemetry.android.HoneycombOptions
 
 @ReactModule(name = HoneycombOpentelemetryReactNativeModule.NAME)
 class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationContext) :
@@ -28,15 +27,15 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
 
     private var otelRum : OpenTelemetryRum? = null
 
-    fun builder(app: Application): HoneycombConfig {
-        return HoneycombConfig(app)
+    fun builder(app: Application): HoneycombConfigure {
+        return HoneycombConfigure(app)
           .setResourceAttributes(mapOf(
             TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",
             "honeycomb.distro.runtime_version" to "react native",
             "telemetry.sdk.language" to "hermesjs"))
     }
 
-    fun configure(builder: HoneycombConfig) {
+    fun configure(builder: HoneycombConfigure) {
 
       val options = builder.build()
 
