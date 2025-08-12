@@ -29,18 +29,18 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     private var otelRum : OpenTelemetryRum? = null
 
     fun builder(app: Application): HoneycombConfig {
-        return HoneycombOptions.builder(app)
+        return HoneycombConfig(app)
           .setResourceAttributes(mapOf(
             TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",
             "honeycomb.distro.runtime_version" to "react native",
             "telemetry.sdk.language" to "hermesjs"))
     }
 
-    fun configure(app: Application, builder: HoneycombConfig) {
+    fun configure(builder: HoneycombConfig) {
 
       val options = builder.build()
 
-      otelRum = Honeycomb.configure(app, options)
+      otelRum = Honeycomb.configure(builder.getContext(), options)
     }
   }
 }
