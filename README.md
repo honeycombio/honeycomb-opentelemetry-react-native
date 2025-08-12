@@ -24,13 +24,48 @@ import { HoneycombReactNativeSDK } from '@honeycombio/opentelemetry-react-native
 
 const sdk = new HoneycombReactNativeSDK({
   apiKey: 'api-key-goes-here',
-  serviceName: 'your-great-browser-application',
+  serviceName: 'your-great-react-native-app',
   instrumentations: [], // add automatic instrumentation
 });
 sdk.start();
 ```
 
-4. Build and run your application, and then look for data in Honeycomb. On the Home screen, choose your application by looking for the service name in the Dataset dropdown at the top. Data should populate.
+4. Android (optional)
+
+Add the following lines to the beginning of your `MainApplication.kt`'s  `onCreate` method
+
+```Kotlin
+override fun onCreate() {
+  val configure =
+    HoneycombOpentelemetryReactNativeModule.builder(this)
+      .setApiKey("test-key")
+      .setServiceName("your-great-react-native-app")
+
+  HoneycombOpentelemetryReactNativeModule.configure(configure)
+ // ....
+}
+```
+
+5. IOS (optional)
+
+  a. go to your app's `ios` directory and run `pod install` then
+
+  b. Add the following lines to the beginning your `AppDelegate.swift`'s application method
+
+```swift
+override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+) -> Bool {
+    let config = HoneycombWrapper.builder()
+        .setApiKey("test-key")
+        .setServiceName("your-great-react-native-app")
+        .setDebug(true)
+    HoneycombWrapper.configure(config)
+}
+```
+
+6. Build and run your application, and then look for data in Honeycomb. On the Home screen, choose your application by looking for the service name in the Dataset dropdown at the top. Data should populate.
 
 Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/start-building/web/) for more information on instrumentation and troubleshooting.
 
