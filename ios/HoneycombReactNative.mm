@@ -2,11 +2,11 @@
 
 @implementation HoneycombReactNative
 
-+ (void)configure:(HoneycombConfigure *)config {
++ (void)configure:(Builder *)config {
   [HoneycombWrapper configure:config];
 }
 
-+ (HoneycombConfigure *)builder {
++ (Builder *)builder {
   return [HoneycombWrapper builder];
 }
 

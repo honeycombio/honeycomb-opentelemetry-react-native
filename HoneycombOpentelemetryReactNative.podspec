@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
 
   spm_dependency(s,
     url: 'https://github.com/honeycombio/honeycomb-opentelemetry-swift.git',
-    requirement: {kind: 'upToNextMajorVersion', minimumVersion: '0.0.15'},
+    requirement: {kind: 'upToNextMajorVersion', minimumVersion: '0.0.16'},
     products: ['Honeycomb']
   )
 

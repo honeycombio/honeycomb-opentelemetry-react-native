@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/honeycombio/honeycomb-opentelemetry-swift.git",
       "state" : {
-        "revision" : "578af9487c85ba2ff63fa0021c57c96ba13a9d18",
-        "version" : "0.0.14"
+        "revision" : "31ec5ea8e2b8c5d8fde995354c68e83032954f75",
+        "version" : "0.0.16"
       }
     },
     {
