@@ -34,7 +34,7 @@ class MainApplication : Application(), ReactApplication {
         get() = getDefaultReactHost(applicationContext, reactNativeHost)
 
     override fun onCreate() {
-        val configure =
+        val options =
             HoneycombOpentelemetryReactNativeModule.builder(this)
                 .setApiKey("test-key")
                 .setApiEndpoint("http://10.0.2.2:4318")
@@ -42,7 +42,7 @@ class MainApplication : Application(), ReactApplication {
                 .setMetricsDataset("reactnative-example-metrics")
                 .setDebug(true)
 
-        HoneycombOpentelemetryReactNativeModule.configure(configure)
+        HoneycombOpentelemetryReactNativeModule.configure(this, options)
         super.onCreate()
         SoLoader.init(this, OpenSourceMergedSoMapping)
         if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
