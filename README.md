@@ -32,21 +32,30 @@ sdk.start();
 
 4. Android (optional)
 
+Add the following dependency to your apps build.gradle
+
+```Kotlin
+dependencies {
+    //...
+    implementation "io.honeycomb.android:honeycomb-opentelemetry-android:0.0.16"
+}
+```
+
 Add the following lines to the beginning of your `MainApplication.kt`'s  `onCreate` method
 
 ```Kotlin
 override fun onCreate() {
-  val configure =
+  val options =
     HoneycombOpentelemetryReactNativeModule.builder(this)
       .setApiKey("test-key")
       .setServiceName("your-great-react-native-app")
 
-  HoneycombOpentelemetryReactNativeModule.configure(configure)
+  HoneycombOpentelemetryReactNativeModule.configure(this, options)
  // ....
 }
 ```
 
-5. IOS (optional)
+5. iOS (optional)
 
   a. go to your app's `ios` directory and run `pod install` then
 
@@ -57,11 +66,11 @@ override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
 ) -> Bool {
-    let config = HoneycombWrapper.builder()
+    let options = HoneycombWrapper.builder()
         .setApiKey("test-key")
         .setServiceName("your-great-react-native-app")
         .setDebug(true)
-    HoneycombWrapper.configure(config)
+    HoneycombWrapper.configure(options)
 }
 ```
 
