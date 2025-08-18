@@ -2,6 +2,8 @@
 
 ## v.Next
 
+## v0.5.0
+
 - feat: Sync session ID between TypeScript and native SDKs.
 - feat: configurable native extensions
 
