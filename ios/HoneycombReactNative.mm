@@ -1,13 +1,13 @@
 #import "HoneycombReactNative.h"
 
-@implementation HoneycombReactNative
+@implementation HNYHoneycombReactNative
 
 + (void)configure:(Builder *)config {
-  [HoneycombWrapper configure:config];
+  [HNYReactNativeWrapper configure:config];
 }
 
-+ (Builder *)builder {
-  return [HoneycombWrapper builder];
++ (Builder *)optionsBuilder {
+  return [HNYReactNativeWrapper optionsBuilder];
 }
 
 @end

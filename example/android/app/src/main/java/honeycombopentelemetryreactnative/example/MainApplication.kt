@@ -35,7 +35,7 @@ class MainApplication : Application(), ReactApplication {
 
     override fun onCreate() {
         val options =
-            HoneycombOpentelemetryReactNativeModule.builder(this)
+            HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
                 .setApiKey("test-key")
                 .setApiEndpoint("http://10.0.2.2:4318")
                 .setServiceName("reactnative-example")

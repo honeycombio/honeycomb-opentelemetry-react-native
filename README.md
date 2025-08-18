@@ -46,7 +46,7 @@ Add the following lines to the beginning of your `MainApplication.kt`'s  `onCrea
 ```Kotlin
 override fun onCreate() {
   val options =
-    HoneycombOpentelemetryReactNativeModule.builder(this)
+    HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
       .setApiKey("test-key")
       .setServiceName("your-great-react-native-app")
 
@@ -57,7 +57,7 @@ override fun onCreate() {
 
 5. iOS (optional)
 
-  a. go to your app's `ios` directory and run `pod install` then
+  a. Go to your app's `ios` directory and run `pod install` then
 
   b. Add the following lines to the beginning your `AppDelegate.swift`'s application method
 
@@ -66,13 +66,15 @@ override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
 ) -> Bool {
-    let options = HoneycombWrapper.builder()
+    let options = HoneycombReactNative.optionsBuilder()
         .setApiKey("test-key")
         .setServiceName("your-great-react-native-app")
         .setDebug(true)
-    HoneycombWrapper.configure(options)
+    HoneycombReactNative.configure(options)
 }
 ```
+
+  c. 
 
 6. Build and run your application, and then look for data in Honeycomb. On the Home screen, choose your application by looking for the service name in the Dataset dropdown at the top. Data should populate.
 

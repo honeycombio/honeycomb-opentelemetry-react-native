@@ -24,12 +24,12 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     return HoneycombOpentelemetryReactNativeModule.otelRum?.rumSessionId
   }
 
-    companion object {
+  companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
 
     private var otelRum : OpenTelemetryRum? = null
 
-    fun builder(context: Context): HoneycombOptions.Builder {
+    fun optionsBuilder(context: Context): HoneycombOptions.Builder {
         return HoneycombOptions.builder(context)
             .setResourceAttributes(mapOf(
                 TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",

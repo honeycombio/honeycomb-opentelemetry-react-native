@@ -1,8 +1,8 @@
 import Honeycomb
 
-@objc public class HoneycombWrapper: NSObject {
+@objc(HNYReactNativeWrapper) public class HoneycombReactNative: NSObject {
 
-    @objc public static func builder() -> HoneycombOptions.Builder {
+    @objc public static func optionsBuilder() -> HoneycombOptions.Builder {
         return HoneycombOptions.Builder()
             // This produces a lot of extra UI events that are not particularly helpful
             .setUIKitInstrumentationEnabled(false)

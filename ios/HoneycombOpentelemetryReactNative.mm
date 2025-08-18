@@ -10,7 +10,7 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getSessionId) {
-  return [HoneycombWrapper sessionId];
+  return [HNYReactNativeWrapper sessionId];
 }
 
 @end
