@@ -71,10 +71,9 @@ override func application(
         .setServiceName("your-great-react-native-app")
         .setDebug(true)
     HoneycombReactNative.configure(options)
+    //...
 }
 ```
-
-  c. 
 
 6. Build and run your application, and then look for data in Honeycomb. On the Home screen, choose your application by looking for the service name in the Dataset dropdown at the top. Data should populate.
 
