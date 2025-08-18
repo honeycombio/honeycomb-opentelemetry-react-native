@@ -1,6 +1,7 @@
 package com.honeycombopentelemetryreactnative
 
 import android.app.Application
+import android.content.Context
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
@@ -26,22 +27,19 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
   companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
 
-    var otelRum : OpenTelemetryRum? = null
+    private var otelRum : OpenTelemetryRum? = null
 
-    fun configure(app: Application) {
-      val options =
-        HoneycombOptions
-          .builder(app)
-          .setApiKey("test-key")
-          .setApiEndpoint("http://10.0.2.2:4318")
-          .setServiceName("reactnative-example")
-          .setMetricsDataset("reactnative-example-metrics")
-          .setResourceAttributes(mapOf(
-            TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",
-            "honeycomb.distro.runtime_version" to "react native",
-            "telemetry.sdk.language" to "hermesjs"))
-          .setDebug(true)
-          .build()
+    fun optionsBuilder(context: Context): HoneycombOptions.Builder {
+        return HoneycombOptions.builder(context)
+            .setResourceAttributes(mapOf(
+                TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",
+                "honeycomb.distro.runtime_version" to "react native",
+                "telemetry.sdk.language" to "hermesjs"))
+    }
+
+    fun configure(app: Application, builder: HoneycombOptions.Builder) {
+
+      val options = builder.build()
 
       otelRum = Honeycomb.configure(app, options)
     }

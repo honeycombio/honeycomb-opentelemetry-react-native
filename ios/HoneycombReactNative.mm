@@ -1,10 +1,13 @@
 #import "HoneycombReactNative.h"
-#import <HoneycombOpentelemetryReactNative/HoneycombOpentelemetryReactNative-Swift.h>
 
-@implementation HoneycombReactNative
+@implementation HNYHoneycombReactNative
 
-+ (void)configure {
-  [HoneycombWrapper configure];
++ (void)configure:(Builder *)config {
+  [HNYReactNativeWrapper configure:config];
+}
+
++ (Builder *)optionsBuilder {
+  return [HNYReactNativeWrapper optionsBuilder];
 }
 
 @end
