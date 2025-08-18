@@ -3,6 +3,7 @@
 This is the process to release the Honeycomb OpenTelemetry React Native SDK to NPM
 
 - Create and checkout a release branch `release-x.y.z` for the release candidate.
+- If applicable, update the android SDK version in [README.md](README.md)
 - Make sure [CHANGELOG.md](CHANGELOG.md) is up to date with the changes since the last release and the next release version.
 - Update the version in [src/version.ts](./src/version.ts).
 - Make sure the version in package.json is updated.
