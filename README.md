@@ -77,6 +77,7 @@ override fun onCreate() {
 
   a. Edit your app's podfile to add the `use_frameworks!` option. 
 
+`ios/Podfile`
 ```diff
   platform :ios, min_ios_version_supported
   prepare_react_native_project!
