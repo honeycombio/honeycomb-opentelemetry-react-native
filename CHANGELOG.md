@@ -2,6 +2,8 @@
 
 ## v.Next
 
+- docs: Native Module documentation updated to include important configuration steps.
+
 ## v0.5.0
 
 - feat: Sync session ID between TypeScript and native SDKs.
