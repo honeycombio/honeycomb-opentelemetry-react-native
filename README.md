@@ -32,7 +32,7 @@ sdk.start();
 
 4. Android (optional)
 
-Add the following dependency to your apps build.gradle
+ a. Add the following dependency to your apps build.gradle.
 
 ```Kotlin
 dependencies {
@@ -41,7 +41,25 @@ dependencies {
 }
 ```
 
-Add the following lines to the beginning of your `MainApplication.kt`'s  `onCreate` method
+ b. If your min SDK version is below 26, you will likely need to add core library desugaring to your android gradle build.
+
+`android/app/build.gradle`
+```diff
+android {
+  //
+  compileOptions {
++   coreLibraryDesugaringEnabled true
+    //...
+  }
+
+  //...
+  dependencies {
++   coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
+  }
+}
+```
+
+ c. Add the following lines to the beginning of your `MainApplication.kt`'s  `onCreate` method.
 
 ```Kotlin
 override fun onCreate() {
@@ -57,9 +75,16 @@ override fun onCreate() {
 
 5. iOS (optional)
 
-  a. Go to your app's `ios` directory and run `pod install` then
+  a. Edit your app's podfile to add the `use_frameworks!` option. 
 
-  b. Add the following lines to the beginning your `AppDelegate.swift`'s application method
+```diff
+  platform :ios, min_ios_version_supported
+  prepare_react_native_project!
++ use_frameworks!
+```
+  b. Go to your app's `ios` directory and run `pod install` then
+
+  c. Add the following lines to the beginning your `AppDelegate.swift`'s application method
 
 ```swift
 override func application(
