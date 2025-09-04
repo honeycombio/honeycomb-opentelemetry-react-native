@@ -94,9 +94,8 @@ override func application(
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
 ) -> Bool {
     let options = HoneycombReactNative.optionsBuilder()
-        .setApiKey("test-key")
+        .setAPIKey("test-key")
         .setServiceName("your-great-react-native-app")
-        .setDebug(true)
     HoneycombReactNative.configure(options)
     //...
 }
