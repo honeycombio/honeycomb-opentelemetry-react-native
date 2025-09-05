@@ -32,12 +32,13 @@ sdk.start();
 
 4. Android (optional)
 
- a. Add the following dependency to your apps build.gradle.
+ a. Add the following dependencies to your apps build.gradle.
 
 ```Kotlin
 dependencies {
     //...
     implementation "io.honeycomb.android:honeycomb-opentelemetry-android:0.0.16"
+    implementation "io.opentelemetry.android:android-agent:0.11.0-alpha"
 }
 ```
 
@@ -93,9 +94,8 @@ override func application(
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
 ) -> Bool {
     let options = HoneycombReactNative.optionsBuilder()
-        .setApiKey("test-key")
+        .setAPIKey("test-key")
         .setServiceName("your-great-react-native-app")
-        .setDebug(true)
     HoneycombReactNative.configure(options)
     //...
 }
