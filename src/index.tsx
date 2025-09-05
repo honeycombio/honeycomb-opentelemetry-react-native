@@ -31,7 +31,7 @@ import {
   ATTR_TELEMETRY_SDK_VERSION,
 } from '@opentelemetry/semantic-conventions/incubating';
 import { VERSION } from './version';
-import { Platform } from 'react-native';
+import { Platform, type PlatformOSType } from 'react-native';
 import {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
@@ -61,6 +61,19 @@ interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
   uncaughtExceptionInstrumentationConfig?: UncaughtExceptionInstrumentationConfig;
   fetchInstrumentationConfig?: FetchInstrumentationConfig;
   slowEventLoopInstrumentationConfig?: SlowEventLoopInstrumentationConfig;
+}
+
+const reactNativeOSTypeToOtelOSName: Record<PlatformOSType, string> = {
+  ios: 'iOS',
+  android: 'Android',
+  macos: 'macOS',
+  native: 'Native',
+  web: 'Web',
+  windows: 'windows',
+};
+
+function getOSName(): string {
+  return reactNativeOSTypeToOtelOSName[Platform.OS];
 }
 
 /**
@@ -97,10 +110,10 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       [ATTR_TELEMETRY_SDK_VERSION]: VERSION,
 
       // OS attributes
-      [ATTR_OS_NAME]: Platform.OS,
+      [ATTR_OS_NAME]: getOSName(),
       [ATTR_OS_VERSION]: Platform.Version,
-      [ATTR_OS_DESCRIPTION]: Platform.OS,
-      [ATTR_OS_TYPE]: Platform.OS,
+      [ATTR_OS_DESCRIPTION]: getOSName(),
+      [ATTR_OS_TYPE]: getOSName(),
 
       // Stubbed out attributes
       [ATTR_DEVICE_ID]: '',
