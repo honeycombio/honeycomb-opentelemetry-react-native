@@ -46,7 +46,7 @@ setup_file() {
   assert_not_empty "$(resource_attribute_named 'telemetry.distro.version' 'string')"
   assert_equal "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermesjs"'
 
-  assert_equal_or "$(resource_attribute_named 'os.name' 'string' | awk '{print tolower($0)}' | uniq)" '"android"' '"ios"'
+  assert_equal_or "$(resource_attribute_named 'os.name' 'string' | uniq)" '"Android"' '"iOS"'
 
   assert_not_empty "$(resource_attribute_named 'os.version' 'string')"
 }
