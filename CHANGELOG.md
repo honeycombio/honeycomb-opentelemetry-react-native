@@ -3,6 +3,7 @@
 ## v.Next
 
 - docs: Native Module documentation updated to include important configuration steps.
+- fix: OS name capitalization are now consistent across modules and JS.
 
 ## v0.5.0
 
