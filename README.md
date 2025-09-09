@@ -9,15 +9,17 @@ Honeycomb wrapper for [OpenTelemetry](https://opentelemetry.io) in React Native 
 
 ## Getting started
 
-1. Install this library:
+1. Add a [metro.config.js](example/metro.config.js) to the root of your repo and enable `config.resolver.unstable_enablePackageExports`. This is required for OpenTelemetry to be able to properly import its dependencies.
+
+2. Install this library:
 
 ```sh
 yarn add @honeycombio/opentelemetry-react-native
 ```
 
-2. [Get a Honeycomb API key](https://docs.honeycomb.io/get-started/configure/environments/manage-api-keys/#find-api-keys).
+3. [Get a Honeycomb API key](https://docs.honeycomb.io/get-started/configure/environments/manage-api-keys/#find-api-keys).
 
-3. Initialize tracing at the start of your application:
+4. Initialize tracing at the start of your application:
 
 ```js
 import { HoneycombReactNativeSDK } from '@honeycombio/opentelemetry-react-native';
@@ -30,7 +32,7 @@ const sdk = new HoneycombReactNativeSDK({
 sdk.start();
 ```
 
-4. Android (optional)
+5. Android (optional)
 
  a. Add the following dependencies to your apps build.gradle.
 
@@ -74,7 +76,7 @@ override fun onCreate() {
 }
 ```
 
-5. iOS (optional)
+6. iOS (optional)
 
   a. Edit your app's podfile to add the `use_frameworks!` option. 
 
@@ -101,7 +103,7 @@ override func application(
 }
 ```
 
-6. Build and run your application, and then look for data in Honeycomb. On the Home screen, choose your application by looking for the service name in the Dataset dropdown at the top. Data should populate.
+7. Build and run your application, and then look for data in Honeycomb. On the Home screen, choose your application by looking for the service name in the Dataset dropdown at the top. Data should populate.
 
 Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/start-building/web/) for more information on instrumentation and troubleshooting.
 
