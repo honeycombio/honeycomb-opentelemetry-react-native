@@ -17,26 +17,8 @@ const config = getConfig(getDefaultConfig(__dirname), {
   project: __dirname,
 });
 
-config.resolver.resolveRequest = function (context, moduleName, platform) {
-  // Metro does not properly support the "exports" section in package.json,
-  // which OpenTelemetry uses. So, until we find a more permanent workaround,
-  // we can rewrite the relevant OTel imports manually.
-  //
-  // Note: Newer versions of metro have an unstable_enablePackageExports,
-  // which should do the trick, but doesn't currently work in this repo.
-
-  const moduleNameRewrites = {
-    '@opentelemetry/otlp-exporter-base/browser-http':
-      '@opentelemetry/otlp-exporter-base/build/src/index-browser-http.js',
-    '@opentelemetry/semantic-conventions/incubating':
-      '@opentelemetry/semantic-conventions/build/src/index-incubating.js',
-  };
-
-  if (moduleNameRewrites[moduleName]) {
-    moduleName = moduleNameRewrites[moduleName];
-  }
-
-  return context.resolveRequest(context, moduleName, platform);
-};
+// Needed so that we can make use of @opentelemetry package.json "exports" field
+// See: https://reactnative.dev/blog/2023/06/21/package-exports-support
+config.resolver.unstable_enablePackageExports = true;
 
 module.exports = config;
