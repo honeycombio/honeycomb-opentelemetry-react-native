@@ -15,6 +15,7 @@ import {
   resourceFromAttributes,
   type Resource,
 } from '@opentelemetry/resources';
+import { RandomIdGenerator } from '@opentelemetry/sdk-trace-base';
 import {
   ATTR_DEVICE_ID,
   ATTR_DEVICE_MANUFACTURER,
@@ -48,9 +49,18 @@ export {
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
 
+const generator = new RandomIdGenerator();
+const defaultSessionId = generator.generateTraceId();
+
+// By default, we include a SessionIdProvider that uses the native session ID,
+// if possible. Otherwise, it falls back with a reasonable default.
 class SessionIdProvider implements SessionProvider {
   getSessionId(): string | null {
-    return HoneycombOpentelemetryReactNative.getSessionId();
+    const nativeSessionId = HoneycombOpentelemetryReactNative.getSessionId();
+    if (nativeSessionId) {
+      return nativeSessionId;
+    }
+    return defaultSessionId;
   }
 }
 
