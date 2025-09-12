@@ -1,7 +1,8 @@
 # Honeycomb React Native SDK Changelog
 
 ## v.Next
-
+- maint: Update Android SDK from 0.0.16 to 0.0.18
+- maint: Update Swift SDK from 0.0.16 to 2.1.0
 - docs: Native Module documentation updated to include important configuration steps.
 - fix: OS name capitalization are now consistent across modules and JS.
 
