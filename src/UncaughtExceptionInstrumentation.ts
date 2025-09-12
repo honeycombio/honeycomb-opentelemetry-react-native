@@ -1,8 +1,8 @@
+import { recordException } from '@honeycombio/opentelemetry-web';
 import {
-  InstrumentationAbstract,
-  recordException,
-} from '@honeycombio/opentelemetry-web';
-import { type InstrumentationConfig } from '@opentelemetry/instrumentation';
+  InstrumentationBase,
+  type InstrumentationConfig,
+} from '@opentelemetry/instrumentation';
 import type { Span } from '@opentelemetry/api';
 import { VERSION } from './version';
 
@@ -18,7 +18,7 @@ export interface UncaughtExceptionInstrumentationConfig
   applyCustomAttributesOnSpan?: ApplyCustomAttributesOnSpanFunction;
 }
 
-export class UncaughtExceptionInstrumentation extends InstrumentationAbstract {
+export class UncaughtExceptionInstrumentation extends InstrumentationBase {
   private _isEnabled: boolean;
   readonly applyCustomAttributesOnSpan?: ApplyCustomAttributesOnSpanFunction;
   private _oldErrorHandler?: ErrorHandlerCallback;
