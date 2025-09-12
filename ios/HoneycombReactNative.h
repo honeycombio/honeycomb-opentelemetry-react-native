@@ -4,8 +4,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HNYHoneycombReactNative : NSObject
-+ (void)configure:(Builder *)config;
-+ (Builder *)optionsBuilder;
++ (void)configure:(HNYOptions *)config;
++ (HNYOptions *)optionsBuilder;
 @end
 
 NS_ASSUME_NONNULL_END
