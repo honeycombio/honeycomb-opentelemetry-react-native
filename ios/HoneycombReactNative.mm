@@ -2,11 +2,11 @@
 
 @implementation HNYHoneycombReactNative
 
-+ (void)configure:(Builder *)config {
++ (void)configure:(HNYOptions *)config {
   [HNYReactNativeWrapper configure:config];
 }
 
-+ (Builder *)optionsBuilder {
++ (HNYOptions *)optionsBuilder {
   return [HNYReactNativeWrapper optionsBuilder];
 }
 
