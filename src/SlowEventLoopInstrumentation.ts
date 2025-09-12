@@ -1,5 +1,7 @@
-import { InstrumentationAbstract } from '@honeycombio/opentelemetry-web';
-import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import {
+  InstrumentationBase,
+  type InstrumentationConfig,
+} from '@opentelemetry/instrumentation';
 import { VERSION } from './version';
 import type { Span } from '@opentelemetry/api';
 import {
@@ -30,7 +32,7 @@ export interface SlowEventLoopInstrumentationConfig
   applyCustomAttributesOnSpan?: ApplyCustomAttributesOnSpanFunction;
 }
 
-export class SlowEventLoopInstrumentation extends InstrumentationAbstract {
+export class SlowEventLoopInstrumentation extends InstrumentationBase {
   private _isEnabled: boolean;
   readonly applyCustomAttributesOnSpan?: ApplyCustomAttributesOnSpanFunction;
 

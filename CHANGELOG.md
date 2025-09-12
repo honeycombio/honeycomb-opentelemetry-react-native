@@ -1,6 +1,8 @@
 # Honeycomb React Native SDK Changelog
 
 ## v.Next
+
+- maint: Update Web SDK from 0.0.17 to 1.0.2
 - maint: Update Android SDK from 0.0.16 to 0.0.18
 - maint: Update Swift SDK from 0.0.16 to 2.1.0
 - docs: Native Module documentation updated to include important configuration steps.
