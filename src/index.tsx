@@ -8,6 +8,10 @@ import {
   type FetchInstrumentationConfig,
 } from '@opentelemetry/instrumentation-fetch';
 import {
+  AppStartupInstrumentation,
+  type AppStartupInstrumentationConfig,
+} from './AppStartupInstrumentation';
+import {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
@@ -40,6 +44,7 @@ import {
 import { type SessionProvider } from '@opentelemetry/web-common';
 
 export { NavigationInstrumentation } from './NavigationInstrumentation';
+export { AppStartupInstrumentation } from './AppStartupInstrumentation';
 export {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
@@ -68,6 +73,7 @@ class SessionIdProvider implements SessionProvider {
  * The options used to configure the Honeycomb React Native SDK.
  */
 interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
+  appStartupInstrumentationConfig?: AppStartupInstrumentationConfig;
   uncaughtExceptionInstrumentationConfig?: UncaughtExceptionInstrumentationConfig;
   fetchInstrumentationConfig?: FetchInstrumentationConfig;
   slowEventLoopInstrumentationConfig?: SlowEventLoopInstrumentationConfig;
@@ -92,6 +98,12 @@ function getOSName(): string {
 export class HoneycombReactNativeSDK extends HoneycombWebSDK {
   constructor(options?: HoneycombReactNativeOptions) {
     const instrumentations = [...(options?.instrumentations || [])];
+
+    if (options?.appStartupInstrumentationConfig?.enabled !== false) {
+      instrumentations.push(
+        new AppStartupInstrumentation(options?.appStartupInstrumentationConfig)
+      );
+    }
 
     if (options?.fetchInstrumentationConfig?.enabled !== false) {
       instrumentations.push(
@@ -145,6 +157,8 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       );
     }
 
+    console.error("initializing opentelemetry");
+
     super({
       ...options,
 
@@ -162,5 +176,10 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
         enabled: false,
       },
     });
+  }
+
+  start() {
+    console.error("starting sdk");
+    super.start();
   }
 }

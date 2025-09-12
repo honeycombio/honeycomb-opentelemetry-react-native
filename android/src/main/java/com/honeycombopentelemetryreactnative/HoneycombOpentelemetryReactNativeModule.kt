@@ -11,6 +11,7 @@ import io.opentelemetry.semconv.incubating.TelemetryIncubatingAttributes.TELEMET
 
 import io.honeycomb.opentelemetry.android.Honeycomb
 import io.honeycomb.opentelemetry.android.HoneycombOptions
+import java.time.Instant
 
 @ReactModule(name = HoneycombOpentelemetryReactNativeModule.NAME)
 class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationContext) :
@@ -24,10 +25,17 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     return HoneycombOpentelemetryReactNativeModule.otelRum?.rumSessionId
   }
 
+    override fun getAppStartTime(): Double {
+        val seconds = HoneycombOpentelemetryReactNativeModule.appStartTime.epochSecond.toDouble()
+        val nanos = HoneycombOpentelemetryReactNativeModule.appStartTime.nano.toDouble()
+        return seconds + nanos / 1_000_000_000.0
+    }
+
   companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
 
     private var otelRum : OpenTelemetryRum? = null
+      private var appStartTime: Instant = Instant.now()
 
     fun optionsBuilder(context: Context): HoneycombOptions.Builder {
         return HoneycombOptions.builder(context)
