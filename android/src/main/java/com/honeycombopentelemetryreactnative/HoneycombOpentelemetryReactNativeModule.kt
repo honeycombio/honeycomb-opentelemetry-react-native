@@ -28,7 +28,8 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     override fun getAppStartTime(): Double {
         val seconds = HoneycombOpentelemetryReactNativeModule.appStartTime.epochSecond.toDouble()
         val nanos = HoneycombOpentelemetryReactNativeModule.appStartTime.nano.toDouble()
-        return seconds + nanos / 1_000_000_000.0
+        // Convert to millis, for JavaScript.
+        return (seconds * 1_000.0) + (nanos / 1_000_000.0)
     }
 
   companion object {

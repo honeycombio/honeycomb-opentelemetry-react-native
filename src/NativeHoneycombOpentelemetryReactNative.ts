@@ -4,8 +4,7 @@ import { TurboModuleRegistry } from 'react-native';
 export interface Spec extends TurboModule {
   getSessionId(): string | null;
 
-  // Returns the time the app was first started, in seconds since epoch,
-  // with fractional seconds.
+  // Returns the time the app was first started in ms since epoch, like a JS timestamp.
   getAppStartTime(): number;
 }
 

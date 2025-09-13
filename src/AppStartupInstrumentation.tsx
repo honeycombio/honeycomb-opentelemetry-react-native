@@ -1,6 +1,6 @@
 import { type TracerProvider } from '@opentelemetry/api';
 import HoneycombOpentelemetryReactNative from './NativeHoneycombOpentelemetryReactNative';
-import { InstrumentationAbstract } from '@honeycombio/opentelemetry-web';
+import { InstrumentationBase } from '@opentelemetry/instrumentation';
 import { VERSION } from './version';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 
@@ -12,7 +12,7 @@ export interface AppStartupInstrumentationConfig
 /**
  * Emit a span with the total time from when the app was started to when this was called.
  */
-export class AppStartupInstrumentation extends InstrumentationAbstract {
+export class AppStartupInstrumentation extends InstrumentationBase {
   private _isEnabled: boolean;
 
   constructor({ enabled = true }: AppStartupInstrumentationConfig = {}) {
@@ -44,8 +44,6 @@ export class AppStartupInstrumentation extends InstrumentationAbstract {
    * @param tracerProvider
    */
   public setTracerProvider(tracerProvider: TracerProvider): void {
-    console.error("setTracerProvider called on AppStartupInstrumentation");
-    this._diag.debug('setTracerProvider called on AppStartupInstrumentation');
     super.setTracerProvider(tracerProvider);
     if (this._isEnabled) {
         this.sendAppStartTrace();
@@ -53,12 +51,9 @@ export class AppStartupInstrumentation extends InstrumentationAbstract {
   }
 
   sendAppStartTrace(): void {
-    console.error("the AppStartInstrumentation is being initialized!");
-
     let startTimeSeconds = HoneycombOpentelemetryReactNative.getAppStartTime();
     // JavaScript's Date type has millisecond granularity.
     let startTime = startTimeSeconds * 1000;
-
     this.tracer.startSpan('app start', { startTime }).end();
   }
 }
