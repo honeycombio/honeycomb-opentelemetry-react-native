@@ -8,6 +8,7 @@ import MainScreen from './MainScreen';
 import { init as initHoneycomb } from './honeycomb';
 import { NavigationInstrumentation } from '@honeycombio/opentelemetry-react-native';
 import ErrorScreen from './ErrorScreen';
+import ResourcesScreen from './ResourcesScreen';
 
 initHoneycomb();
 
@@ -15,6 +16,7 @@ const RootStack = createNativeStackNavigator({
   screens: {
     Main: MainScreen,
     Errors: ErrorScreen,
+    Resources: ResourcesScreen,
   },
 });
 
