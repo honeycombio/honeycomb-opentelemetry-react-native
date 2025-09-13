@@ -157,8 +157,6 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       );
     }
 
-    console.error("initializing opentelemetry");
-
     super({
       ...options,
 
@@ -176,10 +174,5 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
         enabled: false,
       },
     });
-  }
-
-  start() {
-    console.error("starting sdk");
-    super.start();
   }
 }

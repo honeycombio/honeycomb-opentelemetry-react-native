@@ -39,7 +39,7 @@ import OpenTelemetryApi
         if startTime == nil {
             startTime = Date()
         }
-      // Convert the TimeInterval to milliseconds, for JavaScript.
-      return startTime!.timeIntervalSince1970 * 1000.0
+        // Convert the TimeInterval to milliseconds, for JavaScript.
+        return startTime!.timeIntervalSince1970 * 1000.0
     }
 }

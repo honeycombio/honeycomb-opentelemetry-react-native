@@ -46,14 +46,12 @@ export class AppStartupInstrumentation extends InstrumentationBase {
   public setTracerProvider(tracerProvider: TracerProvider): void {
     super.setTracerProvider(tracerProvider);
     if (this._isEnabled) {
-        this.sendAppStartTrace();
+      this.sendAppStartTrace();
     }
   }
 
   sendAppStartTrace(): void {
-    let startTimeSeconds = HoneycombOpentelemetryReactNative.getAppStartTime();
-    // JavaScript's Date type has millisecond granularity.
-    let startTime = startTimeSeconds * 1000;
+    let startTime = HoneycombOpentelemetryReactNative.getAppStartTime();
     this.tracer.startSpan('app start', { startTime }).end();
   }
 }
