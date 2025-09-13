@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 
 import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.Arguments
+
 import com.facebook.react.module.annotations.ReactModule
 
 import io.opentelemetry.android.OpenTelemetryRum
@@ -31,6 +34,21 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
 
   override fun getDebugSourceMapUUID(): String? {
     return HoneycombOpentelemetryReactNativeModule.sourceMapUuid
+  }
+  
+  override fun getResource(): WritableMap {
+      val resourceMap: WritableMap = Arguments.createMap()
+      Honeycomb.resource.attributes.forEach { key, value ->
+        when (value) {
+          is String -> resourceMap.putString(key.key, value.toString())
+          is Int -> resourceMap.putInt(key.key, value)
+          is Double -> resourceMap.putDouble(key.key, value)
+          is Boolean -> resourceMap.putBoolean(key.key, value)
+          else -> {} // Skip unsupported types
+      }
+      }
+
+      return resourceMap;
   }
 
   companion object {

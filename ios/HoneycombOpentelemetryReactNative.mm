@@ -21,4 +21,8 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getDebugSourceMapUUID) {
   return [HNYReactNativeWrapper debugSourceMapUUID];
 }
 
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getResource) {
+  return [HNYReactNativeWrapper getResource];
+}
+
 @end

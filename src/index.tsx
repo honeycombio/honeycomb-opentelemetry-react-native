@@ -22,14 +22,6 @@ import {
 } from '@opentelemetry/resources';
 import { RandomIdGenerator } from '@opentelemetry/sdk-trace-base';
 import {
-  ATTR_DEVICE_ID,
-  ATTR_DEVICE_MANUFACTURER,
-  ATTR_DEVICE_MODEL_IDENTIFIER,
-  ATTR_DEVICE_MODEL_NAME,
-  ATTR_OS_DESCRIPTION,
-  ATTR_OS_NAME,
-  ATTR_OS_TYPE,
-  ATTR_OS_VERSION,
   ATTR_TELEMETRY_DISTRO_NAME,
   ATTR_TELEMETRY_DISTRO_VERSION,
   ATTR_TELEMETRY_SDK_LANGUAGE,
@@ -37,7 +29,6 @@ import {
   ATTR_TELEMETRY_SDK_VERSION,
 } from '@opentelemetry/semantic-conventions/incubating';
 import { VERSION } from './version';
-import { Platform, type PlatformOSType } from 'react-native';
 import {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
@@ -80,19 +71,6 @@ interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
   slowEventLoopInstrumentationConfig?: SlowEventLoopInstrumentationConfig;
 }
 
-const reactNativeOSTypeToOtelOSName: Record<PlatformOSType, string> = {
-  ios: 'iOS',
-  android: 'Android',
-  macos: 'macOS',
-  native: 'Native',
-  web: 'Web',
-  windows: 'windows',
-};
-
-function getOSName(): string {
-  return reactNativeOSTypeToOtelOSName[Platform.OS];
-}
-
 /**
  * The entry point to Honeycomb in React Native apps.
  */
@@ -121,6 +99,8 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
     }
 
     const attributes: DetectedResourceAttributes = {
+      ...HoneycombOpentelemetryReactNative.getResource(),
+
       // Honeycomb distro attributes,
       'honeycomb.distro.version': VERSION,
       'honeycomb.distro.runtime_version': 'react native',
@@ -131,19 +111,6 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       [ATTR_TELEMETRY_SDK_LANGUAGE]: 'hermesjs',
       [ATTR_TELEMETRY_SDK_NAME]: 'opentelemetry',
       [ATTR_TELEMETRY_SDK_VERSION]: VERSION,
-
-      // OS attributes
-      [ATTR_OS_NAME]: getOSName(),
-      [ATTR_OS_VERSION]: Platform.Version,
-      [ATTR_OS_DESCRIPTION]: getOSName(),
-      [ATTR_OS_TYPE]: getOSName(),
-
-      // Stubbed out attributes
-      [ATTR_DEVICE_ID]: '',
-      [ATTR_DEVICE_MANUFACTURER]: '',
-      [ATTR_DEVICE_MODEL_IDENTIFIER]: '',
-      [ATTR_DEVICE_MODEL_NAME]: '',
-      'rum.sdk.version': '',
     };
     const sourceMapUuid =
       HoneycombOpentelemetryReactNative.getDebugSourceMapUUID();
