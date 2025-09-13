@@ -22,4 +22,26 @@ import Honeycomb
     @objc public static func sessionId() -> String? {
         return Honeycomb.currentSession()?.id
     }
+
+    @objc public static func getResource() -> [String: Any] {
+        let resource = Honeycomb.resource
+        var result: [String: Any] = [:]
+
+        for (key, value) in resource.attributes {
+            switch value {
+            case .string(let str):
+                result[key] = str
+            case .int(let int):
+                result[key] = int
+            case .double(let d):
+                result[key] = d
+            case .bool(let b):
+                result[key] = b
+            default:
+                continue
+            }
+        }
+
+        return result
+    }
 }
