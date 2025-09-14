@@ -1,8 +1,8 @@
-#node_modules
-#example/node_modules
+node_modules
+example/node_modules
 example/android/build
 example/android/app/build
 example/ios/build
-#example/ios/Pods
+example/ios/Pods
 .github
 .yarn/cache

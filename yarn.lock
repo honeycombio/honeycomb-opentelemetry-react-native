@@ -1833,7 +1833,7 @@ __metadata:
   dependencies:
     "@commitlint/config-conventional": ^19.6.0
     "@evilmartians/lefthook": ^1.5.0
-    "@honeycombio/opentelemetry-web": "file:../honeycomb-opentelemetry-web/packages/honeycomb-opentelemetry-web"
+    "@honeycombio/opentelemetry-web": ^1.0.2
     "@opentelemetry/instrumentation": ^0.203.0
     "@opentelemetry/instrumentation-fetch": ^0.203.0
     "@opentelemetry/resources": ^2.0.1
@@ -1864,9 +1864,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@honeycombio/opentelemetry-web@file:../honeycomb-opentelemetry-web/packages/honeycomb-opentelemetry-web::locator=%40honeycombio%2Fopentelemetry-react-native%40workspace%3A.":
+"@honeycombio/opentelemetry-web@npm:^1.0.2":
   version: 1.0.2
-  resolution: "@honeycombio/opentelemetry-web@file:../honeycomb-opentelemetry-web/packages/honeycomb-opentelemetry-web#../honeycomb-opentelemetry-web/packages/honeycomb-opentelemetry-web::hash=e0ee20&locator=%40honeycombio%2Fopentelemetry-react-native%40workspace%3A."
+  resolution: "@honeycombio/opentelemetry-web@npm:1.0.2"
   dependencies:
     "@babel/runtime": ^7.24.7
     "@opentelemetry/api": ~1.9.0
@@ -1894,7 +1894,7 @@ __metadata:
       optional: true
     "@opentelemetry/context-zone":
       optional: true
-  checksum: 7d23872c53a7a9d494ac6666ab6bc948431657d0a6e6c953e709aad24797063c45d498da2c93e2354f05d5a0a4d16baf79caf3d445fb76a5de0c3cbbb3059964
+  checksum: b701ae1f64584d53b6ae669f6b2c7d20e18de8197f889368ffff62fdc15c0ca7a07779faee24544f8a0b5f338cfa7c21dcc069b41c2724bff37e050f6e1ab074
   languageName: node
   linkType: hard
 

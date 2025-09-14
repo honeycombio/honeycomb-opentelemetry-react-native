@@ -4,7 +4,9 @@ WORKDIR /usr/src/
 COPY . honeycomb-opentelemetry-react-native
 
 WORKDIR /usr/src/honeycomb-opentelemetry-react-native
+RUN yarn install
 
 WORKDIR /usr/src/honeycomb-opentelemetry-react-native/example
+RUN yarn install
 EXPOSE 8081
 CMD [ "yarn", "start" ]
