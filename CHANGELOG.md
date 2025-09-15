@@ -2,15 +2,16 @@
 
 ## v.Next
 
+- feat: Add app startup instrumentation
 - maint: Update Web SDK from 0.0.17 to 1.0.2
 - maint: Update Android SDK from 0.0.16 to 0.0.18
 - maint: Update Swift SDK from 0.0.16 to 2.1.0
-- docs: Native Module documentation updated to include important configuration steps.
-- fix: OS name capitalization are now consistent across modules and JS.
+- docs: Native Module documentation updated to include important configuration steps
+- fix: OS name capitalization are now consistent across modules and JS
 
 ## v0.5.0
 
-- feat: Sync session ID between TypeScript and native SDKs.
+- feat: Sync session ID between TypeScript and native SDKs
 - feat: configurable native extensions
 
 ## v0.4.0
@@ -23,7 +24,7 @@
 ## v0.3.0
 
 - feat: Automatic Releasing via CI
-- feat: Navigation Instrumentation for Expo Router and React Native Router.
+- feat: Navigation Instrumentation for Expo Router and React Native Router
 - feat: Create `HoneycombReactNativeSDK` and `HoneycombReactNativeOptions`
 - feat: Uncaught Exception handler
 - feat: Create `HoneycombReactNativeSDK` and `HoneycombReactNativeOptions`
