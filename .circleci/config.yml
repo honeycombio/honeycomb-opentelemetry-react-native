@@ -165,6 +165,10 @@ jobs:
       - run:
           name: "Run iOS UI Tests"
           command: make ios-test
+      - store_artifacts:
+          path: smoke-tests/output/build.log
+      - store_artifacts:
+          path: smoke-tests/output/test.log
       - run:
           name: "Check Smoke Test Assertions"
           command: make smoke-bats
