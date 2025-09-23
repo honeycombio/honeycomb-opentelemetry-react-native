@@ -42,8 +42,8 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - run: yarn set version 4.10.3
       - checkout
+      - run: corepack enable
       - run: yarn install
       - run: make lint-typescript
       - run: sudo apt update
@@ -65,8 +65,8 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - run: yarn set version 4.10.3
       - checkout
+      - run: corepack enable
       - run: yarn install
       - run: yarn test
 
@@ -76,8 +76,8 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - run: yarn set version 4.10.3
       - checkout
+      - run: corepack enable
       - run: yarn install
       - bats/install
       - run:
@@ -119,7 +119,6 @@ jobs:
     resource_class: m4pro.medium
 
     steps:
-      - run: yarn set version 4.10.3
       - attach_workspace:
           at: ./
       - macos/preboot-simulator:
@@ -127,6 +126,7 @@ jobs:
           platform: "iOS"
           device: "iPhone 16"
       - checkout
+      - run: corepack enable
       - run: brew tap wix/brew
       - run: brew install applesimutils
       - run: yarn install
@@ -190,8 +190,8 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - run: yarn set version 4.10.3
       - checkout
+      - run: corepack enable
       - run:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
