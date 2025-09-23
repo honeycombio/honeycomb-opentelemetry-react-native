@@ -5,6 +5,7 @@ orbs:
   android: circleci/android@2.5
   bats: circleci/bats@1.0.0
   macos: circleci/macos@2
+  node: circleci/node@7.2.0
 
 executors:
   github:
@@ -45,7 +46,7 @@ jobs:
       - checkout
       - node/install:
           install-yarn: true
-          yarn-version: 3.6.1
+          yarn-version: 4.10.3
           node-version: 20.19.0
       - run: yarn install
       - run: make lint-typescript
@@ -69,6 +70,10 @@ jobs:
       tag: default
     steps:
       - checkout
+      - node/install:
+          install-yarn: true
+          yarn-version: 4.10.3
+          node-version: 20.19.0
       - run: yarn install
       - run: yarn test
 
@@ -78,6 +83,10 @@ jobs:
       resource-class: large
       tag: default
     steps:
+      - node/install:
+          install-yarn: true
+          yarn-version: 4.10.3
+          node-version: 20.19.0
       - checkout
       - run: yarn install
       - bats/install
@@ -127,6 +136,10 @@ jobs:
           platform: "iOS"
           device: "iPhone 16"
       - checkout
+      - node/install:
+          install-yarn: true
+          yarn-version: 4.10.3
+          node-version: 20.19.0
       - run: brew tap wix/brew
       - run: brew install applesimutils
       - run: yarn install
@@ -191,6 +204,10 @@ jobs:
       tag: default
     steps:
       - checkout
+      - node/install:
+          install-yarn: true
+          yarn-version: 4.10.3
+          node-version: 20.19.0
       - run:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
