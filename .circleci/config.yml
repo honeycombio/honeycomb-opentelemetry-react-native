@@ -65,11 +65,8 @@ jobs:
       resource-class: large
       tag: default
     steps:
+      - run: yarn set version 4.10.3
       - checkout
-      - node/install:
-          install-yarn: true
-          yarn-version: 4.10.3
-          node-version: 20.19.0
       - run: yarn install
       - run: yarn test
 
