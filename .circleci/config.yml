@@ -9,7 +9,7 @@ orbs:
 executors:
   github:
     docker:
-      - image: cimg/base:2025.09
+      - image: cibuilds/github:0.13.0
 
 parameters:
   java-version:
@@ -44,7 +44,6 @@ jobs:
     steps:
       - checkout
       - run: corepack enable
-      - run: corepack use yarn@4.10.3
       - run: yarn install
       - run: make lint-typescript
       - run: sudo apt update
@@ -68,7 +67,6 @@ jobs:
     steps:
       - checkout
       - run: corepack enable
-      - run: corepack use yarn@4.10.3
       - run: yarn install
       - run: yarn test
 
@@ -80,7 +78,6 @@ jobs:
     steps:
       - checkout
       - run: corepack enable
-      - run: corepack use yarn@4.10.3
       - run: yarn install
       - bats/install
       - run:
@@ -130,7 +127,6 @@ jobs:
           device: "iPhone 16"
       - checkout
       - run: corepack enable
-      - run: corepack use yarn@4.10.3
       - run: brew tap wix/brew
       - run: brew install applesimutils
       - run: yarn install
@@ -196,7 +192,6 @@ jobs:
     steps:
       - checkout
       - run: corepack enable
-      - run: corepack use yarn@4.10.3
       - run:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
