@@ -5,7 +5,6 @@ orbs:
   android: circleci/android@2.5
   bats: circleci/bats@1.0.0
   macos: circleci/macos@2
-  node: circleci/node@7.2.0
 
 executors:
   github:
@@ -43,10 +42,7 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - node/install:
-          install-yarn: true
-          yarn-version: 4.10.3
-          node-version: 20.19.0
+      - run: yarn set version 4.10.3
       - checkout
       - run: yarn install
       - run: make lint-typescript
@@ -83,10 +79,7 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - node/install:
-          install-yarn: true
-          yarn-version: 4.10.3
-          node-version: 20.19.0
+      - run: yarn set version 4.10.3
       - checkout
       - run: yarn install
       - bats/install
@@ -129,10 +122,7 @@ jobs:
     resource_class: m4pro.medium
 
     steps:
-      - node/install:
-          install-yarn: true
-          yarn-version: 4.10.3
-          node-version: 20.19.0
+      - run: yarn set version 4.10.3
       - attach_workspace:
           at: ./
       - macos/preboot-simulator:
@@ -203,10 +193,7 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - node/install:
-          install-yarn: true
-          yarn-version: 4.10.3
-          node-version: 20.19.0
+      - run: yarn set version 4.10.3
       - checkout
       - run:
           name: store npm auth token
