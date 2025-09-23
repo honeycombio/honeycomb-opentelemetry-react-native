@@ -10,7 +10,7 @@ orbs:
 executors:
   github:
     docker:
-      - image: cibuilds/github:0.13.0
+      - image: cimg/base:2025.09
 
 parameters:
   java-version:
@@ -43,11 +43,11 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - checkout
       - node/install:
           install-yarn: true
           yarn-version: 4.10.3
           node-version: 20.19.0
+      - checkout
       - run: yarn install
       - run: make lint-typescript
       - run: sudo apt update
@@ -129,6 +129,10 @@ jobs:
     resource_class: m4pro.medium
 
     steps:
+      - node/install:
+          install-yarn: true
+          yarn-version: 4.10.3
+          node-version: 20.19.0
       - attach_workspace:
           at: ./
       - macos/preboot-simulator:
@@ -136,10 +140,6 @@ jobs:
           platform: "iOS"
           device: "iPhone 16"
       - checkout
-      - node/install:
-          install-yarn: true
-          yarn-version: 4.10.3
-          node-version: 20.19.0
       - run: brew tap wix/brew
       - run: brew install applesimutils
       - run: yarn install
@@ -203,11 +203,11 @@ jobs:
       resource-class: large
       tag: default
     steps:
-      - checkout
       - node/install:
           install-yarn: true
           yarn-version: 4.10.3
           node-version: 20.19.0
+      - checkout
       - run:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
