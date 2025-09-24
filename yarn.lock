@@ -1833,7 +1833,7 @@ __metadata:
   dependencies:
     "@commitlint/config-conventional": "npm:^19.6.0"
     "@evilmartians/lefthook": "npm:^1.5.0"
-    "@honeycombio/opentelemetry-web": "npm:^1.0.2"
+    "@honeycombio/opentelemetry-web": "npm:^1.0.3"
     "@opentelemetry/instrumentation": "npm:^0.203.0"
     "@opentelemetry/instrumentation-fetch": "npm:^0.203.0"
     "@opentelemetry/resources": "npm:^2.0.1"
@@ -1864,9 +1864,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@honeycombio/opentelemetry-web@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@honeycombio/opentelemetry-web@npm:1.0.2"
+"@honeycombio/opentelemetry-web@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@honeycombio/opentelemetry-web@npm:1.0.3"
   dependencies:
     "@babel/runtime": "npm:^7.24.7"
     "@opentelemetry/api": "npm:~1.9.0"
@@ -1894,7 +1894,7 @@ __metadata:
       optional: true
     "@opentelemetry/context-zone":
       optional: true
-  checksum: 10/78b6a2d66b297081a191e85e4e04fc043e7743ab042f855749c86cabe8e20b9bb07c86537405f6d4cfccf14d774296308420185426af780d97f381f020ab89f2
+  checksum: 10/5df256192aa396408563ca395b9e00b153c7ec332939eb591b615bf4306802c378f37dc2c5137bd7060161f698738e0959ee2c578b2130b50615390fef8f75f8
   languageName: node
   linkType: hard
 
