@@ -7,7 +7,7 @@ interface IOSPluginOptions {
 
 const withIOSPlugin: ConfigPlugin<IOSPluginOptions> = (config, options) => {
   return withInfoPlist(config, (config) => {
-    config.modResults.appDebugSourceMapUUID = options.sourceMapUuid;
+    config.modResults['app.debug.source_map_uuid'] = options.sourceMapUuid;
     return config;
   });
 };
