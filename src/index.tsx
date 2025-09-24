@@ -13,6 +13,7 @@ import {
 } from './UncaughtExceptionInstrumentation';
 import {
   resourceFromAttributes,
+  type DetectedResourceAttributes,
   type Resource,
 } from '@opentelemetry/resources';
 import { RandomIdGenerator } from '@opentelemetry/sdk-trace-base';
@@ -107,8 +108,8 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       );
     }
 
-    let resource: Resource = resourceFromAttributes({
-      // Honeycomb distro attributes
+    const attributes: DetectedResourceAttributes = {
+      // Honeycomb distro attributes,
       'honeycomb.distro.version': VERSION,
       'honeycomb.distro.runtime_version': 'react native',
 
@@ -131,7 +132,13 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       [ATTR_DEVICE_MODEL_IDENTIFIER]: '',
       [ATTR_DEVICE_MODEL_NAME]: '',
       'rum.sdk.version': '',
-    });
+    };
+    const sourceMapUuid =
+      HoneycombOpentelemetryReactNative.getDebugSourceMapUUID();
+    if (sourceMapUuid) {
+      attributes['app.debug.source_map_uuid'] = sourceMapUuid;
+    }
+    let resource: Resource = resourceFromAttributes(attributes);
 
     if (options?.resource) {
       resource = resource.merge(options.resource);
