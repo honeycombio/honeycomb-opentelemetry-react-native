@@ -84,8 +84,11 @@ ios-test:
 	@echo ""
 	@echo "+++ Running iOS tests."
 	@echo ""
-	yarn example detox build --configuration ios.sim.debug
-	yarn example detox test --configuration ios.sim.debug
+	mkdir -p smoke-tests/output
+	yarn example detox clean-framework-cache
+	yarn example detox build-framework-cache
+	yarn example detox build --configuration ios.sim.debug 2>&1 | tee smoke-tests/output/build.log
+	yarn example detox test --configuration ios.sim.debug 2>&1 | tee smoke-tests/output/test.log
 
 smoke-bats: smoke-tests/collector/data.json
 	@echo ""

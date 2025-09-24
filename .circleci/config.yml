@@ -43,6 +43,7 @@ jobs:
       tag: default
     steps:
       - checkout
+      - run: corepack enable
       - run: yarn install
       - run: make lint-typescript
       - run: sudo apt update
@@ -65,6 +66,7 @@ jobs:
       tag: default
     steps:
       - checkout
+      - run: corepack enable
       - run: yarn install
       - run: yarn test
 
@@ -75,6 +77,7 @@ jobs:
       tag: default
     steps:
       - checkout
+      - run: corepack enable
       - run: yarn install
       - bats/install
       - run:
@@ -123,6 +126,7 @@ jobs:
           platform: "iOS"
           device: "iPhone 16"
       - checkout
+      - run: corepack enable
       - run: brew tap wix/brew
       - run: brew install applesimutils
       - run: yarn install
@@ -165,6 +169,10 @@ jobs:
       - run:
           name: "Run iOS UI Tests"
           command: make ios-test
+      - store_artifacts:
+          path: smoke-tests/output/build.log
+      - store_artifacts:
+          path: smoke-tests/output/test.log
       - run:
           name: "Check Smoke Test Assertions"
           command: make smoke-bats
@@ -183,6 +191,7 @@ jobs:
       tag: default
     steps:
       - checkout
+      - run: corepack enable
       - run:
           name: store npm auth token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
