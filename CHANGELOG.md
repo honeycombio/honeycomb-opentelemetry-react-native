@@ -7,6 +7,7 @@
 - maint: Update Swift SDK from 0.0.16 to 2.1.0
 - docs: Native Module documentation updated to include important configuration steps.
 - fix: OS name capitalization are now consistent across modules and JS.
+- feat: Adds an expo plugin which inserts embeds a unique build id to be used for source map symbolication
 
 ## v0.5.0
 
