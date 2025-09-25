@@ -46,6 +46,8 @@ export {
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
 
+import { Platform } from 'react-native';
+
 const generator = new RandomIdGenerator();
 const defaultSessionId = generator.generateTraceId();
 
@@ -98,12 +100,19 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       );
     }
 
+    const { major, minor, patch, prerelease } =
+      Platform.constants.reactNativeVersion;
+    let reactNativeVersion = `${major}.${minor}.${patch}`;
+    if (prerelease) {
+      reactNativeVersion = `${reactNativeVersion}-${[prerelease]}`;
+    }
+
     const attributes: DetectedResourceAttributes = {
       ...HoneycombOpentelemetryReactNative.getResource(),
 
       // Honeycomb distro attributes,
       'honeycomb.distro.version': VERSION,
-      'honeycomb.distro.runtime_version': 'react native',
+      'honeycomb.distro.runtime_version': reactNativeVersion,
 
       // Opentelemetry attributes
       [ATTR_TELEMETRY_DISTRO_NAME]: '@honeycombio/opentelemetry-react-native',
