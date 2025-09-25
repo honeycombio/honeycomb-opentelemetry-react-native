@@ -4,7 +4,6 @@ import OpenTelemetryApi
 @objc(HNYReactNativeWrapper) public class HoneycombReactNative: NSObject {
     // In Swift, static members are only initialized when accessed, so we can't set it here.
     private static var startTime: Date? = nil
-    private static var startSpan: Span? = nil
 
     @objc public static func optionsBuilder() -> HoneycombOptions.Builder {
         if startTime == nil {
