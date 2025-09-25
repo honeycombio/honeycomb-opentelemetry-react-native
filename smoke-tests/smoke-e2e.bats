@@ -138,7 +138,7 @@ EOF
   runtime_version=$(resource_attribute_value_from_scope_named "io.opentelemetry.lifecycle" "honeycomb.distro.runtime_version" "string" | uniq)
   os_version=$(resource_attribute_named 'os.version' 'string' | uniq)
 
-  assert_equal_or "$sdk_language" '"android"' '"ios"'
+  assert_equal_or "$sdk_language" '"android"' '"swift"'
   assert_equal "$runtime_version" "$os_version"
 }
 
