@@ -30,10 +30,9 @@ import OpenTelemetryApi
                 builder.setResourceAttributes(["app.debug.source_map_uuid": sourceMapUuid])
             }
 
-            builder.setResourceAttributes(
-                "telemetry.distro.name",
-                "@honeycombio/opentelemetry-react-native"
-            )
+            builder.setResourceAttributes([
+                "telemetry.distro.name": "@honeycombio/opentelemetry-react-native"
+            ])
 
             try Honeycomb.configure(options: builder.build())
         } catch {
