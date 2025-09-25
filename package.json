@@ -208,7 +208,7 @@
     "version": "0.48.9"
   },
   "dependencies": {
-    "@honeycombio/opentelemetry-web": "^1.0.2",
+    "@honeycombio/opentelemetry-web": "^1.0.3",
     "@opentelemetry/instrumentation": "^0.203.0",
     "@opentelemetry/instrumentation-fetch": "^0.203.0",
     "@opentelemetry/resources": "^2.0.1",

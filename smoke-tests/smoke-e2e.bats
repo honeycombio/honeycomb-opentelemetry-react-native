@@ -88,3 +88,8 @@ setup_file() {
     | sed -e 's/10.0.2.2/localhost/')  # because android uses a different address
   assert_equal "$result" '"http://localhost:1080/simple-api"'
 }
+
+@test "App start sends span" {
+  result=$(span_names_for "@honeycombio/app-startup" | uniq)
+  assert_equal "$result" '"app start"'
+}

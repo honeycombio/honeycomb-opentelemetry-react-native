@@ -90,10 +90,12 @@ export class SlowEventLoopInstrumentation extends InstrumentationBase {
       this._loopSampleIntervalMs
     );
   }
+
   disable(): void {
     if (!this._isEnabled) {
       this._diag.debug('Instrumentation already disabled');
     }
+    this._isEnabled = false;
 
     if (this._intervalRef !== null) {
       clearInterval(this._intervalRef);
