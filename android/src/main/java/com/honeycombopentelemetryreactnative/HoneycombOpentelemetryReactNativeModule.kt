@@ -35,7 +35,7 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
   override fun getDebugSourceMapUUID(): String? {
     return HoneycombOpentelemetryReactNativeModule.sourceMapUuid
   }
-  
+
   override fun getResource(): WritableMap {
       val resourceMap: WritableMap = Arguments.createMap()
       Honeycomb.resource.attributes.forEach { key, value ->
@@ -59,11 +59,9 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     private var sourceMapUuid: String? = null
 
     fun optionsBuilder(context: Context): HoneycombOptions.Builder {
-      return HoneycombOptions.builder(context)
-          .setResourceAttributes(mapOf(
-              TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",
-              "honeycomb.distro.runtime_version" to "react native",
-              "telemetry.sdk.language" to "hermesjs"))
+        return HoneycombOptions.builder(context)
+            .setResourceAttributes(mapOf(
+                TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native"))
     }
 
     fun configure(app: Application, builder: HoneycombOptions.Builder) {

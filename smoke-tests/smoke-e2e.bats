@@ -40,7 +40,7 @@ setup_file() {
 
 @test "Resources attributes are correct value" {
   assert_not_empty "$(resource_attribute_named 'honeycomb.distro.version' 'string')"
-  assert_equal "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)" '"react native"'
+  assert_equal "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)" '"0.78.1"'
 
   assert_equal "$(resource_attribute_named 'telemetry.distro.name' 'string' | uniq)" '"@honeycombio/opentelemetry-react-native"'
   assert_not_empty "$(resource_attribute_named 'telemetry.distro.version' 'string')"
