@@ -19,7 +19,8 @@ setup_file() {
 
   result=$(resource_attributes_received | jq '.key' | sort | uniq)
 
-  assert_equal "$result" '"device.id"
+  ANDROID_RESOURCE_ATTR_LIST=$(cat <<'EOF'
+"device.id"
 "device.manufacturer"
 "device.model.identifier"
 "device.model.name"
@@ -35,7 +36,35 @@ setup_file() {
 "telemetry.distro.version"
 "telemetry.sdk.language"
 "telemetry.sdk.name"
-"telemetry.sdk.version"'
+"telemetry.sdk.version"
+EOF
+)
+# Because the pass through the resource attributes from the native layer to the RN layer, on ios, we'll have additional resource attributes that are not available on android.
+IOS_RESOURCE_ATTR_LIST=$(cat <<'EOF'
+"app.bundle.executable"
+"app.bundle.shortVersionString"
+"app.bundle.version"
+"app.debug.binaryName"
+"app.debug.build_uuid"
+"device.id"
+"device.model.identifier"
+"honeycomb.distro.runtime_version"
+"honeycomb.distro.version"
+"os.description"
+"os.name"
+"os.type"
+"os.version"
+"service.name"
+"service.version"
+"telemetry.distro.name"
+"telemetry.distro.version"
+"telemetry.sdk.language"
+"telemetry.sdk.name"
+"telemetry.sdk.version"
+EOF
+)
+
+  assert_any "$result" "$ANDROID_RESOURCE_ATTR_LIST" "$IOS_RESOURCE_ATTR_LIST"
 }
 
 @test "Resources attributes are correct value" {

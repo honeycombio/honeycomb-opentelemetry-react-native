@@ -134,7 +134,7 @@ assert_equal() {
     fi
 }
 
-# Fail and display details if the expected does not match one of the values. 
+# Fail and display details if the expected does not match one of the values.
 # Details include both values.
 #
 # Inspired by bats-assert * bats-support, but dramatically simplified
@@ -158,6 +158,33 @@ assert_equal_or() {
     return 1
   fi
 
+}
+
+# Fail and display details if the actual value does not match any of the expected values.
+# Details include both values.
+#
+# Arguments:
+# $1 - actual result
+# $2, $3, ... - possible expected results (including multi-line strings)
+assert_any() {
+    local actual="$1"
+    shift
+
+    for expected in "$@"; do
+        if [[ "$actual" == "$expected" ]]; then
+            return 0
+        fi
+    done
+
+    {
+        echo
+        echo "-- 💥 values are not equal 💥 --"
+        echo "expected : one of [$*]"
+        echo "actual   : $actual"
+        echo "--"
+        echo
+    } >&2 # output error to STDERR
+    return 1
 }
 
 # Fail and display details if the actual value is empty.
