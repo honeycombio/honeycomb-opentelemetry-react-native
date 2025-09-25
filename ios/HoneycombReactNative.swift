@@ -28,7 +28,7 @@ import OpenTelemetryApi
             if let sourceMapUuid = Bundle.main.object(
                 forInfoDictionaryKey: "app.debug.source_map_uuid"
             ) as? String {
-              builder.setResourceAttributes(["app.debug.source_map_uuid": sourceMapUuid])
+                builder.setResourceAttributes(["app.debug.source_map_uuid": sourceMapUuid])
             }
 
             try Honeycomb.configure(options: builder.build())
@@ -41,14 +41,14 @@ import OpenTelemetryApi
         return Honeycomb.currentSession()?.id
     }
 
-  @objc public static func getAppStartTime() -> Double {
-    if startTime == nil {
-      startTime = Date()
+    @objc public static func getAppStartTime() -> Double {
+        if startTime == nil {
+            startTime = Date()
+        }
+        // Convert the TimeInterval to milliseconds, for JavaScript.
+        return startTime!.timeIntervalSince1970 * 1000.0
     }
-    // Convert the TimeInterval to milliseconds, for JavaScript.
-    return startTime!.timeIntervalSince1970 * 1000.0
-  }
-  
+
     @objc public static func debugSourceMapUUID() -> String? {
         return Bundle.main.object(forInfoDictionaryKey: "app.debug.source_map_uuid") as? String
     }
