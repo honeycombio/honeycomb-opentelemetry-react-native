@@ -107,6 +107,40 @@ override func application(
 
 Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/start-building/web/) for more information on instrumentation and troubleshooting.
 
+## Source Map Symbolication
+React Native projects automatically minify JS source files. Honeycomb provides a collector that can un-minify JS stack traces, but that requires a little bit of set up.
+
+### Generating Source Maps
+
+iOS projects have source maps [disabled by default](https://reactnative.dev/docs/debugging-release-builds). To generate source maps during a build, open Xcode and edit the build phase "Bundle React Native code and images". Add this line to the top of the script:
+
+```
+export SOURCEMAP_FILE="$(pwd)/../main.jsbundle.map";
+```
+
+Android projects will generate source maps by default.
+
+### Tracking Source Maps
+
+Once you have your source maps, your app will need to include an attribute on the telemetry it emits so that we know which source map should be used for which stack trace.
+
+For expo projects, add the following to your `app.json` or `app.config.js`:
+
+```json
+{
+  "expo": {
+    "plugins": [
+      // ...
+      ["@honeycombio/opentelemetry-react-native"],
+    ]
+  }
+}
+```
+
+### Tying It All Together
+(this section coming soon)
+
+
 ## SDK Configuration Options
 
 See the [Honeycomb Web SDK](https://github.com/honeycombio/honeycomb-opentelemetry-web/tree/main/packages/honeycomb-opentelemetry-web) for more most options.

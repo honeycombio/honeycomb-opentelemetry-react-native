@@ -6,6 +6,8 @@ export interface Spec extends TurboModule {
 
   // Returns the time the app was first started in ms since epoch, like a JS timestamp.
   getAppStartTime(): number;
+
+  getDebugSourceMapUUID(): string | null;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(

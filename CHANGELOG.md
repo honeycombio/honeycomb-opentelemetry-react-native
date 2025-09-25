@@ -3,11 +3,12 @@
 ## v.Next
 
 - feat: Add app startup instrumentation
+- feat: Adds an expo plugin which inserts embeds a unique build id to be used for source map symbolication
+- fix: OS name capitalization are now consistent across modules and JS
+- docs: Native Module documentation updated to include important configuration steps
 - maint: Update Web SDK from 0.0.17 to 1.0.2
 - maint: Update Android SDK from 0.0.16 to 0.0.18
 - maint: Update Swift SDK from 0.0.16 to 2.1.0
-- docs: Native Module documentation updated to include important configuration steps
-- fix: OS name capitalization are now consistent across modules and JS
 
 ## v0.5.0
 
