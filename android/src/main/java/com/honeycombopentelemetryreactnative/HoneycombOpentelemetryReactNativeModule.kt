@@ -11,7 +11,6 @@ import io.opentelemetry.semconv.incubating.TelemetryIncubatingAttributes.TELEMET
 
 import io.honeycomb.opentelemetry.android.Honeycomb
 import io.honeycomb.opentelemetry.android.HoneycombOptions
-import java.time.Instant
 
 @ReactModule(name = HoneycombOpentelemetryReactNativeModule.NAME)
 class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationContext) :
@@ -25,31 +24,26 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     return HoneycombOpentelemetryReactNativeModule.otelRum?.rumSessionId
   }
 
-    override fun getAppStartTime(): Double {
-        val seconds = HoneycombOpentelemetryReactNativeModule.appStartTime.epochSecond.toDouble()
-        val nanos = HoneycombOpentelemetryReactNativeModule.appStartTime.nano.toDouble()
-        // Convert to millis, for JavaScript.
-        return (seconds * 1_000.0) + (nanos / 1_000_000.0)
-    }
+  override fun getAppStartTime(): Double {
+    return HoneycombOpentelemetryReactNativeModule.appStartTimeMillis.toDouble()
+  }
 
   companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
 
     private var otelRum : OpenTelemetryRum? = null
-      private var appStartTime: Instant = Instant.now()
+    private var appStartTimeMillis = System.currentTimeMillis()
 
     fun optionsBuilder(context: Context): HoneycombOptions.Builder {
-        return HoneycombOptions.builder(context)
-            .setResourceAttributes(mapOf(
-                TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",
-                "honeycomb.distro.runtime_version" to "react native",
-                "telemetry.sdk.language" to "hermesjs"))
+      return HoneycombOptions.builder(context)
+          .setResourceAttributes(mapOf(
+              TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native",
+              "honeycomb.distro.runtime_version" to "react native",
+              "telemetry.sdk.language" to "hermesjs"))
     }
 
     fun configure(app: Application, builder: HoneycombOptions.Builder) {
-
       val options = builder.build()
-
       otelRum = Honeycomb.configure(app, options)
     }
   }
