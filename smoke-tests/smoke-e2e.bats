@@ -69,11 +69,11 @@ EOF
 
 @test "Resources attributes are correct value" {
   assert_not_empty "$(resource_attribute_named 'honeycomb.distro.version' 'string')"
-  assert_equal "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)" '"0.78.1"'
+  assert_not_empty "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)" '"0.78.1"'
 
   assert_equal "$(resource_attribute_named 'telemetry.distro.name' 'string' | uniq)" '"@honeycombio/opentelemetry-react-native"'
   assert_not_empty "$(resource_attribute_named 'telemetry.distro.version' 'string')"
-  assert_equal "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermesjs"'
+  assert_not_empty "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermesjs"'
 
   assert_equal_or "$(resource_attribute_named 'os.name' 'string' | uniq)" '"Android"' '"iOS"'
 
@@ -122,3 +122,24 @@ EOF
   result=$(span_names_for "@honeycombio/app-startup" | uniq)
   assert_equal "$result" '"app start"'
 }
+
+@test "telemetry.sdk.language is correct for React Native (js) spans" {
+  # React Native layer spans should have telemetry.sdk.language = "hermesjs"
+  sdk_language=$(resource_attribute_value_from_scope_named "@honeycombio/slow-event-loop" "telemetry.sdk.language" "string" | uniq)
+  runtime_version=$(resource_attribute_value_from_scope_named "@honeycombio/slow-event-loop" "honeycomb.distro.runtime_version" "string" | uniq)
+
+  assert_equal "$sdk_language" '"hermesjs"'
+  assert_equal "$runtime_version" '"0.78.1"'
+}
+
+@test "telemetry.sdk.language is correct for Native (ios/android) spans" {
+  # Native layer spans should have telemetry.sdk.language = "android" or "ios"
+  sdk_language=$(resource_attribute_value_from_scope_named "io.opentelemetry.lifecycle" "telemetry.sdk.language" "string" | uniq)
+  runtime_version=$(resource_attribute_value_from_scope_named "io.opentelemetry.lifecycle" "honeycomb.distro.runtime_version" "string" | uniq)
+  os_version=$(resource_attribute_named 'os.version' 'string' | uniq)
+
+  assert_equal_or "$sdk_language" '"android"' '"ios"'
+  assert_equal "$runtime_version" "$os_version"
+}
+
+

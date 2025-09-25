@@ -89,6 +89,14 @@ resource_attribute_named() {
     spans_received | jq ".resource.attributes[]? | select(.key == \"$1\").value.${2}Value"
 }
 
+# Resource attribute value for a given scope
+# Arguments: $1 - scope name
+# Arguments: $2 - attribute name
+# Arguments: $3 - attribute value type
+resource_attribute_value_from_scope_named() {
+    spans_received | jq "select(.scopeSpans[].scope.name == \"$1\") | .resource.attributes[] | select(.key == \"$2\").value.${3}Value"
+}
+
 # Spans for a given scope
 # Arguments: $1 - scope name
 spans_from_scope_named() {
