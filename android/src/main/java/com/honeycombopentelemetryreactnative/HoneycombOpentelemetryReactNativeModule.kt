@@ -2,6 +2,7 @@ package com.honeycombopentelemetryreactnative
 
 import android.app.Application
 import android.content.Context
+import android.content.pm.PackageManager
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
@@ -24,10 +25,15 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     return HoneycombOpentelemetryReactNativeModule.otelRum?.rumSessionId
   }
 
+  override fun getDebugSourceMapUUID(): String? {
+    return HoneycombOpentelemetryReactNativeModule.sourceMapUuid
+  }
+
   companion object {
     const val NAME = "HoneycombOpentelemetryReactNative"
 
     private var otelRum : OpenTelemetryRum? = null
+    private var sourceMapUuid: String? = null
 
     fun optionsBuilder(context: Context): HoneycombOptions.Builder {
         return HoneycombOptions.builder(context)
@@ -38,6 +44,17 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
     }
 
     fun configure(app: Application, builder: HoneycombOptions.Builder) {
+      val packageManager = app.packageManager
+      val applicationInfo =
+        packageManager.getApplicationInfo(
+          app.packageName,
+          PackageManager.GET_META_DATA,
+        )
+      sourceMapUuid = applicationInfo.metaData?.getString("app.debug.source_map_uuid")
+
+      if (sourceMapUuid != null) {
+        builder.setResourceAttributes(mapOf("app.debug.source_map_uuid" to sourceMapUuid as String))
+      }
 
       val options = builder.build()
 

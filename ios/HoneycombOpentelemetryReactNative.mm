@@ -13,4 +13,8 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getSessionId) {
   return [HNYReactNativeWrapper sessionId];
 }
 
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getDebugSourceMapUUID) {
+  return [HNYReactNativeWrapper debugSourceMapUUID];
+}
+
 @end
