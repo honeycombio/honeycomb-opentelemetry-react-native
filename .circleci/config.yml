@@ -1,3 +1,4 @@
+
 version: '2.1'
 
 orbs:
@@ -94,22 +95,22 @@ jobs:
           command: yarn start
           background: true
       - run:
-          name: 'Start Collector & Mock Server'
+          name: "Start Collector & Mock Server"
           command: make smoke-docker-without-react-native
       - android/change-java-version:
           java-version: << pipeline.parameters.java-version >>
       - android/start-emulator-and-run-tests:
-          avd-name: 'Pixel_8_API_35'
+          avd-name: "Pixel_8_API_35"
           system-image: system-images;android-30;default;x86_64
           test-command: make android-circleci-test
-          post-emulator-launch-assemble-command: ''
+          post-emulator-launch-assemble-command: ""
           max-tries: 1
       - store_artifacts:
           path: example/build/outputs/connected_android_test_additional_output
       - store_artifacts:
           path: example/android/build/reports/
       - run:
-          name: 'Check Smoke Test Assertions'
+          name: "Check Smoke Test Assertions"
           command: make smoke-bats-android
 
   smoke_tests_ios:
@@ -121,9 +122,9 @@ jobs:
       - attach_workspace:
           at: ./
       - macos/preboot-simulator:
-          version: '18.2'
-          platform: 'iOS'
-          device: 'iPhone 16'
+          version: "18.2"
+          platform: "iOS"
+          device: "iPhone 16"
       - checkout
       - run: corepack enable
       - run: brew tap wix/brew
@@ -152,7 +153,7 @@ jobs:
       - run:
           name: Install OTel Collector
           environment:
-            COLLECTOR_VERSION: '0.126.0'
+            COLLECTOR_VERSION: "0.126.0"
           command: |
             curl --proto '=https' --tlsv1.2 -fOL https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v${COLLECTOR_VERSION}/otelcol_${COLLECTOR_VERSION}_darwin_arm64.tar.gz
             tar -xvf otelcol_${COLLECTOR_VERSION}_darwin_arm64.tar.gz
@@ -166,21 +167,21 @@ jobs:
           command: npm install && npm start
           background: true
       - run:
-          name: 'Run iOS UI Tests'
+          name: "Run iOS UI Tests"
           command: make ios-test
       - store_artifacts:
           path: smoke-tests/output/build.log
       - store_artifacts:
           path: smoke-tests/output/test.log
       - run:
-          name: 'Check Smoke Test Assertions'
+          name: "Check Smoke Test Assertions"
           command: make smoke-bats-ios
 
   publish_github:
     executor: github
     steps:
       - run:
-          name: 'GHR Draft'
+          name: "GHR Draft"
           command: ghr -draft -n ${CIRCLE_TAG} -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} ${CIRCLE_TAG}
 
   publish_npm:
@@ -225,7 +226,7 @@ workflows:
   nightly:
     triggers:
       - schedule:
-          cron: '0 0 * * *'
+          cron: "0 0 * * *"
           filters:
             branches:
               only:
@@ -236,3 +237,4 @@ workflows:
       - lint_swift
       - smoke_tests_android
       - smoke_tests_ios
+
