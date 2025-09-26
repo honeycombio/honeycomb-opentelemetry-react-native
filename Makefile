@@ -90,12 +90,18 @@ ios-test:
 	yarn example detox build --configuration ios.sim.debug 2>&1 | tee smoke-tests/output/build.log
 	yarn example detox test --configuration ios.sim.debug 2>&1 | tee smoke-tests/output/test.log
 
-smoke-bats: smoke-tests/collector/data.json
+smoke-bats-android: smoke-tests/collector/data.json
+	@echo ""
+	@echo "+++ Running bats for ANDROID smoke tests."
+	@echo ""
+	cd smoke-tests && bats ./smoke-e2e.bats --report-formatter junit --output ./  --filter-tags !tag:ios
+
+smoke-bats-ios: smoke-tests/collector/data.json
 	@echo ""
 	@echo "+++ Running bats smoke tests."
 	@echo ""
-	cd smoke-tests && bats ./smoke-e2e.bats --report-formatter junit --output ./
+	cd smoke-tests && bats ./smoke-e2e.bats --report-formatter junit --output ./ --filter-tags !tag:android
 
-smoke-android: unsmoke clean-smoke-tests smoke-docker android-test smoke-bats
+smoke-android: unsmoke clean-smoke-tests smoke-docker android-test smoke-bats-android
 
-smoke-ios: unsmoke clean-smoke-tests smoke-docker ios-test smoke-bats
+smoke-ios: unsmoke clean-smoke-tests smoke-docker ios-test smoke-bats-ios

@@ -10,6 +10,8 @@ setup_file() {
   echo "# 🚧 preparing test" >&3
 }
 
+# bats file_tags=tag:react-native
+
 @test "SDK can send spans" {
   result=$(span_names_for ${SMOKE_TEST_SCOPE})
   assert_equal "$result" '"button-click"'
@@ -132,14 +134,43 @@ EOF
   assert_equal "$runtime_version" '"0.78.1"'
 }
 
-@test "telemetry.sdk.language is correct for Native (ios/android) spans" {
-  # Native layer spans should have telemetry.sdk.language = "android" or "ios"
+# bats test_tags=tag:android
+@test "telemetry.sdk.language is correct for Native (android) spans" {
+  os_name=$(resource_attribute_named 'os.name' 'string' | uniq)
   sdk_language=$(resource_attribute_value_from_scope_named "io.opentelemetry.lifecycle" "telemetry.sdk.language" "string" | uniq)
   runtime_version=$(resource_attribute_value_from_scope_named "io.opentelemetry.lifecycle" "honeycomb.distro.runtime_version" "string" | uniq)
   os_version=$(resource_attribute_named 'os.version' 'string' | uniq)
 
-  assert_equal_or "$sdk_language" '"android"' '"swift"'
+  assert_equal "$sdk_language" '"android"'
   assert_equal "$runtime_version" "$os_version"
+}
+
+# bats test_tags=tag:ios
+@test "telemetry.sdk.language is correct for Native (ios) spans" {
+  sdk_language=$(resource_attribute_value_from_scope_named "io.honeycomb.uikit" "telemetry.sdk.language" "string" | uniq)
+  runtime_version=$(resource_attribute_value_from_scope_named "io.honeycomb.uikit" "honeycomb.distro.runtime_version" "string" | uniq)
+  os_version=$(resource_attribute_named 'os.version' 'string' | uniq)
+  os_name=$(resource_attribute_named 'os.name' 'string' | uniq)
+  os_description=$(resource_attribute_named 'os.description' 'string' | uniq)
+
+  assert_equal "$sdk_language" '"swift"'
+
+  # Parse major.minor from os_version (e.g., "18.2.0" -> "18.2")
+  major_minor_version=$(echo "$os_version" | sed 's/"//g' | sed 's/\([0-9]*\.[0-9]*\).*/\1/')
+
+  # Assert that os.description contains the major.minor version
+  if [[ ! "$os_description" =~ $major_minor_version ]]; then
+    {
+      echo
+      echo "-- 💥 os.description does not contain expected major.minor version 💥 --"
+      echo "expected version : $major_minor_version"
+      echo "os.description   : $os_description"
+      echo "os.version       : $os_version"
+      echo "--"
+      echo
+    } >&2
+    return 1
+  fi
 }
 
 
