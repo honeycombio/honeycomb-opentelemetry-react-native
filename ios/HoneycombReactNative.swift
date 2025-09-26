@@ -64,8 +64,8 @@ import OpenTelemetryApi
             switch value {
             case .string(let str):
                 result[key] = str
-            case .int(let int):
-                result[key] = int
+            case .int(let i):
+                result[key] = i
             case .double(let d):
                 result[key] = d
             case .bool(let b):
