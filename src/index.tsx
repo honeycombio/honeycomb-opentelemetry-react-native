@@ -22,6 +22,8 @@ import {
 } from '@opentelemetry/resources';
 import { RandomIdGenerator } from '@opentelemetry/sdk-trace-base';
 import {
+  ATTR_OS_NAME,
+  ATTR_OS_VERSION,
   ATTR_TELEMETRY_DISTRO_NAME,
   ATTR_TELEMETRY_DISTRO_VERSION,
   ATTR_TELEMETRY_SDK_LANGUAGE,
@@ -46,7 +48,7 @@ export {
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
 
-import { Platform } from 'react-native';
+import { Platform, type PlatformOSType } from 'react-native';
 
 const generator = new RandomIdGenerator();
 const defaultSessionId = generator.generateTraceId();
@@ -71,6 +73,19 @@ interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
   uncaughtExceptionInstrumentationConfig?: UncaughtExceptionInstrumentationConfig;
   fetchInstrumentationConfig?: FetchInstrumentationConfig;
   slowEventLoopInstrumentationConfig?: SlowEventLoopInstrumentationConfig;
+}
+
+const reactNativeOSTypeToOtelOSName: Record<PlatformOSType, string> = {
+  ios: 'iOS',
+  android: 'Android',
+  macos: 'macOS',
+  native: 'Native',
+  web: 'Web',
+  windows: 'windows',
+} as const;
+
+function getOSName(): string {
+  return reactNativeOSTypeToOtelOSName[Platform.OS];
 }
 
 /**
@@ -107,8 +122,17 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       reactNativeVersion = `${reactNativeVersion}-${[prerelease]}`;
     }
 
+    // If the native SDKs are not initialized, fall back the the RN furnished values
+    const nativeAttributes = HoneycombOpentelemetryReactNative.getResource();
+    if (!nativeAttributes[ATTR_OS_NAME]) {
+      nativeAttributes[ATTR_OS_NAME] = getOSName();
+    }
+    if (!nativeAttributes[ATTR_OS_VERSION]) {
+      nativeAttributes[ATTR_OS_VERSION] = Platform.Version;
+    }
+
     const attributes: DetectedResourceAttributes = {
-      ...HoneycombOpentelemetryReactNative.getResource(),
+      ...nativeAttributes,
 
       // Honeycomb distro attributes,
       'honeycomb.distro.version': VERSION,
