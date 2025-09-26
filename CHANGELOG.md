@@ -2,6 +2,9 @@
 
 ## v.Next
 
+## v0.6.0
+
+- feat: Sync Resource attributes between native extensions and JavaScript
 - feat: Add app startup instrumentation
 - feat: Adds an expo plugin which inserts embeds a unique build id to be used for source map symbolication
 - fix: OS name capitalization are now consistent across modules and JS
