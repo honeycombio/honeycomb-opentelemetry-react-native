@@ -37,18 +37,17 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
   }
 
   override fun getResource(): WritableMap {
-      val resourceMap: WritableMap = Arguments.createMap()
-      Honeycomb.resource.attributes.forEach { key, value ->
-        when (value) {
-          is String -> resourceMap.putString(key.key, value.toString())
-          is Int -> resourceMap.putInt(key.key, value)
-          is Double -> resourceMap.putDouble(key.key, value)
-          is Boolean -> resourceMap.putBoolean(key.key, value)
-          else -> {} // Skip unsupported types
+    val resourceMap: WritableMap = Arguments.createMap()
+    Honeycomb.resource.attributes.forEach { key, value ->
+      when (value) {
+        is String -> resourceMap.putString(key.key, value.toString())
+        is Int -> resourceMap.putInt(key.key, value)
+        is Double -> resourceMap.putDouble(key.key, value)
+        is Boolean -> resourceMap.putBoolean(key.key, value)
+        else -> {} // Skip unsupported types
       }
-      }
-
-      return resourceMap;
+    }
+    return resourceMap;
   }
 
   companion object {
