@@ -17,30 +17,11 @@ setup_file() {
   assert_equal "$result" '"button-click"'
 }
 
-@test "Default resources are included on spans" {
+# bats test_tags=tag:ios
+@test "Default resources are included on spans for iOS" {
 
   result=$(resource_attributes_received | jq '.key' | sort | uniq)
 
-  ANDROID_RESOURCE_ATTR_LIST=$(cat <<'EOF'
-"device.id"
-"device.manufacturer"
-"device.model.identifier"
-"device.model.name"
-"honeycomb.distro.runtime_version"
-"honeycomb.distro.version"
-"os.description"
-"os.name"
-"os.type"
-"os.version"
-"rum.sdk.version"
-"service.name"
-"telemetry.distro.name"
-"telemetry.distro.version"
-"telemetry.sdk.language"
-"telemetry.sdk.name"
-"telemetry.sdk.version"
-EOF
-)
 # Because the pass through the resource attributes from the native layer to the RN layer, on ios, we'll have additional resource attributes that are not available on android.
 IOS_RESOURCE_ATTR_LIST=$(cat <<'EOF'
 "app.bundle.executable"
@@ -66,7 +47,36 @@ IOS_RESOURCE_ATTR_LIST=$(cat <<'EOF'
 EOF
 )
 
-  assert_any "$result" "$ANDROID_RESOURCE_ATTR_LIST" "$IOS_RESOURCE_ATTR_LIST"
+  assert_equal "$result" "$IOS_RESOURCE_ATTR_LIST"
+}
+
+# bats test_tags=tag:android
+@test "Default resources are included on spans for Android" {
+
+  result=$(resource_attributes_received | jq '.key' | sort | uniq)
+
+  ANDROID_RESOURCE_ATTR_LIST=$(cat <<'EOF'
+"device.id"
+"device.manufacturer"
+"device.model.identifier"
+"device.model.name"
+"honeycomb.distro.runtime_version"
+"honeycomb.distro.version"
+"os.description"
+"os.name"
+"os.type"
+"os.version"
+"rum.sdk.version"
+"service.name"
+"telemetry.distro.name"
+"telemetry.distro.version"
+"telemetry.sdk.language"
+"telemetry.sdk.name"
+"telemetry.sdk.version"
+EOF
+)
+
+  assert_equal "$result" "$ANDROID_RESOURCE_ATTR_LIST"
 }
 
 @test "Resources attributes are correct value" {
