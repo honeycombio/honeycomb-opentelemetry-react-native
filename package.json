@@ -1,6 +1,6 @@
 {
   "name": "@honeycombio/opentelemetry-react-native",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Honeycomb OpenTelemetry SDK for React Native Apps",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
