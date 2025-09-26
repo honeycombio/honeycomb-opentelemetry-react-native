@@ -111,7 +111,7 @@ jobs:
           path: example/android/build/reports/
       - run:
           name: "Check Smoke Test Assertions"
-          command: make smoke-bats
+          command: make smoke-bats-android
 
   smoke_tests_ios:
     macos:
@@ -175,7 +175,7 @@ jobs:
           path: smoke-tests/output/test.log
       - run:
           name: "Check Smoke Test Assertions"
-          command: make smoke-bats
+          command: make smoke-bats-ios
 
   publish_github:
     executor: github

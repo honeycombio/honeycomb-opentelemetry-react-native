@@ -12,6 +12,7 @@ class AppDelegate: RCTAppDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         let options = HoneycombReactNative.optionsBuilder()
+            .setUIKitInstrumentationEnabled(true)
             .setServiceName("reactnative-example")
             .setAPIEndpoint("http://localhost:4318")
             .setDebug(true)

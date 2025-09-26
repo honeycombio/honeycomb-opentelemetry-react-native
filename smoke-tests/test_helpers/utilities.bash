@@ -89,6 +89,14 @@ resource_attribute_named() {
     spans_received | jq ".resource.attributes[]? | select(.key == \"$1\").value.${2}Value"
 }
 
+# Resource attribute value for a given scope
+# Arguments: $1 - scope name
+# Arguments: $2 - attribute name
+# Arguments: $3 - attribute value type
+resource_attribute_value_from_scope_named() {
+    spans_received | jq "select(.scopeSpans[].scope.name == \"$1\") | .resource.attributes[] | select(.key == \"$2\").value.${3}Value"
+}
+
 # Spans for a given scope
 # Arguments: $1 - scope name
 spans_from_scope_named() {
@@ -134,7 +142,7 @@ assert_equal() {
     fi
 }
 
-# Fail and display details if the expected does not match one of the values. 
+# Fail and display details if the expected does not match one of the values.
 # Details include both values.
 #
 # Inspired by bats-assert * bats-support, but dramatically simplified
@@ -184,6 +192,24 @@ assert_not_empty() {
             echo
             echo "-- 💥 value is empty 💥 --"
             echo "value : $1"
+            echo "--"
+            echo
+        } >&2 # output error to STDERR
+        return 1
+    fi
+}
+
+# Fail and display details if the actual value does not match the regex pattern.
+# Arguments:
+# $1 - actual result
+# $2 - regex pattern
+assert_regex() {
+    if [[ ! $1 =~ $2 ]]; then
+        {
+            echo
+            echo "-- 💥 value does not match regex 💥 --"
+            echo "pattern  : $2"
+            echo "actual   : $1"
             echo "--"
             echo
         } >&2 # output error to STDERR

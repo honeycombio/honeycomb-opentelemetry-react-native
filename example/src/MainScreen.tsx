@@ -67,6 +67,13 @@ export default function MainScreen() {
         color="#2552ab"
         accessibilityLabel="navigate_to_errors"
       />
+      <Button
+        onPress={() => navigation.navigate('Resources')}
+        title="Resource Attributes"
+        testID="goto_resources"
+        color="#28a745"
+        accessibilityLabel="navigate_to_resources"
+      />
       <Text id="status" testID="status">
         {statusText}
       </Text>
@@ -79,5 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 12,
+    padding: 20,
   },
 });

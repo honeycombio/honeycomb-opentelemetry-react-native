@@ -22,13 +22,7 @@ import {
 } from '@opentelemetry/resources';
 import { RandomIdGenerator } from '@opentelemetry/sdk-trace-base';
 import {
-  ATTR_DEVICE_ID,
-  ATTR_DEVICE_MANUFACTURER,
-  ATTR_DEVICE_MODEL_IDENTIFIER,
-  ATTR_DEVICE_MODEL_NAME,
-  ATTR_OS_DESCRIPTION,
   ATTR_OS_NAME,
-  ATTR_OS_TYPE,
   ATTR_OS_VERSION,
   ATTR_TELEMETRY_DISTRO_NAME,
   ATTR_TELEMETRY_DISTRO_VERSION,
@@ -37,7 +31,6 @@ import {
   ATTR_TELEMETRY_SDK_VERSION,
 } from '@opentelemetry/semantic-conventions/incubating';
 import { VERSION } from './version';
-import { Platform, type PlatformOSType } from 'react-native';
 import {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
@@ -54,6 +47,8 @@ export {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
+
+import { Platform, type PlatformOSType } from 'react-native';
 
 const generator = new RandomIdGenerator();
 const defaultSessionId = generator.generateTraceId();
@@ -87,7 +82,7 @@ const reactNativeOSTypeToOtelOSName: Record<PlatformOSType, string> = {
   native: 'Native',
   web: 'Web',
   windows: 'windows',
-};
+} as const;
 
 function getOSName(): string {
   return reactNativeOSTypeToOtelOSName[Platform.OS];
@@ -120,10 +115,28 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       );
     }
 
+    const { major, minor, patch, prerelease } =
+      Platform.constants.reactNativeVersion;
+    let reactNativeVersion = `${major}.${minor}.${patch}`;
+    if (prerelease) {
+      reactNativeVersion = `${reactNativeVersion}-${[prerelease]}`;
+    }
+
+    // If the native SDKs are not initialized, fall back the the RN furnished values
+    const nativeAttributes = HoneycombOpentelemetryReactNative.getResource();
+    if (!nativeAttributes[ATTR_OS_NAME]) {
+      nativeAttributes[ATTR_OS_NAME] = getOSName();
+    }
+    if (!nativeAttributes[ATTR_OS_VERSION]) {
+      nativeAttributes[ATTR_OS_VERSION] = Platform.Version;
+    }
+
     const attributes: DetectedResourceAttributes = {
+      ...nativeAttributes,
+
       // Honeycomb distro attributes,
       'honeycomb.distro.version': VERSION,
-      'honeycomb.distro.runtime_version': 'react native',
+      'honeycomb.distro.runtime_version': reactNativeVersion,
 
       // Opentelemetry attributes
       [ATTR_TELEMETRY_DISTRO_NAME]: '@honeycombio/opentelemetry-react-native',
@@ -131,19 +144,6 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       [ATTR_TELEMETRY_SDK_LANGUAGE]: 'hermesjs',
       [ATTR_TELEMETRY_SDK_NAME]: 'opentelemetry',
       [ATTR_TELEMETRY_SDK_VERSION]: VERSION,
-
-      // OS attributes
-      [ATTR_OS_NAME]: getOSName(),
-      [ATTR_OS_VERSION]: Platform.Version,
-      [ATTR_OS_DESCRIPTION]: getOSName(),
-      [ATTR_OS_TYPE]: getOSName(),
-
-      // Stubbed out attributes
-      [ATTR_DEVICE_ID]: '',
-      [ATTR_DEVICE_MANUFACTURER]: '',
-      [ATTR_DEVICE_MODEL_IDENTIFIER]: '',
-      [ATTR_DEVICE_MODEL_NAME]: '',
-      'rum.sdk.version': '',
     };
     const sourceMapUuid =
       HoneycombOpentelemetryReactNative.getDebugSourceMapUUID();

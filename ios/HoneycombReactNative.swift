@@ -30,6 +30,10 @@ import OpenTelemetryApi
                 builder.setResourceAttributes(["app.debug.source_map_uuid": sourceMapUuid])
             }
 
+            builder.setResourceAttributes([
+                "telemetry.distro.name": "@honeycombio/opentelemetry-react-native"
+            ])
+
             try Honeycomb.configure(options: builder.build())
         } catch {
             NSException(name: NSExceptionName("HoneycombOptionsError"), reason: "\(error)").raise()
@@ -50,5 +54,27 @@ import OpenTelemetryApi
 
     @objc public static func debugSourceMapUUID() -> String? {
         return Bundle.main.object(forInfoDictionaryKey: "app.debug.source_map_uuid") as? String
+    }
+
+    @objc public static func getResource() -> [String: Any] {
+        let resource = Honeycomb.resource
+        var result: [String: Any] = [:]
+
+        for (key, value) in resource.attributes {
+            switch value {
+            case .string(let str):
+                result[key] = str
+            case .int(let i):
+                result[key] = i
+            case .double(let d):
+                result[key] = d
+            case .bool(let b):
+                result[key] = b
+            default:
+                continue
+            }
+        }
+
+        return result
     }
 }

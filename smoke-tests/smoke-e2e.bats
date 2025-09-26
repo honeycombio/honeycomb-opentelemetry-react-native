@@ -10,16 +10,53 @@ setup_file() {
   echo "# 🚧 preparing test" >&3
 }
 
+# bats file_tags=tag:react-native
+
 @test "SDK can send spans" {
   result=$(span_names_for ${SMOKE_TEST_SCOPE})
   assert_equal "$result" '"button-click"'
 }
 
-@test "Default resources are included on spans" {
+# bats test_tags=tag:ios
+@test "Default resources are included on spans for iOS" {
 
   result=$(resource_attributes_received | jq '.key' | sort | uniq)
 
-  assert_equal "$result" '"device.id"
+# Because the pass through the resource attributes from the native layer to the RN layer, on ios, we'll have additional resource attributes that are not available on android.
+IOS_RESOURCE_ATTR_LIST=$(cat <<'EOF'
+"app.bundle.executable"
+"app.bundle.shortVersionString"
+"app.bundle.version"
+"app.debug.binaryName"
+"app.debug.build_uuid"
+"device.id"
+"device.model.identifier"
+"honeycomb.distro.runtime_version"
+"honeycomb.distro.version"
+"os.description"
+"os.name"
+"os.type"
+"os.version"
+"service.name"
+"service.version"
+"telemetry.distro.name"
+"telemetry.distro.version"
+"telemetry.sdk.language"
+"telemetry.sdk.name"
+"telemetry.sdk.version"
+EOF
+)
+
+  assert_equal "$result" "$IOS_RESOURCE_ATTR_LIST"
+}
+
+# bats test_tags=tag:android
+@test "Default resources are included on spans for Android" {
+
+  result=$(resource_attributes_received | jq '.key' | sort | uniq)
+
+  ANDROID_RESOURCE_ATTR_LIST=$(cat <<'EOF'
+"device.id"
 "device.manufacturer"
 "device.model.identifier"
 "device.model.name"
@@ -35,16 +72,20 @@ setup_file() {
 "telemetry.distro.version"
 "telemetry.sdk.language"
 "telemetry.sdk.name"
-"telemetry.sdk.version"'
+"telemetry.sdk.version"
+EOF
+)
+
+  assert_equal "$result" "$ANDROID_RESOURCE_ATTR_LIST"
 }
 
 @test "Resources attributes are correct value" {
   assert_not_empty "$(resource_attribute_named 'honeycomb.distro.version' 'string')"
-  assert_equal "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)" '"react native"'
+  assert_not_empty "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)"
 
   assert_equal "$(resource_attribute_named 'telemetry.distro.name' 'string' | uniq)" '"@honeycombio/opentelemetry-react-native"'
   assert_not_empty "$(resource_attribute_named 'telemetry.distro.version' 'string')"
-  assert_equal "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermesjs"'
+  assert_not_empty "$(resource_attribute_named 'telemetry.sdk.language' 'string' | uniq)" '"hermesjs"'
 
   assert_equal_or "$(resource_attribute_named 'os.name' 'string' | uniq)" '"Android"' '"iOS"'
 
@@ -93,3 +134,42 @@ setup_file() {
   result=$(span_names_for "@honeycombio/app-startup" | uniq)
   assert_equal "$result" '"app start"'
 }
+
+@test "telemetry.sdk.language is correct for React Native (js) spans" {
+  # React Native layer spans should have telemetry.sdk.language = "hermesjs"
+  sdk_language=$(resource_attribute_value_from_scope_named "@honeycombio/slow-event-loop" "telemetry.sdk.language" "string" | uniq)
+  runtime_version=$(resource_attribute_value_from_scope_named "@honeycombio/slow-event-loop" "honeycomb.distro.runtime_version" "string" | uniq)
+
+  assert_equal "$sdk_language" '"hermesjs"'
+  assert_equal "$runtime_version" '"0.78.1"'
+}
+
+# bats test_tags=tag:android
+@test "telemetry.sdk.language is correct for Native (android) spans" {
+  os_name=$(resource_attribute_named 'os.name' 'string' | uniq)
+  sdk_language=$(resource_attribute_value_from_scope_named "io.opentelemetry.lifecycle" "telemetry.sdk.language" "string" | uniq)
+  runtime_version=$(resource_attribute_value_from_scope_named "io.opentelemetry.lifecycle" "honeycomb.distro.runtime_version" "string" | uniq)
+  os_version=$(resource_attribute_named 'os.version' 'string' | uniq)
+
+  assert_equal "$sdk_language" '"android"'
+  assert_equal "$runtime_version" "$os_version"
+}
+
+# bats test_tags=tag:ios
+@test "telemetry.sdk.language is correct for Native (ios) spans" {
+  sdk_language=$(resource_attribute_value_from_scope_named "io.honeycomb.uikit" "telemetry.sdk.language" "string" | uniq)
+  runtime_version=$(resource_attribute_value_from_scope_named "io.honeycomb.uikit" "honeycomb.distro.runtime_version" "string" | uniq)
+  os_version=$(resource_attribute_named 'os.version' 'string' | uniq)
+  os_name=$(resource_attribute_named 'os.name' 'string' | uniq)
+  os_description=$(resource_attribute_named 'os.description' 'string' | uniq)
+
+  assert_equal "$sdk_language" '"swift"'
+
+  # Parse major.minor from os_version (e.g., "18.2.0" -> "18.2")
+  major_minor_version=$(echo "$os_version" | sed 's/"//g' | sed 's/\([0-9]*\.[0-9]*\).*/\1/')
+
+  # Assert that os.description contains the major.minor version
+  assert_regex "$os_description" "$major_minor_version"
+}
+
+
