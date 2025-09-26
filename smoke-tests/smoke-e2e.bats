@@ -169,18 +169,7 @@ EOF
   major_minor_version=$(echo "$os_version" | sed 's/"//g' | sed 's/\([0-9]*\.[0-9]*\).*/\1/')
 
   # Assert that os.description contains the major.minor version
-  if [[ ! "$os_description" =~ $major_minor_version ]]; then
-    {
-      echo
-      echo "-- 💥 os.description does not contain expected major.minor version 💥 --"
-      echo "expected version : $major_minor_version"
-      echo "os.description   : $os_description"
-      echo "os.version       : $os_version"
-      echo "--"
-      echo
-    } >&2
-    return 1
-  fi
+  assert_regex "$os_description" "$major_minor_version"
 }
 
 

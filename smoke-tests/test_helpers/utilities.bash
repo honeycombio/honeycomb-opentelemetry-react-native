@@ -198,3 +198,21 @@ assert_not_empty() {
         return 1
     fi
 }
+
+# Fail and display details if the actual value does not match the regex pattern.
+# Arguments:
+# $1 - actual result
+# $2 - regex pattern
+assert_regex() {
+    if [[ ! $1 =~ $2 ]]; then
+        {
+            echo
+            echo "-- 💥 value does not match regex 💥 --"
+            echo "pattern  : $2"
+            echo "actual   : $1"
+            echo "--"
+            echo
+        } >&2 # output error to STDERR
+        return 1
+    fi
+}
