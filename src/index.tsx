@@ -8,9 +8,9 @@ import {
   type FetchInstrumentationConfig,
 } from '@opentelemetry/instrumentation-fetch';
 import {
-  AppStartupInstrumentation,
-  type AppStartupInstrumentationConfig,
-} from './AppStartupInstrumentation';
+  ReactNativeStartupInstrumentation,
+  type ReactNativeStartupInstrumentationConfig,
+} from './ReactNativeStartupInstrumentation';
 import {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
@@ -38,7 +38,7 @@ import {
 import { type SessionProvider } from '@opentelemetry/web-common';
 
 export { NavigationInstrumentation } from './NavigationInstrumentation';
-export { AppStartupInstrumentation } from './AppStartupInstrumentation';
+export { ReactNativeStartupInstrumentation } from './ReactNativeStartupInstrumentation';
 export {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
@@ -69,7 +69,7 @@ class SessionIdProvider implements SessionProvider {
  * The options used to configure the Honeycomb React Native SDK.
  */
 interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
-  appStartupInstrumentationConfig?: AppStartupInstrumentationConfig;
+  reactNativeStartupInstrumentationConfig?: ReactNativeStartupInstrumentationConfig;
   uncaughtExceptionInstrumentationConfig?: UncaughtExceptionInstrumentationConfig;
   fetchInstrumentationConfig?: FetchInstrumentationConfig;
   slowEventLoopInstrumentationConfig?: SlowEventLoopInstrumentationConfig;
@@ -95,9 +95,11 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
   constructor(options?: HoneycombReactNativeOptions) {
     const instrumentations = [...(options?.instrumentations || [])];
 
-    if (options?.appStartupInstrumentationConfig?.enabled !== false) {
+    if (options?.reactNativeStartupInstrumentationConfig?.enabled !== false) {
       instrumentations.push(
-        new AppStartupInstrumentation(options?.appStartupInstrumentationConfig)
+        new ReactNativeStartupInstrumentation(
+          options?.reactNativeStartupInstrumentationConfig
+        )
       );
     }
 

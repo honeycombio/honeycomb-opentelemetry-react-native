@@ -6,17 +6,19 @@ import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 
 const LIBRARY_NAME = '@honeycombio/app-startup';
 
-export interface AppStartupInstrumentationConfig
+export interface ReactNativeStartupInstrumentationConfig
   extends InstrumentationConfig {}
 
 /**
  * Emit a span with the total time from when the app was started to when this was called.
  */
-export class AppStartupInstrumentation extends InstrumentationBase {
+export class ReactNativeStartupInstrumentation extends InstrumentationBase {
   private _isEnabled: boolean;
 
-  constructor({ enabled = true }: AppStartupInstrumentationConfig = {}) {
-    const config: AppStartupInstrumentationConfig = {
+  constructor({
+    enabled = true,
+  }: ReactNativeStartupInstrumentationConfig = {}) {
+    const config: ReactNativeStartupInstrumentationConfig = {
       enabled,
     };
     super(LIBRARY_NAME, VERSION, config);
@@ -52,6 +54,6 @@ export class AppStartupInstrumentation extends InstrumentationBase {
 
   sendAppStartTrace(): void {
     let startTime = HoneycombOpentelemetryReactNative.getAppStartTime();
-    this.tracer.startSpan('app start', { startTime }).end();
+    this.tracer.startSpan('react native startup', { startTime }).end();
   }
 }

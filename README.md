@@ -78,7 +78,7 @@ override fun onCreate() {
 
 6. iOS (optional)
 
-  a. Edit your app's podfile to add the `use_frameworks!` option. 
+  a. Edit your app's podfile to add the `use_frameworks!` option.
 
 `ios/Podfile`
 ```diff
@@ -168,24 +168,24 @@ You can disable them by using the following configuration options:
 
 | Option                                                | Type                                   | Required? | default value     | Description                                              |
 |-------------------------------------------------------|----------------------------------------|-----------|-------------------|----------------------------------------------------------|
-| `appStartupInstrumentationConfig`                     | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for app startup instrumentation            |
+| `reactNativeStartupInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for React Native startup instrumentation   |
 | `uncaughtExceptionInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for uncaught exception instrumentation     |
 | `fetchInstrumentationConfig`                          | FetchInstrumentationConfig             | No        | { enabled: true } | configuration for fetch instrumentation.                 |
 | `slowEventLoopInstrumentationConfig`                  | slowEventLoopInstrumentationConfig     | No        | { enabled: true } | configuration for slow event loop instrumentation        |
 
-### App startup
-App startup instrumentation automatically measures the time from when the native SDKs start to when
+### React Native Startup
+React Native Startup instrumentation automatically measures the time from when the native SDKs start to when
 native code starts running to when the JavaScript SDK is finished initializing. This
 instrumentation requires the Honeycomb native SDKs to be installed to measure the full span. The
-emitted span is named `app start`.
+emitted span is named `react native startup`.
 
 ### Error handler
 The Honeycomb React Native SDK includes a global error handler for uncaught exceptions by default.
 
 ### Slow event loop detection
-The Honeycomb React Native SDK comes with a slow event loop detection instrumentation. 
+The Honeycomb React Native SDK comes with a slow event loop detection instrumentation.
 
-#### Configuration 
+#### Configuration
 | Option                        | Type                                | Required? | default value | Description                                                                                                                                                                         |
 |-------------------------------|-------------------------------------|-----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `loopSampleIntervalMs`.       | number                              | No        | 50            | Duration (in milliseconds) between each sampling of the event loop duration.                                                                                                        |
@@ -203,7 +203,7 @@ When a slow event loop is detected, it will emit a 'slow event loop' span with t
 ## Manual Instrumentation
 
 ### Navigation
-Navigation instrumentation depends on if you are using React NativeRouter or Expo Router for navigation. 
+Navigation instrumentation depends on if you are using React NativeRouter or Expo Router for navigation.
 Honeycomb SDK provides a component (`<NavigationInstrumentation>`) that you can place in your main app or layout file. Below are examples
 on using it with both ReactNative Router.
 

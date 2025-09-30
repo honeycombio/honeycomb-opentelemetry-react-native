@@ -130,9 +130,9 @@ EOF
   assert_equal "$result" '"http://localhost:1080/simple-api"'
 }
 
-@test "App start sends span" {
+@test "App start sends React Native Startup span" {
   result=$(span_names_for "@honeycombio/app-startup" | uniq)
-  assert_equal "$result" '"app start"'
+  assert_equal "$result" '"react native startup"'
 }
 
 @test "telemetry.sdk.language is correct for React Native (js) spans" {
