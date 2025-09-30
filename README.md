@@ -182,6 +182,9 @@ emitted span is named `react native startup`.
 ### Error handler
 The Honeycomb React Native SDK includes a global error handler for uncaught exceptions by default.
 
+### Fetch Instrumentation
+React Native uses [OpenTelemetry JS's Fetch Instrumentation](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-instrumentation-fetch).
+
 ### Slow event loop detection
 The Honeycomb React Native SDK comes with a slow event loop detection instrumentation.
 
