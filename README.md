@@ -168,7 +168,7 @@ You can disable them by using the following configuration options:
 
 | Option                                                | Type                                   | Required? | default value     | Description                                              |
 |-------------------------------------------------------|----------------------------------------|-----------|-------------------|----------------------------------------------------------|
-| `reactNativetartupInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for React Native startup instrumentation   |
+| `reactNativeStartupInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for React Native startup instrumentation   |
 | `uncaughtExceptionInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for uncaught exception instrumentation     |
 | `fetchInstrumentationConfig`                          | FetchInstrumentationConfig             | No        | { enabled: true } | configuration for fetch instrumentation.                 |
 | `slowEventLoopInstrumentationConfig`                  | slowEventLoopInstrumentationConfig     | No        | { enabled: true } | configuration for slow event loop instrumentation        |
