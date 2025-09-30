@@ -1,6 +1,7 @@
 # Honeycomb React Native SDK Changelog
 
 ## v.Next
+- Update `app startup` event name to `react native startup`
 
 ## v0.6.0
 
