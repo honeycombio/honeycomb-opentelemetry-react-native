@@ -29,6 +29,7 @@ IOS_RESOURCE_ATTR_LIST=$(cat <<'EOF'
 "app.bundle.version"
 "app.debug.binaryName"
 "app.debug.build_uuid"
+"deployment.environment.name"
 "device.id"
 "device.model.identifier"
 "honeycomb.distro.runtime_version"
@@ -56,6 +57,7 @@ EOF
   result=$(resource_attributes_received | jq '.key' | sort | uniq)
 
   ANDROID_RESOURCE_ATTR_LIST=$(cat <<'EOF'
+"deployment.environment.name"
 "device.id"
 "device.manufacturer"
 "device.model.identifier"
@@ -80,6 +82,9 @@ EOF
 }
 
 @test "Resources attributes are correct value" {
+
+  assert_equal "$(resource_attribute_named 'deployment.environment.name' 'string')" '"development"'
+
   assert_not_empty "$(resource_attribute_named 'honeycomb.distro.version' 'string')"
   assert_not_empty "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)"
 
