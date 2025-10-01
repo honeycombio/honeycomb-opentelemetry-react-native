@@ -2,6 +2,8 @@
 
 ## v.Next
 
+- feat: Allow differentiation of telemetry based on build type.
+
 ## v0.6.1
 
 - Update `app startup` event name to `react native startup`
