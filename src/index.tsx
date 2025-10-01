@@ -151,7 +151,7 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       // React Native enviornment
       [ATTR_DEPLOYMENT_ENVIRONMENT_NAME]: __DEV__
         ? 'development'
-        : 'produciton',
+        : 'production',
     };
     const sourceMapUuid =
       HoneycombOpentelemetryReactNative.getDebugSourceMapUUID();
