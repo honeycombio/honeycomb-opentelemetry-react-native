@@ -151,7 +151,7 @@ These are the React Native-specific options:
 |----------------------|--------------------------------|-----------|------------------------------|
 
 ## Default Attributes
-All spans  will include the following attributes:
+All spans will include the following attributes:
 
 | name                          | Native or JS | static? | description                                                                               | example        |
 |-------------------------------|--------------|---------|-------------------------------------------------------------------------------------------|----------------|
