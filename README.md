@@ -151,9 +151,13 @@ These are the React Native-specific options:
 |----------------------|--------------------------------|-----------|------------------------------|
 
 ## Default Attributes
-All spans will include the following attributes
+All spans will include the following attributes:
 
-TODO
+| name                          | Native or JS | static? | description                                                                               | example        |
+|-------------------------------|--------------|---------|-------------------------------------------------------------------------------------------|----------------|
+| `deployment.environment.name` | JS only.     | static. | "development" when running in developer mode, "production" if this is a production build. | "development"  |
+
+
 
 ## Auto-instrumentation
 

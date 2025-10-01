@@ -29,6 +29,7 @@ import {
   ATTR_TELEMETRY_SDK_LANGUAGE,
   ATTR_TELEMETRY_SDK_NAME,
   ATTR_TELEMETRY_SDK_VERSION,
+  ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
 } from '@opentelemetry/semantic-conventions/incubating';
 import { VERSION } from './version';
 import {
@@ -146,6 +147,11 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       [ATTR_TELEMETRY_SDK_LANGUAGE]: 'hermesjs',
       [ATTR_TELEMETRY_SDK_NAME]: 'opentelemetry',
       [ATTR_TELEMETRY_SDK_VERSION]: VERSION,
+
+      // React Native enviornment
+      [ATTR_DEPLOYMENT_ENVIRONMENT_NAME]: __DEV__
+        ? 'development'
+        : 'production',
     };
     const sourceMapUuid =
       HoneycombOpentelemetryReactNative.getDebugSourceMapUUID();
