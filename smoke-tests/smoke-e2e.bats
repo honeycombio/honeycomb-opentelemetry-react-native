@@ -83,7 +83,7 @@ EOF
 
 @test "Resources attributes are correct value" {
 
-  assert_equal "$(resource_attribute_named 'deployment.environment.name' 'string')" '"development"'
+  assert_equal "$(resource_attribute_named 'deployment.environment.name' 'string' | uniq)" '"development"'
 
   assert_not_empty "$(resource_attribute_named 'honeycomb.distro.version' 'string')"
   assert_not_empty "$(resource_attribute_named 'honeycomb.distro.runtime_version' 'string' | uniq)"
