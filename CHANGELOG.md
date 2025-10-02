@@ -1,5 +1,7 @@
 # Honeycomb React Native SDK Changelog
 
+## v.Next
+
 ## v0.7.0
 
 - feat: Allow differentiation of telemetry based on build type.
