@@ -39,7 +39,7 @@ sdk.start();
 ```Kotlin
 dependencies {
     //...
-    implementation "io.honeycomb.android:honeycomb-opentelemetry-android:0.0.16"
+    implementation "io.honeycomb.android:honeycomb-opentelemetry-android:0.0.19"
     implementation "io.opentelemetry.android:android-agent:0.11.0-alpha"
 }
 ```

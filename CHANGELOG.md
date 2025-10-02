@@ -1,8 +1,10 @@
 # Honeycomb React Native SDK Changelog
 
-## v.Next
+## v0.7.0
 
 - feat: Allow differentiation of telemetry based on build type.
+- maint: Update Android SDK from 0.0.16 to 0.0.19
+- maint: Update Swift SDK from 2.1.0 to 2.1.2
 
 ## v0.6.1
 
