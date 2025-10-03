@@ -51,6 +51,9 @@ export class UncaughtExceptionInstrumentation extends InstrumentationBase {
             stack: caughtError.stack ?? '',
           };
 
+    // Remove the "address at" in Android stack traces that break parsing.
+    error.stack?.replace(/ at anonymous \(address at /g, ' at anonymous (');
+
     recordException(error, {}, this.tracer, this.applyCustomAttributesOnSpan);
 
     if (this._oldErrorHandler) {
