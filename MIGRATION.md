@@ -32,8 +32,9 @@ yarn remove @opentelemetry/sdk-trace-web \
 
 ## JavaScript Configuration
 
+Honeycomb's SDK greatly simplifies your configuration code.
+
 ```diff
-- import { NativeModules } from 'react-native';
 - import { Context, metrics } from '@opentelemetry/api';
 - import { logs } from '@opentelemetry/api-logs';
 - import {
@@ -55,84 +56,74 @@ yarn remove @opentelemetry/sdk-trace-web \
 - import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 - import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 - import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
-- import {
--   createSessionSpanProcessor,
--   SessionProvider
-- } from '@opentelemetry/web-common';
+
 + import { HoneycombReactNativeSDK } from '@honeycombio/opentelemetry-react-native';
 
-- class SessionIdProvider implements SessionProvider {
--   getSessionId(): string | null {
--     const {HoneycombModule} = NativeModules;
--     return HoneycombModule.getSessionId();
--   }
-- }
+export default function configureHoneycomb() {
+  const serviceName = "reactnative-demo";
+  const honeycombKey = "YOUR-API-KEY-HERE";
+- const honeycombURL = "https://api.honeycomb.io";
 
-- export default function configureHoneycomb() {
--   const serviceName = "reactnative-demo";
--   const honeycombKey = "YOUR-API-KEY-HERE";
--   const honeycombURL = "https://api.honeycomb.io";
--
--   const resource = new Resource({
--     "service.name": serviceName,
--   });
--
--   const headers = {
--     "x-honeycomb-team": honeycombKey,
--     "x-honeycomb-dataset": serviceName,
--   };
--
--   // Traces
--   const traceProvider = new WebTracerProvider({
--     resource,
--     spanProcessors: [
--       createSessionSpanProcessor(new SessionIdProvider()),
--       new SimpleSpanProcessor(
--         new OTLPTraceExporter({ headers, url: `${honeycombURL}/v1/traces` })
--       ),
--       new SimpleSpanProcessor(new ConsoleSpanExporter()),
--     ],
--   });
--   traceProvider.register();
--
--   // Metrics
--   const metricsHeaders = {
--     "x-honeycomb-team": honeycombKey,
--     "x-honeycomb-dataset": `${serviceName}-metrics`,
--   };
--   const metricExporter = new OTLPMetricExporter({
--     headers: metricsHeaders,
--     url: `${honeycombURL}/v1/metrics`,
--   });
--   const meterProvider = new MeterProvider({
--     resource,
--     readers: [
--       new PeriodicExportingMetricReader({
--         exporter: metricExporter,
--       }),
--       new PeriodicExportingMetricReader({
--         exporter: new ConsoleMetricExporter(),
--       }),
--     ],
--   });
--   metrics.setGlobalMeterProvider(meterProvider);
--
--   // Logging
--   const logExporter = new OTLPLogExporter({
--     headers,
--     url: `${honeycombURL}/v1/logs`,
--   });
--   const loggerProvider = new LoggerProvider({ resource });
--   loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(logExporter));
--   loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(new ConsoleLogRecordExporter()));
--   logs.setGlobalLoggerProvider(loggerProvider);
-- }
 + const sdk = new HoneycombReactNativeSDK({
-+   apiKey: 'YOUR-API-KEY-HERE',
-+   serviceName: 'reactnative-demo',
++   apiKey: honeycombKey,
++   serviceName: serviceName,
 + });
 +
 + sdk.start();
+
+- const resource = new Resource({
+-   "service.name": serviceName,
+- });
+-
+- const headers = {
+-   "x-honeycomb-team": honeycombKey,
+-   "x-honeycomb-dataset": serviceName,
+- };
+-
+- // Traces
+- const traceProvider = new WebTracerProvider({
+-   resource,
+-   spanProcessors: [
+-     new SimpleSpanProcessor(
+-       new OTLPTraceExporter({ headers, url: `${honeycombURL}/v1/traces` })
+-     ),
+-     new SimpleSpanProcessor(new ConsoleSpanExporter()),
+-   ],
+- });
+- traceProvider.register();
+-
+- // Metrics
+- const metricsHeaders = {
+-   "x-honeycomb-team": honeycombKey,
+-   "x-honeycomb-dataset": `${serviceName}-metrics`,
+- };
+- const metricExporter = new OTLPMetricExporter({
+-   headers: metricsHeaders,
+-   url: `${honeycombURL}/v1/metrics`,
+- });
+- const meterProvider = new MeterProvider({
+-   resource,
+-   readers: [
+-     new PeriodicExportingMetricReader({
+-       exporter: metricExporter,
+-     }),
+-     new PeriodicExportingMetricReader({
+-       exporter: new ConsoleMetricExporter(),
+-     }),
+-   ],
+- });
+- metrics.setGlobalMeterProvider(meterProvider);
+-
+- // Logging
+- const logExporter = new OTLPLogExporter({
+-   headers,
+-   url: `${honeycombURL}/v1/logs`,
+- });
+- const loggerProvider = new LoggerProvider({ resource });
+- loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(logExporter));
+- loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(new ConsoleLogRecordExporter()));
+- logs.setGlobalLoggerProvider(loggerProvider);
+}
 ```
 
 ## Configuration Options
@@ -149,7 +140,7 @@ const sdk = new HoneycombReactNativeSDK({
 
   // Optional: Add custom resource attributes
   resourceAttributes: {
-    [ATTR_SERVICE_VERSION]: '1.0.0',
+    "my.custom.attribute": 'custom-value',
   },
 
   // Optional: Configure fetch instrumentation
@@ -197,25 +188,7 @@ The Honeycomb SDK includes built-in auto-instrumentation:
 
 All auto-instrumentations are enabled by default. You can disable them individually via configuration options (see above).
 
-## Manual Instrumentation
-
-### Sending Custom Spans
-
-Creating custom spans works the same way as it did before:
-
-```typescript
-import { trace } from '@opentelemetry/api';
-
-const span = trace
-  .getTracer('your-tracer-name')
-  .startSpan('some-span');
-
-// Do work...
-
-span.end();
-```
-
-### Navigation Instrumentation
+### Navigation Instrumentation (requires additional configuration)
 
 The Honeycomb SDK provides a `NavigationInstrumentation` component for tracking navigation events.
 
@@ -267,6 +240,22 @@ export default function App() {
     </NavigationContainer>
   );
 }
+```
+
+## Sending Custom Spans
+
+If you manually instrumented your React Native app you will not need to make any changes. Emitting custom spans will work exactly as it did before.
+
+```typescript
+import { trace } from '@opentelemetry/api';
+
+const span = trace
+  .getTracer('your-tracer-name')
+  .startSpan('some-span');
+
+// Do work...
+
+span.end();
 ```
 
 ## Native Configuration (Optional but Recommended)
