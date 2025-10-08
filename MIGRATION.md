@@ -30,9 +30,18 @@ yarn remove @opentelemetry/sdk-trace-web \
   @opentelemetry/web-common
 ```
 
+## Removing Custom Native Modules
+
+If you previously created custom native modules for session tracking (like a `SessionIdProvider` class that accessed `HoneycombModule.getSessionId()`), you can remove them. The Honeycomb SDK now handles session tracking automatically.
+
+You can delete:
+- Custom `SessionIdProvider` or similar session tracking classes
+- Any `HoneycombModule` native module bridging code
+- Related native code that exposed session IDs to JavaScript
+
 ## JavaScript Configuration
 
-Honeycomb's SDK greatly simplifies your configuration code.
+The Honeycomb SDK greatly simplifies your configuration code.
 
 ```diff
 - import { Context, metrics } from '@opentelemetry/api';
