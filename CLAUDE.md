@@ -25,6 +25,7 @@
 - lint: `make lint`
 - format: `make format`
 - launch xcode: `xed example/ios`
+- regenerate Native modules from JS: `yarn bob build --target codegen`
 
 ### Example App Run and Launch commands
 
