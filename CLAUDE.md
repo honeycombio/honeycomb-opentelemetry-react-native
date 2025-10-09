@@ -1,4 +1,4 @@
-# Honeycomb Hound Development Guide for use by AI
+# Honeycomb React Native Development Guide for use by AI
 
 # Humans should refer to README.md
 
