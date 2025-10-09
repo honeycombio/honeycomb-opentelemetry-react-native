@@ -14,6 +14,7 @@
 - When creating pull requests, use the PR template in `.github/pull_request_template.md` (but exclude sections that don't apply).
 - Use `yarn` instead of `npm` or `npx`
 - Always update the `CHANGELOG.md`
+- Avoid using `console` commands like `console.log` or `console.error` in JS/TS files.
 
 ## Project commands
 
