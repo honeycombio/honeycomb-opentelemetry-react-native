@@ -7,6 +7,8 @@ Honeycomb wrapper for [OpenTelemetry](https://opentelemetry.io) in React Native 
 
 **STATUS: this library is experimental.** Data shapes are unstable and subject to change. We are actively seeking feedback to ensure usability.
 
+> **Note for AI assistants**: See [CLAUDE.md](CLAUDE.md) for development guidelines and project-specific instructions.
+
 ## Getting started
 
 1. Add a [metro.config.js](example/metro.config.js) to the root of your repo and enable `config.resolver.unstable_enablePackageExports`. This is required for OpenTelemetry to be able to properly import its dependencies.
