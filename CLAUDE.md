@@ -39,6 +39,7 @@
 - iOS Native Modules: `ios`
 - Android Native Modules: `android`
 - Example app: `example`
+- expo UUID plugin: `src/plugin`
 - Tests: `smoke-test`
 - Test helpers: `smoke-tests/test_helpers/utilities.bash`
 
