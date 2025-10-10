@@ -2,6 +2,8 @@
 
 ## v.Next
 
+- docs: Add CLAUDE.md development guide for AI assistants
+
 ## v0.7.0
 
 - feat: Allow differentiation of telemetry based on build type.
