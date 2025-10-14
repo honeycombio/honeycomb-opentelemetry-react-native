@@ -30,15 +30,6 @@ yarn remove @opentelemetry/sdk-trace-web \
   @opentelemetry/web-common
 ```
 
-## Removing Custom Native Modules
-
-If you previously created custom native modules for session tracking (like a `SessionIdProvider` class that accessed `HoneycombModule.getSessionId()`), you can remove them. The Honeycomb SDK now handles session tracking automatically.
-
-You can delete:
-- Custom `SessionIdProvider` or similar session tracking classes
-- Any `HoneycombModule` native module bridging code
-- Related native code that exposed session IDs to JavaScript
-
 ## JavaScript Configuration
 
 The Honeycomb SDK greatly simplifies your configuration code.
@@ -134,6 +125,66 @@ export default function configureHoneycomb() {
 - logs.setGlobalLoggerProvider(loggerProvider);
 }
 ```
+
+## Removing Custom Native Modules
+
+If you previously created custom native modules for session tracking, you can remove them. The Honeycomb SDK now handles session tracking automatically through its built-in native integrations.
+
+### iOS
+
+**Files to remove:**
+- `HoneycombModule.swift` or `HoneycombModule.m` (if you created custom bridging code)
+- `HoneycombModule-Bridging-Header.h` (if applicable)
+
+**Files to modify:**
+
+If you have custom session tracking or Honeycomb initialization in `AppDelegate.swift`, you can remove it:
+
+```diff
+  import UIKit
+- import YourCustomHoneycombModule
+
+  @main
+  class AppDelegate: UIResponder, UIApplicationDelegate {
+    func application(
+      _ application: UIApplication,
+      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+-     // Remove custom session tracking
+-     HoneycombModule.shared.initializeSession()
+
+      return true
+    }
+  }
+```
+
+### Android
+
+**Files to remove:**
+- `HoneycombModule.kt` or `HoneycombModule.java` (if you created custom bridging code)
+- Any related package classes for custom Honeycomb integration
+
+**Files to modify:**
+
+If you have custom session tracking in `MainApplication.kt`, you can remove it:
+
+```diff
+  package com.yourapp
+
+  import android.app.Application
+  import com.facebook.react.ReactApplication
+- import com.yourapp.honeycomb.HoneycombModule
+
+  class MainApplication : Application(), ReactApplication {
+    override fun onCreate() {
+      super.onCreate()
+-     // Remove custom session tracking
+-     HoneycombModule.initializeSession(this)
+    }
+  }
+```
+
+The Honeycomb SDK now provides session tracking automatically. When you configure the native SDKs (see [Native Configuration](#native-configuration-optional-but-recommended) below), session IDs are automatically generated and attached to all telemetry.
 
 ## Configuration Options
 
