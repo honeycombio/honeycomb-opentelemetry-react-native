@@ -139,7 +139,7 @@ You can remove any previously added Native Modules. The Honeycomb SDK now handle
 - `HNYModule.h`
 
 **Modify:**
-For iOS there is no native code to remove from the `AppDelegate` files. If you wish to use Native Modules, add the code described in [Native Configuration](#native-configuration-optional-but-recommended)
+For iOS, there is no native code to remove from the `AppDelegate` files. If you wish to use Native Modules, add the code described in [Native Configuration](#native-configuration-optional-but-recommended)
 
 ### Android
 
@@ -149,8 +149,8 @@ For iOS there is no native code to remove from the `AppDelegate` files. If you w
 
 **Modify:** 
 
-If you are using native modules you can directly convert the configuration to use Native modules.
-If you are not using Native Modules you may rest your `MainApplication.kt` to its default value
+If you are using native modules, you can directly convert the configuration to use the Honeycomb SDK's Native Modules as shown below.
+If you are not using Native Modules, you may reset your `MainApplication.kt` to its default value
 
 `MainApplication.kt`
 ```diff
