@@ -128,63 +128,106 @@ export default function configureHoneycomb() {
 
 ## Removing Custom Native Modules
 
-If you previously created custom native modules for session tracking, you can remove them. The Honeycomb SDK now handles session tracking automatically through its built-in native integrations.
+You can remove any previously added Native Modules. The Honeycomb SDK now handles this automatically through its built-in native integrations.
 
 ### iOS
 
-**Files to remove:**
-- `HoneycombModule.swift` or `HoneycombModule.m` (if you created custom bridging code)
-- `HoneycombModule-Bridging-Header.h` (if applicable)
+**Remove:**
 
-**Files to modify:**
+- `HoneycombModule.swift`
+- `HNYModule.m`
+- `HNYModule.h`
 
-If you have custom session tracking or Honeycomb initialization in `AppDelegate.swift`, you can remove it:
-
-```diff
-  import UIKit
-- import YourCustomHoneycombModule
-
-  @main
-  class AppDelegate: UIResponder, UIApplicationDelegate {
-    func application(
-      _ application: UIApplication,
-      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
--     // Remove custom session tracking
--     HoneycombModule.shared.initializeSession()
-
-      return true
-    }
-  }
-```
+**Modify:**
+For iOS there is no native code to remove from the `AppDelegate` files. If you wish to use Native Modules, add the code described in [Native Configuration](#native-configuration-optional-but-recommended)
 
 ### Android
 
-**Files to remove:**
-- `HoneycombModule.kt` or `HoneycombModule.java` (if you created custom bridging code)
-- Any related package classes for custom Honeycomb integration
+**Remove:**
+- `HoneycombModule.kt`
+- `HoneycombPackage.kt`
 
-**Files to modify:**
+**Modify:** 
 
-If you have custom session tracking in `MainApplication.kt`, you can remove it:
+If you are using native modules you can directly convert the configuration to use Native modules.
+If you are not using Native Modules you may rest your `MainApplication.kt` to its default value
 
+`MainApplication.kt`
 ```diff
-  package com.yourapp
+package com.anonymous.myapp
 
-  import android.app.Application
-  import com.facebook.react.ReactApplication
-- import com.yourapp.honeycomb.HoneycombModule
+import android.app.Application
+import android.content.res.Configuration
 
-  class MainApplication : Application(), ReactApplication {
-    override fun onCreate() {
-      super.onCreate()
--     // Remove custom session tracking
--     HoneycombModule.initializeSession(this)
+import com.facebook.react.PackageList
+import com.facebook.react.ReactApplication
+import com.facebook.react.ReactNativeHost
+import com.facebook.react.ReactPackage
+import com.facebook.react.ReactHost
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
+import com.facebook.react.defaults.DefaultReactNativeHost
+import com.facebook.react.soloader.OpenSourceMergedSoMapping
+import com.facebook.soloader.SoLoader
+
+-import io.honeycomb.opentelemetry.android.Honeycomb
+-import io.honeycomb.opentelemetry.android.HoneycombOptions
+-import io.opentelemetry.android.OpenTelemetryRum
+
+import expo.modules.ApplicationLifecycleDispatcher
+import expo.modules.ReactNativeHostWrapper
+
+class MainApplication : Application(), ReactApplication {
+- var otelRum: OpenTelemetryRum? = null
+
+  override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
+        this,
+        object : DefaultReactNativeHost(this) {
+          override fun getPackages(): List<ReactPackage> {
+            val packages = PackageList(this).packages
+            // Packages that cannot be autolinked yet can be added manually here, for example:
+            // packages.add(new MyReactNativePackage());
+-           packages.add(HoneycombPackage({ otelRum }))
+            return packages
+          }
+
+          override fun getJSMainModuleName(): String = ".expo/.virtual-metro-entry"
+
+          override fun getUseDeveloperSupport(): Boolean = BuildConfig.DEBUG
+
+          override val isNewArchEnabled: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
+          override val isHermesEnabled: Boolean = BuildConfig.IS_HERMES_ENABLED
+      }
+  )
+
+  override val reactHost: ReactHost
+    get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
+
+  override fun onCreate() {
+-   val options = HoneycombOptions.builder(this)
++   val options = HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
+      .setApiKey("YOUR-API-KEY-HERE")
+      .setServiceName("reactnative-demo")
+-     .build()
+
++   HoneycombOpentelemetryReactNativeModule.configure(this, options)
+-   otelRum = Honeycomb.configure(this, options)
+
+    super.onCreate()
+
+    SoLoader.init(this, OpenSourceMergedSoMapping)
+    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+      // If you opted-in for the New Architecture, we load the native entry point for this app.
+      load()
     }
+    ApplicationLifecycleDispatcher.onApplicationCreate(this)
   }
-```
 
-The Honeycomb SDK now provides session tracking automatically. When you configure the native SDKs (see [Native Configuration](#native-configuration-optional-but-recommended) below), session IDs are automatically generated and attached to all telemetry.
+  override fun onConfigurationChanged(newConfig: Configuration) {
+    super.onConfigurationChanged(newConfig)
+    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
+  }
+}
+```
 
 ## Configuration Options
 
