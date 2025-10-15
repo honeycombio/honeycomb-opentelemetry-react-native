@@ -4,6 +4,7 @@
 
 - docs: Add CLAUDE.md development guide for AI assistants
 - docs: Add MIGRATION.md guide and TROUBLESHOOTING.md for common issues
+- docs: Enhance telemetry.sdk.language documentation with React Native variations
 
 ## v0.7.0
 
