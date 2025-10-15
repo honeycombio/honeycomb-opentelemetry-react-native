@@ -207,9 +207,9 @@ If you are not using Native Modules, you may reset your `MainApplication.kt` to 
  }
 ```
 
-## Configuration Options
+## Configuration Options (optional)
 
-The Honeycomb SDK supports additional configuration options:
+The Honeycomb SDK supports additional configuration options compared to the OpenTelemetry JS SDK:
 
 ```typescript
 import { HoneycombReactNativeSDK } from '@honeycombio/opentelemetry-react-native';
