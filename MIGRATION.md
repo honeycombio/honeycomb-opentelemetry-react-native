@@ -128,7 +128,7 @@ export default function configureHoneycomb() {
 
 ## Removing Custom Native Modules
 
-You can remove any previously added Native Modules. The Honeycomb SDK now handles this automatically through its built-in native integrations.
+If you previously added native modules from our example code or documentation, you can now remove them. The Honeycomb SDK handles this automatically through its built-in native integrations.
 
 ### iOS
 
@@ -154,79 +154,57 @@ If you are not using Native Modules, you may reset your `MainApplication.kt` to 
 
 `MainApplication.kt`
 ```diff
-package com.anonymous.myapp
-
-import android.app.Application
-import android.content.res.Configuration
-
-import com.facebook.react.PackageList
-import com.facebook.react.ReactApplication
-import com.facebook.react.ReactNativeHost
-import com.facebook.react.ReactPackage
-import com.facebook.react.ReactHost
-import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
-import com.facebook.react.defaults.DefaultReactNativeHost
-import com.facebook.react.soloader.OpenSourceMergedSoMapping
-import com.facebook.soloader.SoLoader
-
 -import io.honeycomb.opentelemetry.android.Honeycomb
 -import io.honeycomb.opentelemetry.android.HoneycombOptions
 -import io.opentelemetry.android.OpenTelemetryRum
 
-import expo.modules.ApplicationLifecycleDispatcher
-import expo.modules.ReactNativeHostWrapper
+ import expo.modules.ApplicationLifecycleDispatcher
+ import expo.modules.ReactNativeHostWrapper
 
-class MainApplication : Application(), ReactApplication {
+ class MainApplication : Application(), ReactApplication {
 - var otelRum: OpenTelemetryRum? = null
 
-  override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
-        this,
-        object : DefaultReactNativeHost(this) {
-          override fun getPackages(): List<ReactPackage> {
-            val packages = PackageList(this).packages
-            // Packages that cannot be autolinked yet can be added manually here, for example:
-            // packages.add(new MyReactNativePackage());
--           packages.add(HoneycombPackage({ otelRum }))
-            return packages
-          }
+   override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
+         this,
+         object : DefaultReactNativeHost(this) {
+           override fun getPackages(): List<ReactPackage> {
+             val packages = PackageList(this).packages
+-            packages.add(HoneycombPackage({ otelRum }))
+             return packages
+           }
++          // ...
+         }
+   )
 
-          override fun getJSMainModuleName(): String = ".expo/.virtual-metro-entry"
+-  override val reactHost: ReactHost
+-    get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
 
-          override fun getUseDeveloperSupport(): Boolean = BuildConfig.DEBUG
+   override fun onCreate() {
+-    val options = HoneycombOptions.builder(this)
++    val options = HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
+       .setApiKey("YOUR-API-KEY-HERE")
+       .setServiceName("reactnative-demo")
+-      .build()
 
-          override val isNewArchEnabled: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
-          override val isHermesEnabled: Boolean = BuildConfig.IS_HERMES_ENABLED
-      }
-  )
++    HoneycombOpentelemetryReactNativeModule.configure(this, options)
+-    otelRum = Honeycomb.configure(this, options)
 
-  override val reactHost: ReactHost
-    get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
-
-  override fun onCreate() {
--   val options = HoneycombOptions.builder(this)
-+   val options = HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
-      .setApiKey("YOUR-API-KEY-HERE")
-      .setServiceName("reactnative-demo")
--     .build()
-
-+   HoneycombOpentelemetryReactNativeModule.configure(this, options)
--   otelRum = Honeycomb.configure(this, options)
-
-    super.onCreate()
-
-    SoLoader.init(this, OpenSourceMergedSoMapping)
-    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-      // If you opted-in for the New Architecture, we load the native entry point for this app.
-      load()
-    }
-    ApplicationLifecycleDispatcher.onApplicationCreate(this)
-  }
-
-  override fun onConfigurationChanged(newConfig: Configuration) {
-    super.onConfigurationChanged(newConfig)
-    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
-  }
-}
+     super.onCreate()
+-
+-    SoLoader.init(this, OpenSourceMergedSoMapping)
+-    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+-      // If you opted-in for the New Architecture, we load the native entry point for this app.
+-      load()
+-    }
+-    ApplicationLifecycleDispatcher.onApplicationCreate(this)
++    // ...
+   }
+-
+-  override fun onConfigurationChanged(newConfig: Configuration) {
+-    super.onConfigurationChanged(newConfig)
+-    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
+-  }
+ }
 ```
 
 ## Configuration Options
