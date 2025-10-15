@@ -157,54 +157,43 @@ If you are not using Native Modules, you may reset your `MainApplication.kt` to 
 -import io.honeycomb.opentelemetry.android.Honeycomb
 -import io.honeycomb.opentelemetry.android.HoneycombOptions
 -import io.opentelemetry.android.OpenTelemetryRum
++import com.honeycombopentelemetryreactnative.HoneycombOpentelemetryReactNativeModule
 
- import expo.modules.ApplicationLifecycleDispatcher
- import expo.modules.ReactNativeHostWrapper
+import expo.modules.ApplicationLifecycleDispatcher
+import expo.modules.ReactNativeHostWrapper
 
- class MainApplication : Application(), ReactApplication {
+class MainApplication : Application(), ReactApplication {
 - var otelRum: OpenTelemetryRum? = null
 
-   override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
-         this,
-         object : DefaultReactNativeHost(this) {
-           override fun getPackages(): List<ReactPackage> {
-             val packages = PackageList(this).packages
--            packages.add(HoneycombPackage({ otelRum }))
-             return packages
-           }
-+          // ...
-         }
-   )
+  override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
+    this,
+    object : DefaultReactNativeHost(this) {
+      override fun getPackages(): List<ReactPackage> {
+        val packages = PackageList(this).packages
+-       packages.add(HoneycombPackage({ otelRum }))
+        return packages
+      }
+     // ...
+    }
+  )
 
 -  override val reactHost: ReactHost
 -    get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
 
-   override fun onCreate() {
--    val options = HoneycombOptions.builder(this)
-+    val options = HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
-       .setApiKey("YOUR-API-KEY-HERE")
-       .setServiceName("reactnative-demo")
--      .build()
+  override fun onCreate() {
+-   val options = HoneycombOptions.builder(this)
++   val options = HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
+      .setApiKey("YOUR-API-KEY-HERE")
+      .setServiceName("reactnative-demo")
+-     .build()
 
-+    HoneycombOpentelemetryReactNativeModule.configure(this, options)
--    otelRum = Honeycomb.configure(this, options)
++   HoneycombOpentelemetryReactNativeModule.configure(this, options)
+-   otelRum = Honeycomb.configure(this, options)
 
-     super.onCreate()
--
--    SoLoader.init(this, OpenSourceMergedSoMapping)
--    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
--      // If you opted-in for the New Architecture, we load the native entry point for this app.
--      load()
--    }
--    ApplicationLifecycleDispatcher.onApplicationCreate(this)
-+    // ...
-   }
--
--  override fun onConfigurationChanged(newConfig: Configuration) {
--    super.onConfigurationChanged(newConfig)
--    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
--  }
- }
+    super.onCreate()
+    // ...
+  }
+}
 ```
 
 ## Configuration Options (optional)
