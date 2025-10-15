@@ -3,6 +3,7 @@
 ## v.Next
 
 - docs: Add CLAUDE.md development guide for AI assistants
+- docs: Enhance telemetry.sdk.language documentation with React Native variations
 
 ## v0.7.0
 
