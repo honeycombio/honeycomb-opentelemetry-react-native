@@ -249,9 +249,6 @@ const sdk = new HoneycombReactNativeSDK({
   // Optional: Configure fetch instrumentation
   fetchInstrumentationConfig: {
     enabled: true,
-    propagateTraceHeaderCorsUrls: [
-      /https:\/\/api\.example\.com\/.*/,  // Regex to match your backend URLs
-    ]
   },
 
   // Optional: Configure error handling

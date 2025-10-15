@@ -3,6 +3,7 @@
 ## v.Next
 
 - docs: Add CLAUDE.md development guide for AI assistants
+- docs: Add MIGRATION.md guide and TROUBLESHOOTING.md for common issues
 
 ## v0.7.0
 
