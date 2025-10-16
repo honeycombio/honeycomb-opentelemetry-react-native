@@ -185,11 +185,16 @@ All spans and log events will include the following attributes:
 | `session.id`                      | Yes                           | Both    | Unique identifier for the current user session                                            | "a1b2c3d4e5f67890abcdef1234567890"                                                              |
 | `telemetry.distro.name`           | No                            | Both    | Name of the telemetry distribution                                                        | "@honeycombio/opentelemetry-react-native"                                                       |
 | `telemetry.distro.version`        | No                            | Both    | Honeycomb SDK version                                                                     | "0.7.0" (JS), "2.1.0" (iOS), or "0.0.19" (Android)                                              |
-| `telemetry.sdk.language`          | No                            | Both    | SDK language                                                                              | "hermesjs" (JS), "swift" (iOS), or "android" (Android)                                          |
+| `telemetry.sdk.language`          | No                            | Both    | SDK language *                                                                           | "hermesjs" (JS), "swift" (iOS), or "android" (Android)                                          |
 | `telemetry.sdk.name`              | No                            | Both    | Base SDK name                                                                             | "opentelemetry"                                                                                 |
 | `telemetry.sdk.version`           | No                            | Both    | Version of the base OpenTelemetry SDK                                                     | "1.28.0" (JS), "2.0.2" (iOS), or "0.11.0" (Android)                                             |
 
+*\* `telemetry.sdk.language` varies depending on the source of the telemetry event:*
+- *`hermesjs`: Events from JavaScript code running on the React Native Hermes engine*
+- *`swift`: Events from native iOS code instrumented by the iOS SDK*
+- *`android`: Events from native Android code instrumented by the Android SDK*
 
+This attribute enables filtering and analyzing telemetry by source layer, allowing you to distinguish between JavaScript-originated events and native platform-specific events in your observability data.
 
 ## Auto-instrumentation
 
