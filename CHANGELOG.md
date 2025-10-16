@@ -2,6 +2,7 @@
 
 ## v.Next
 
+- docs: Add import information for Native Module configuration
 - docs: Add CLAUDE.md development guide for AI assistants
 
 ## v0.7.0
