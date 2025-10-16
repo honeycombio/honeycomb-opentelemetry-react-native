@@ -67,6 +67,8 @@ android {
  c. Add the following lines to the beginning of your `MainApplication.kt`'s  `onCreate` method.
 
 ```Kotlin
+import com.honeycombopentelemetryreactnative.HoneycombOpentelemetryReactNativeModule
+
 override fun onCreate() {
   val options =
     HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
@@ -93,6 +95,8 @@ override fun onCreate() {
   c. Add the following lines to the beginning your `AppDelegate.swift`'s application method
 
 ```swift
+import HoneycombOpentelemetryReactNative
+
 override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
