@@ -113,6 +113,11 @@ override func application(
 
 Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/start-building/web/) for more information on instrumentation and troubleshooting.
 
+> #### Other JS Runtimes
+> Honeycomb ReactNative SDK has been primarily designed for, and tested on Hermes (the default JS runtime for ReactNative).
+> Other Runtimes such as JavaScript Core have not been extensively tested. If you are using a different runtime, we highly 
+> encourage you to upgrade to Hermes.
+
 ## Source Map Symbolication
 React Native projects automatically minify JS source files. Honeycomb provides a collector that can un-minify JS stack traces, but that requires a little bit of set up.
 
