@@ -2,6 +2,7 @@
 
 ## v.Next
 
+- docs: Supported JS runtimes
 - docs: Add import information for Native Module configuration
 - docs: Add CLAUDE.md development guide for AI assistants
 - docs: Add MIGRATION.md guide and TROUBLESHOOTING.md for common issues
