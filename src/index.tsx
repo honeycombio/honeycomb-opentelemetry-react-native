@@ -8,9 +8,9 @@ import {
   type FetchInstrumentationConfig,
 } from '@opentelemetry/instrumentation-fetch';
 import {
-  AppStartupInstrumentation,
-  type AppStartupInstrumentationConfig,
-} from './AppStartupInstrumentation';
+  ReactNativeStartupInstrumentation,
+  type ReactNativeStartupInstrumentationConfig,
+} from './ReactNativeStartupInstrumentation';
 import {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
@@ -22,22 +22,16 @@ import {
 } from '@opentelemetry/resources';
 import { RandomIdGenerator } from '@opentelemetry/sdk-trace-base';
 import {
-  ATTR_DEVICE_ID,
-  ATTR_DEVICE_MANUFACTURER,
-  ATTR_DEVICE_MODEL_IDENTIFIER,
-  ATTR_DEVICE_MODEL_NAME,
-  ATTR_OS_DESCRIPTION,
   ATTR_OS_NAME,
-  ATTR_OS_TYPE,
   ATTR_OS_VERSION,
   ATTR_TELEMETRY_DISTRO_NAME,
   ATTR_TELEMETRY_DISTRO_VERSION,
   ATTR_TELEMETRY_SDK_LANGUAGE,
   ATTR_TELEMETRY_SDK_NAME,
   ATTR_TELEMETRY_SDK_VERSION,
+  ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
 } from '@opentelemetry/semantic-conventions/incubating';
 import { VERSION } from './version';
-import { Platform, type PlatformOSType } from 'react-native';
 import {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
@@ -45,7 +39,7 @@ import {
 import { type SessionProvider } from '@opentelemetry/web-common';
 
 export { NavigationInstrumentation } from './NavigationInstrumentation';
-export { AppStartupInstrumentation } from './AppStartupInstrumentation';
+export { ReactNativeStartupInstrumentation } from './ReactNativeStartupInstrumentation';
 export {
   SlowEventLoopInstrumentation,
   type SlowEventLoopInstrumentationConfig,
@@ -54,6 +48,8 @@ export {
   UncaughtExceptionInstrumentation,
   type UncaughtExceptionInstrumentationConfig,
 } from './UncaughtExceptionInstrumentation';
+
+import { Platform, type PlatformOSType } from 'react-native';
 
 const generator = new RandomIdGenerator();
 const defaultSessionId = generator.generateTraceId();
@@ -74,7 +70,7 @@ class SessionIdProvider implements SessionProvider {
  * The options used to configure the Honeycomb React Native SDK.
  */
 interface HoneycombReactNativeOptions extends Partial<HoneycombOptions> {
-  appStartupInstrumentationConfig?: AppStartupInstrumentationConfig;
+  reactNativeStartupInstrumentationConfig?: ReactNativeStartupInstrumentationConfig;
   uncaughtExceptionInstrumentationConfig?: UncaughtExceptionInstrumentationConfig;
   fetchInstrumentationConfig?: FetchInstrumentationConfig;
   slowEventLoopInstrumentationConfig?: SlowEventLoopInstrumentationConfig;
@@ -87,7 +83,7 @@ const reactNativeOSTypeToOtelOSName: Record<PlatformOSType, string> = {
   native: 'Native',
   web: 'Web',
   windows: 'windows',
-};
+} as const;
 
 function getOSName(): string {
   return reactNativeOSTypeToOtelOSName[Platform.OS];
@@ -100,9 +96,11 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
   constructor(options?: HoneycombReactNativeOptions) {
     const instrumentations = [...(options?.instrumentations || [])];
 
-    if (options?.appStartupInstrumentationConfig?.enabled !== false) {
+    if (options?.reactNativeStartupInstrumentationConfig?.enabled !== false) {
       instrumentations.push(
-        new AppStartupInstrumentation(options?.appStartupInstrumentationConfig)
+        new ReactNativeStartupInstrumentation(
+          options?.reactNativeStartupInstrumentationConfig
+        )
       );
     }
 
@@ -120,10 +118,28 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       );
     }
 
+    const { major, minor, patch, prerelease } =
+      Platform.constants.reactNativeVersion;
+    let reactNativeVersion = `${major}.${minor}.${patch}`;
+    if (prerelease) {
+      reactNativeVersion = `${reactNativeVersion}-${[prerelease]}`;
+    }
+
+    // If the native SDKs are not initialized, fall back the the RN furnished values
+    const nativeAttributes = HoneycombOpentelemetryReactNative.getResource();
+    if (!nativeAttributes[ATTR_OS_NAME]) {
+      nativeAttributes[ATTR_OS_NAME] = getOSName();
+    }
+    if (!nativeAttributes[ATTR_OS_VERSION]) {
+      nativeAttributes[ATTR_OS_VERSION] = Platform.Version;
+    }
+
     const attributes: DetectedResourceAttributes = {
+      ...nativeAttributes,
+
       // Honeycomb distro attributes,
       'honeycomb.distro.version': VERSION,
-      'honeycomb.distro.runtime_version': 'react native',
+      'honeycomb.distro.runtime_version': reactNativeVersion,
 
       // Opentelemetry attributes
       [ATTR_TELEMETRY_DISTRO_NAME]: '@honeycombio/opentelemetry-react-native',
@@ -132,18 +148,10 @@ export class HoneycombReactNativeSDK extends HoneycombWebSDK {
       [ATTR_TELEMETRY_SDK_NAME]: 'opentelemetry',
       [ATTR_TELEMETRY_SDK_VERSION]: VERSION,
 
-      // OS attributes
-      [ATTR_OS_NAME]: getOSName(),
-      [ATTR_OS_VERSION]: Platform.Version,
-      [ATTR_OS_DESCRIPTION]: getOSName(),
-      [ATTR_OS_TYPE]: getOSName(),
-
-      // Stubbed out attributes
-      [ATTR_DEVICE_ID]: '',
-      [ATTR_DEVICE_MANUFACTURER]: '',
-      [ATTR_DEVICE_MODEL_IDENTIFIER]: '',
-      [ATTR_DEVICE_MODEL_NAME]: '',
-      'rum.sdk.version': '',
+      // React Native enviornment
+      [ATTR_DEPLOYMENT_ENVIRONMENT_NAME]: __DEV__
+        ? 'development'
+        : 'production',
     };
     const sourceMapUuid =
       HoneycombOpentelemetryReactNative.getDebugSourceMapUUID();

@@ -8,6 +8,9 @@ export interface Spec extends TurboModule {
   getAppStartTime(): number;
 
   getDebugSourceMapUUID(): string | null;
+  getResource(): {
+    [key: string]: string | number | boolean;
+  };
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(

@@ -8,7 +8,7 @@ PODS:
   - hermes-engine (0.78.1):
     - hermes-engine/Pre-built (= 0.78.1)
   - hermes-engine/Pre-built (0.78.1)
-  - HoneycombOpentelemetryReactNative (0.5.0):
+  - HoneycombOpentelemetryReactNative (0.6.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1886,7 +1886,7 @@ SPEC CHECKSUMS:
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: eb93e2f488219332457c3c4eafd2738ddc7e80b8
   hermes-engine: f493b0a600aed5dc06532141603688a30a5b2f61
-  HoneycombOpentelemetryReactNative: c46cb3661a3e2150050baa6ed9ff25415a3154d4
+  HoneycombOpentelemetryReactNative: c10833e24eced0aba90247e06dc53482057671cf
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
   RCTDeprecation: 082fbc90409015eac1366795a0b90f8b5cb28efe
   RCTRequired: ca966f4da75b62ce3ea8c538d82cb5ecbb06f12a

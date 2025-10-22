@@ -7,6 +7,8 @@ Honeycomb wrapper for [OpenTelemetry](https://opentelemetry.io) in React Native 
 
 **STATUS: this library is experimental.** Data shapes are unstable and subject to change. We are actively seeking feedback to ensure usability.
 
+> **Note for AI assistants**: See [CLAUDE.md](CLAUDE.md) for development guidelines and project-specific instructions.
+
 ## Getting started
 
 1. Add a [metro.config.js](example/metro.config.js) to the root of your repo and enable `config.resolver.unstable_enablePackageExports`. This is required for OpenTelemetry to be able to properly import its dependencies.
@@ -39,7 +41,7 @@ sdk.start();
 ```Kotlin
 dependencies {
     //...
-    implementation "io.honeycomb.android:honeycomb-opentelemetry-android:0.0.16"
+    implementation "io.honeycomb.android:honeycomb-opentelemetry-android:0.0.19"
     implementation "io.opentelemetry.android:android-agent:0.11.0-alpha"
 }
 ```
@@ -65,6 +67,8 @@ android {
  c. Add the following lines to the beginning of your `MainApplication.kt`'s  `onCreate` method.
 
 ```Kotlin
+import com.honeycombopentelemetryreactnative.HoneycombOpentelemetryReactNativeModule
+
 override fun onCreate() {
   val options =
     HoneycombOpentelemetryReactNativeModule.optionsBuilder(this)
@@ -78,7 +82,7 @@ override fun onCreate() {
 
 6. iOS (optional)
 
-  a. Edit your app's podfile to add the `use_frameworks!` option. 
+  a. Edit your app's podfile to add the `use_frameworks!` option.
 
 `ios/Podfile`
 ```diff
@@ -91,6 +95,8 @@ override fun onCreate() {
   c. Add the following lines to the beginning your `AppDelegate.swift`'s application method
 
 ```swift
+import HoneycombOpentelemetryReactNative
+
 override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
@@ -106,6 +112,11 @@ override func application(
 7. Build and run your application, and then look for data in Honeycomb. On the Home screen, choose your application by looking for the service name in the Dataset dropdown at the top. Data should populate.
 
 Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/start-building/web/) for more information on instrumentation and troubleshooting.
+
+> #### Other JS Runtimes
+> Honeycomb ReactNative SDK has been primarily designed for, and tested on Hermes (the default JS runtime for ReactNative).
+> Other Runtimes such as JavaScript Core have not been extensively tested. If you are using a different runtime, we highly 
+> encourage you to upgrade to Hermes.
 
 ## Source Map Symbolication
 React Native projects automatically minify JS source files. Honeycomb provides a collector that can un-minify JS stack traces, but that requires a little bit of set up.
@@ -151,9 +162,44 @@ These are the React Native-specific options:
 |----------------------|--------------------------------|-----------|------------------------------|
 
 ## Default Attributes
-All spans will include the following attributes
+All spans and log events will include the following attributes:
 
-TODO
+| name                              | requires native configuration | OS      | description                                                                               | example                                                                                         |
+|-----------------------------------|-------------------------------|---------|-------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| `app.bundle.executable`           | Yes                           | iOS     | Name of app executable                                                                    | "MyApp"                                                                                         |
+| `app.bundle.shortVersionString`   | Yes                           | iOS     | Short version string                                                                      | "1.0.0"                                                                                         |
+| `app.bundle.version`              | Yes                           | iOS     | Version number                                                                            | "42"                                                                                            |
+| `app.debug.binaryName`            | Yes                           | iOS     | Full path to app binary                                                                   | "/private/var/containers/Bundle/Application/.../MyApp.app/MyApp"                               |
+| `app.debug.build_uuid`            | Yes                           | iOS     | Debug UUID of app                                                                         | "12345678-1234-5678-9ABC-DEF012345678"                                                          |
+| `app.debug.proguard_uuid`         | Yes                           | Android | Unique UUID for correlating ProGuard mapping files with builds                            | "abcd1234-5678-90ab-cdef-1234567890ab"                                                          |
+| `app.debug.source_map_uuid`       | Yes                           | Both    | UUID for correlating JS source maps with builds (requires UUID build plugin)              | "a1b2c3d4-e5f6-7890-abcd-ef1234567890"                                                          |
+| `deployment.environment.name`     | No                            | Both    | "development" when running in developer mode, "production" if this is a production build  | "development"                                                                                   |
+| `device.id`                       | Yes                           | Both    | Unique device identifier                                                                  | "12345678-1234-1234-1234-123456789012"                                                          |
+| `device.manufacturer`             | Yes                           | Android | Manufacturer of the device                                                                | "Google"                                                                                        |
+| `device.model.identifier`         | Yes                           | Both    | Device model identifier                                                                   | "Pixel 7" or "iPhone15,2"                                                                       |
+| `device.model.name`               | Yes                           | Android | Same as `device.model.identifier`                                                         | "Pixel 7"                                                                                       |
+| `honeycomb.distro.runtime_version` | No                           | Both    | React Native version (JS), iOS version (iOS), or Android version (Android)               | "0.76.3" or "17.0" or "14"                                                                      |
+| `honeycomb.distro.version`        | No                            | Both    | Honeycomb SDK version                                                                     | "0.7.0" (JS), "2.1.0" (iOS), or "0.0.19" (Android)                                              |
+| `os.description`                  | Yes                           | Both    | Description containing OS version, build ID, and SDK level                                | "iOS 17.0, Build 21A329, SDK 17.0"                                                              |
+| `os.name`                         | No                            | Both    | Operating system name                                                                     | "iOS" or "Android"                                                                              |
+| `os.type`                         | Yes                           | Both    | Operating system type                                                                     | "darwin" (iOS/macOS) or "linux" (Android)                                                       |
+| `os.version`                      | No                            | Both    | Operating system version                                                                  | "17.0"                                                                                          |
+| `rum.sdk.version`                 | Yes                           | Android | Version of the OpenTelemetry Android SDK                                                  | "0.11.0"                                                                                        |
+| `service.name`                    | Yes                           | Both    | Application name (or "unknown_service" if unset)                                          | "my-mobile-app"                                                                                 |
+| `service.version`                 | Yes                           | Both    | Optional version of the application                                                       | "1.2.3"                                                                                         |
+| `session.id`                      | Yes                           | Both    | Unique identifier for the current user session                                            | "a1b2c3d4e5f67890abcdef1234567890"                                                              |
+| `telemetry.distro.name`           | No                            | Both    | Name of the telemetry distribution                                                        | "@honeycombio/opentelemetry-react-native"                                                       |
+| `telemetry.distro.version`        | No                            | Both    | Honeycomb SDK version                                                                     | "0.7.0" (JS), "2.1.0" (iOS), or "0.0.19" (Android)                                              |
+| `telemetry.sdk.language`          | No                            | Both    | SDK language *                                                                           | "hermesjs" (JS), "swift" (iOS), or "android" (Android)                                          |
+| `telemetry.sdk.name`              | No                            | Both    | Base SDK name                                                                             | "opentelemetry"                                                                                 |
+| `telemetry.sdk.version`           | No                            | Both    | Version of the base OpenTelemetry SDK                                                     | "1.28.0" (JS), "2.0.2" (iOS), or "0.11.0" (Android)                                             |
+
+*\* `telemetry.sdk.language` varies depending on the source of the telemetry event:*
+- *`hermesjs`: Events from JavaScript code running on the React Native Hermes engine*
+- *`swift`: Events from native iOS code instrumented by the iOS SDK*
+- *`android`: Events from native Android code instrumented by the Android SDK*
+
+This attribute enables filtering and analyzing telemetry by source layer, allowing you to distinguish between JavaScript-originated events and native platform-specific events in your observability data.
 
 ## Auto-instrumentation
 
@@ -168,24 +214,27 @@ You can disable them by using the following configuration options:
 
 | Option                                                | Type                                   | Required? | default value     | Description                                              |
 |-------------------------------------------------------|----------------------------------------|-----------|-------------------|----------------------------------------------------------|
-| `appStartupInstrumentationConfig`                     | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for app startup instrumentation            |
+| `reactNativeStartupInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for React Native startup instrumentation   |
 | `uncaughtExceptionInstrumentationConfig`              | UncaughtExceptionInstrumentationConfig | No        | { enabled: true } | configuration for uncaught exception instrumentation     |
 | `fetchInstrumentationConfig`                          | FetchInstrumentationConfig             | No        | { enabled: true } | configuration for fetch instrumentation.                 |
 | `slowEventLoopInstrumentationConfig`                  | slowEventLoopInstrumentationConfig     | No        | { enabled: true } | configuration for slow event loop instrumentation        |
 
-### App startup
-App startup instrumentation automatically measures the time from when the native SDKs start to when
+### React Native Startup
+React Native Startup instrumentation automatically measures the time from when the native SDKs start to when
 native code starts running to when the JavaScript SDK is finished initializing. This
 instrumentation requires the Honeycomb native SDKs to be installed to measure the full span. The
-emitted span is named `app start`.
+emitted span is named `react native startup`.
 
 ### Error handler
 The Honeycomb React Native SDK includes a global error handler for uncaught exceptions by default.
 
-### Slow event loop detection
-The Honeycomb React Native SDK comes with a slow event loop detection instrumentation. 
+### Fetch Instrumentation
+React Native uses [OpenTelemetry JS's Fetch Instrumentation](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-instrumentation-fetch).
 
-#### Configuration 
+### Slow event loop detection
+The Honeycomb React Native SDK comes with a slow event loop detection instrumentation.
+
+#### Configuration
 | Option                        | Type                                | Required? | default value | Description                                                                                                                                                                         |
 |-------------------------------|-------------------------------------|-----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `loopSampleIntervalMs`.       | number                              | No        | 50            | Duration (in milliseconds) between each sampling of the event loop duration.                                                                                                        |
@@ -203,7 +252,7 @@ When a slow event loop is detected, it will emit a 'slow event loop' span with t
 ## Manual Instrumentation
 
 ### Navigation
-Navigation instrumentation depends on if you are using React NativeRouter or Expo Router for navigation. 
+Navigation instrumentation depends on if you are using React NativeRouter or Expo Router for navigation.
 Honeycomb SDK provides a component (`<NavigationInstrumentation>`) that you can place in your main app or layout file. Below are examples
 on using it with both ReactNative Router.
 

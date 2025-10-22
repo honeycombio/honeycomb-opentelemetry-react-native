@@ -1,6 +1,6 @@
 {
   "name": "@honeycombio/opentelemetry-react-native",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "description": "Honeycomb OpenTelemetry SDK for React Native Apps",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -46,7 +46,8 @@
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
-    "release": "release-it"
+    "release": "release-it",
+    "pod:install": "cd example/ios && pod install"
   },
   "keywords": [
     "react-native",

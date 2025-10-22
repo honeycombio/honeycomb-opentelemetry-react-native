@@ -2,6 +2,25 @@
 
 ## v.Next
 
+- docs: Supported JS runtimes
+- docs: Add import information for Native Module configuration
+- docs: Add CLAUDE.md development guide for AI assistants
+- docs: Add MIGRATION.md guide and TROUBLESHOOTING.md for common issues
+- docs: Enhance telemetry.sdk.language documentation with React Native variations
+
+## v0.7.0
+
+- feat: Allow differentiation of telemetry based on build type.
+- maint: Update Android SDK from 0.0.16 to 0.0.19
+- maint: Update Swift SDK from 2.1.0 to 2.1.2
+
+## v0.6.1
+
+- Update `app startup` event name to `react native startup`
+
+## v0.6.0
+
+- feat: Sync Resource attributes between native extensions and JavaScript
 - feat: Add app startup instrumentation
 - feat: Adds an expo plugin which inserts embeds a unique build id to be used for source map symbolication
 - fix: OS name capitalization are now consistent across modules and JS
