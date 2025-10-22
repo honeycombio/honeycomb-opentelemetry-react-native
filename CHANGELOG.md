@@ -2,6 +2,9 @@
 
 ## v.Next
 
+## v0.7.1
+
+- fix: Fix JavaScript stack trace parsing in Android.
 - docs: Supported JS runtimes
 - docs: Add import information for Native Module configuration
 - docs: Add CLAUDE.md development guide for AI assistants
