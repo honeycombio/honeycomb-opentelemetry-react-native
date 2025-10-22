@@ -51,6 +51,9 @@ export class UncaughtExceptionInstrumentation extends InstrumentationBase {
             stack: caughtError.stack ?? '',
           };
 
+    // Remove the "address at" in stack traces that break parsing.
+    error.stack = error.stack?.replace(/ \(address at \/?/g, ' (/');
+
     recordException(error, {}, this.tracer, this.applyCustomAttributesOnSpan);
 
     if (this._oldErrorHandler) {
