@@ -2,9 +2,11 @@
 
 ## v.Next
 
+- fix: Remove `SourceMapUuid.txt` from UUID plugin, because it can be misleading
+
 ## v0.7.1
 
-- fix: Fix JavaScript stack trace parsing in Android.
+- fix: Fix JavaScript stack trace parsing in Android
 - docs: Supported JS runtimes
 - docs: Add import information for Native Module configuration
 - docs: Add CLAUDE.md development guide for AI assistants
@@ -13,7 +15,7 @@
 
 ## v0.7.0
 
-- feat: Allow differentiation of telemetry based on build type.
+- feat: Allow differentiation of telemetry based on build type
 - maint: Update Android SDK from 0.0.16 to 0.0.19
 - maint: Update Swift SDK from 2.1.0 to 2.1.2
 
