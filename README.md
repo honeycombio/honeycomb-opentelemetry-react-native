@@ -119,37 +119,128 @@ Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/sta
 > encourage you to upgrade to Hermes.
 
 ## Source Map Symbolication
-React Native projects automatically minify JS source files. Honeycomb provides a collector that can un-minify JS stack traces, but that requires a little bit of set up.
 
-### Generating Source Maps
+React Native projects automatically minify JavaScript source files. Honeycomb provides a [symbolicator](https://github.com/honeycombio/opentelemetry-collector-symbolicator/) with our [collector distro](https://github.com/honeycombio/honeycomb-collector-distro) that can un-minify JS stack traces, but this requires setup to correlate stack traces with the correct source maps.
 
-iOS projects have source maps [disabled by default](https://reactnative.dev/docs/debugging-release-builds). To generate source maps during a build, open Xcode and edit the build phase "Bundle React Native code and images". Add this line to the top of the script:
+### Step 1: Enable Source Map Generation
 
+**iOS:** Source maps are [disabled by default](https://reactnative.dev/docs/debugging-release-builds). To generate them during builds, open Xcode and edit the build phase "Bundle React Native code and images". Add this line to the top of the script:
+
+```bash
+export SOURCEMAP_FILE="$PROJECT_DIR/main.jsbundle.map"
 ```
-export SOURCEMAP_FILE="$(pwd)/../main.jsbundle.map";
-```
 
-Android projects will generate source maps by default.
+**Android:** Source maps are generated automatically during builds. No configuration needed.
 
-### Tracking Source Maps
+### Step 2: Generate and Set a UUID as a Resource Attribute
 
-Once you have your source maps, your app will need to include an attribute on the telemetry it emits so that we know which source map should be used for which stack trace.
+Your app needs to set a unique identifier as a Resource attribute using the `app.debug.source_map_uuid` key when configuring the SDK. This allows the symbolicator to correlate exception traces with the correct source maps.
 
-For expo projects, add the following to your `app.json` or `app.config.js`:
+#### Option A: Using the Expo Plugin (Recommended for Expo Projects)
+
+Add the plugin to your `app.json` or `app.config.js`:
 
 ```json
 {
   "expo": {
     "plugins": [
-      // ...
-      ["@honeycombio/opentelemetry-react-native"],
+      ["@honeycombio/opentelemetry-react-native"]
     ]
   }
 }
 ```
 
-### Tying It All Together
-(this section coming soon)
+The plugin will automatically generate a UUID and configure it as a Resource attribute in the SDK.
+
+#### Option B: Manual UUID Generation (For Non-Expo Projects)
+
+1. Generate your own UUID (e.g., using `uuidgen` or any UUID generation tool)
+
+2. Choose one of the following approaches to attach it:
+
+   **Approach 1: Automatic (Recommended)** - Let the SDK read and attach the UUID:
+
+   Add the UUID to your platform configuration files:
+
+   **Android** (`AndroidManifest.xml`):
+   ```xml
+   <application ...>
+       <meta-data
+           android:name="app.debug.source_map_uuid"
+           android:value="your-generated-uuid-here" />
+   </application>
+   ```
+
+   **iOS** (`Info.plist`):
+   ```xml
+   <key>app.debug.source_map_uuid</key>
+   <string>your-generated-uuid-here</string>
+   ```
+
+   The SDK will automatically read these values and set them as Resource attributes.
+
+   **Approach 2: Manual** - Set the UUID as a Resource attribute yourself when configuring the SDK in your code.
+
+### Step 3: Extract the UUID After Building
+
+After building your app, extract the UUID from your build artifacts:
+
+**For Expo Plugin Users:**
+
+**Android:**
+```bash
+UUID=$(xpath -q -e "string(//meta-data[@android:name='app.debug.source_map_uuid']/@android:value)" app/src/main/AndroidManifest.xml)
+```
+
+**iOS:**
+```bash
+UUID=$(defaults read $PWD/<your-app-name>/Info app.debug.source_map_uuid)
+```
+
+Replace `<your-app-name>` with your actual app directory name.
+
+**For Manual UUID Generation:**
+
+If you generated the UUID manually and placed it in your configuration files, use the same commands above to extract it. If you're setting the UUID as a Resource attribute manually in code, you already have the UUID value you generated.
+
+### Step 4: Prepare Source Maps for Upload
+
+Organize your source maps in a directory structure using the UUID:
+
+1. **Create a directory named with the UUID:**
+   ```bash
+   mkdir -p "$UUID"
+   ```
+
+2. **Copy source maps into the UUID directory:**
+   - iOS: `main.jsbundle.map`
+   - Android: `index.android.bundle.map`
+
+3. **Create stub files** that reference the source maps (place these in the UUID directory):
+
+   **Android:**
+   ```bash
+   echo "//# sourceMappingURL=index.android.bundle.map" > "$UUID/index.android.bundle"
+   ```
+
+   **iOS:**
+   ```bash
+   echo "//# sourceMappingURL=main.jsbundle.map" > "$UUID/main.jsbundle"
+   ```
+
+### Step 5: Upload to Cloud Storage
+
+Upload the UUID directory to your cloud storage service (e.g., S3, GCS). The final structure should be:
+
+```
+<uuid>/
+  ├── main.jsbundle                  (iOS stub file)
+  ├── main.jsbundle.map              (iOS source map)
+  ├── index.android.bundle           (Android stub file)
+  └── index.android.bundle.map       (Android source map)
+```
+
+When the [Honeycomb source_map_symbolicator](https://github.com/honeycombio/opentelemetry-collector-symbolicator/) processes exception traces with the `app.debug.source_map_uuid` Resource attribute, it will retrieve the corresponding source maps to properly symbolicate your JavaScript stack traces.
 
 
 ## SDK Configuration Options
