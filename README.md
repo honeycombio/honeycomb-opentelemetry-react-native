@@ -230,7 +230,7 @@ Organize your source maps in a directory structure using the UUID:
 
 ### Step 5: Upload to Cloud Storage
 
-Upload the UUID directory to your cloud storage service (e.g., S3, GCS). The final structure should be:
+Upload the UUID directory to your [cloud storage service](https://docs.honeycomb.io/send-data/android/symbolicate/) (e.g., S3, GCS). The final structure should be:
 
 ```
 <uuid>/
