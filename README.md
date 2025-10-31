@@ -118,7 +118,7 @@ Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/sta
 > Other Runtimes such as JavaScript Core have not been extensively tested. If you are using a different runtime, we highly 
 > encourage you to upgrade to Hermes.
 
-## Source Map Symbolication
+## JavaScript Source Map Symbolication
 
 React Native projects automatically minify JavaScript source files. Honeycomb provides a [symbolicator](https://github.com/honeycombio/opentelemetry-collector-symbolicator/) with our [collector distro](https://github.com/honeycombio/honeycomb-collector-distro) that can un-minify JS stack traces, but this requires setup to correlate stack traces with the correct source maps.
 
