@@ -2,6 +2,8 @@
 
 ## v.Next
 
+## v0.7.2
+
 - fix: Remove `SourceMapUuid.txt` from UUID plugin, because it can be misleading
 
 ## v0.7.1
