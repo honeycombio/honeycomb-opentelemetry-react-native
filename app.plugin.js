@@ -1,1 +1,1 @@
-module.exports = require('./lib/commonjs/plugin/withUUIDplugin');
+module.exports = require('./lib/commonjs/plugin/withUUIDPlugin');
