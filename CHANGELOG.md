@@ -2,6 +2,8 @@
 
 ## v.Next
 
+- fix: Fix case of withUUIDPlugin import to match file
+
 ## v0.7.2
 
 - fix: Remove `SourceMapUuid.txt` from UUID plugin, because it can be misleading
