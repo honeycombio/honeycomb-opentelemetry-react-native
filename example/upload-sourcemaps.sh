@@ -5,8 +5,6 @@ set -e
 # This script implements steps 3-5 from the README.md JavaScript Source Map Symbolication guide
 
 upload_android() {
-  # Extract the UUID
-  local uuid=""
 
   if [[ ! -f "android/app/src/main/AndroidManifest.xml" ]]; then
     echo "❌ AndroidManifest.xml not found at android/app/src/main/AndroidManifest.xml"
@@ -42,6 +40,7 @@ upload_android() {
 }
 
 upload_ios() {
+
   local app_name="$1"
   local uuid=$(defaults read $PWD/$app_name/Info app.debug.source_map_uuid)
 
