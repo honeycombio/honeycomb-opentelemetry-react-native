@@ -122,7 +122,7 @@ Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/sta
 
 React Native projects automatically minify JavaScript source files. Honeycomb provides a [symbolicator](https://github.com/honeycombio/opentelemetry-collector-symbolicator/) with our [collector distro](https://github.com/honeycombio/honeycomb-collector-distro) that can un-minify JS stack traces, but this requires setup to correlate stack traces with the correct source maps.
 
-You can find an example upload script to automate steps 3-5 at [example/upload-sourcemaps.sh](example/upload-sourcemaps.sh).
+You can find an example upload script to automate steps 3-5 at [example/upload-sourcemaps.sh](example/upload-sourcemaps.sh). Be sure to update any boilerplate names
 
 ### Step 1: Enable Source Map Generation
 
