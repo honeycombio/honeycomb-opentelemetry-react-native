@@ -115,12 +115,14 @@ Refer to our [Honeycomb documentation](https://docs.honeycomb.io/get-started/sta
 
 > #### Other JS Runtimes
 > Honeycomb ReactNative SDK has been primarily designed for, and tested on Hermes (the default JS runtime for ReactNative).
-> Other Runtimes such as JavaScript Core have not been extensively tested. If you are using a different runtime, we highly 
+> Other Runtimes such as JavaScript Core have not been extensively tested. If you are using a different runtime, we highly
 > encourage you to upgrade to Hermes.
 
 ## JavaScript Source Map Symbolication
 
 React Native projects automatically minify JavaScript source files. Honeycomb provides a [symbolicator](https://github.com/honeycombio/opentelemetry-collector-symbolicator/) with our [collector distro](https://github.com/honeycombio/honeycomb-collector-distro) that can un-minify JS stack traces, but this requires setup to correlate stack traces with the correct source maps.
+
+You can find an example upload script to automate steps 3-5 at [example/upload-sourcemaps.sh](example/upload-sourcemaps.sh).
 
 ### Step 1: Enable Source Map Generation
 
