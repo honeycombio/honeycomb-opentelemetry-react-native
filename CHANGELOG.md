@@ -3,6 +3,7 @@
 ## v.Next
 
 - fix: Fix case of withUUIDPlugin import to match file
+- feat: Add example sourcemap upload script.
 
 ## v0.7.2
 
