@@ -53,7 +53,7 @@ jobs:
 
   lint_swift:
     macos:
-      xcode: 16.2.0
+      xcode: 26.2.0
     resource_class: m4pro.medium
     steps:
       - checkout
@@ -115,7 +115,7 @@ jobs:
 
   smoke_tests_ios:
     macos:
-      xcode: 16.2.0
+      xcode: 26.2.0
     resource_class: m4pro.medium
 
     steps:
