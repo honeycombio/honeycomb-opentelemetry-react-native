@@ -124,7 +124,7 @@ jobs:
       - macos/preboot-simulator:
           version: "26.2"
           platform: "iOS"
-          device: "iPhone 16"
+          device: "iPhone 17"
       - checkout
       - run: corepack enable
       - run: brew tap wix/brew
