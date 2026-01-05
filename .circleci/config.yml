@@ -122,7 +122,7 @@ jobs:
       - attach_workspace:
           at: ./
       - macos/preboot-simulator:
-          version: "18.2"
+          version: "26.2"
           platform: "iOS"
           device: "iPhone 16"
       - checkout
