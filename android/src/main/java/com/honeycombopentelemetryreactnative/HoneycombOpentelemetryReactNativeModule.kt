@@ -20,6 +20,13 @@ import io.honeycomb.opentelemetry.android.HoneycombOptions
 class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationContext) :
   NativeHoneycombOpentelemetryReactNativeSpec(reactContext) {
 
+  init {
+    // Reset the start time each time the JS bridge restarts.
+    // Without this, Activity recreation (process still alive) would retain
+    // the original cold-start timestamp, producing inflated startup spans.
+    appStartTimeMillis = System.currentTimeMillis()
+  }
+
   override fun getName(): String {
     return NAME
   }

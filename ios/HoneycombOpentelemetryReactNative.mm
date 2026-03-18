@@ -4,6 +4,16 @@
 @implementation HoneycombOpentelemetryReactNative
 RCT_EXPORT_MODULE()
 
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    // Reset the start time each time the JS bridge restarts so we don't
+    // retain a stale cold-start timestamp across Activity recreations.
+    [HNYReactNativeWrapper resetStartTime];
+  }
+  return self;
+}
+
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
     (const facebook::react::ObjCTurboModule::InitParams &)params {
   return std::make_shared<facebook::react::NativeHoneycombOpentelemetryReactNativeSpecJSI>(params);
