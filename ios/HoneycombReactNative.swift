@@ -5,6 +5,11 @@ import OpenTelemetryApi
     // In Swift, static members are only initialized when accessed, so we can't set it here.
     private static var startTime: Date? = nil
 
+    /// Reset the start time so that Activity/bridge restarts capture fresh timestamps.
+    @objc public static func resetStartTime() {
+        startTime = Date()
+    }
+
     @objc public static func optionsBuilder() -> HoneycombOptions.Builder {
         if startTime == nil {
             startTime = Date()

@@ -4,6 +4,7 @@
 
 - fix: Fix case of withUUIDPlugin import to match file
 - feat: Add example sourcemap upload script.
+- fix: Reset app start timestamp on bridge restart to prevent inflated startup spans (#73)
 
 ## v0.7.2
 
