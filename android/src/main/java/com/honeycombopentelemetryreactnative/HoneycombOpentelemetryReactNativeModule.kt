@@ -63,7 +63,7 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
                 TELEMETRY_DISTRO_NAME.key to "@honeycombio/opentelemetry-react-native"))
     }
 
-    fun configure(app: Application, builder: HoneycombOptions.Builder) {
+    fun configure(app: Application, builder: HoneycombOptions.Builder): OpenTelemetryRum {
       val packageManager = app.packageManager
       val applicationInfo =
         packageManager.getApplicationInfo(
@@ -78,6 +78,7 @@ class HoneycombOpentelemetryReactNativeModule(reactContext: ReactApplicationCont
 
       val options = builder.build()
       otelRum = Honeycomb.configure(app, options)
+      return otelRum!!
     }
   }
 }

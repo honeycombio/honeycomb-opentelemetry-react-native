@@ -4,6 +4,7 @@
 
 - fix: Fix case of withUUIDPlugin import to match file
 - feat: Add example sourcemap upload script.
+- feat: Return `OpenTelemetryRum` from Android `configure()` to allow native-side tracing.
 
 ## v0.7.2
 
