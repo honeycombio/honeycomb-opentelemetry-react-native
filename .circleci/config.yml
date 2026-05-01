@@ -192,6 +192,9 @@ jobs:
     steps:
       - checkout
       - run: corepack enable
+      - run:
+          name: ensure npm version installed supports OIDC
+          command: npm install --global 'npm@>=11.5.1'
       - run: yarn install --frozen-lockfile
       - run: yarn prepare
       - run: |
