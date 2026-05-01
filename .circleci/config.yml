@@ -193,11 +193,14 @@ jobs:
       - checkout
       - run: corepack enable
       - run:
-          name: store npm auth token
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          name: ensure npm version installed supports OIDC
+          command: npm install --global 'npm@>=11.5.1'
       - run: yarn install --frozen-lockfile
       - run: yarn prepare
-      - run: npm publish --access public
+      - run: |
+          export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+          [[ "${CIRCLE_TAG#v}" == *-* ]] && DIST_TAG="next" || DIST_TAG="latest"
+          npm publish --access public --tag "$DIST_TAG"
 
 workflows:
   build:
