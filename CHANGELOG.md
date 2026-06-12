@@ -2,6 +2,8 @@
 
 ## v.Next
 
+- ci: Trust the `wix/brew` tap before installing `applesimutils` for the iOS smoke test (Homebrew now requires explicit tap trust)
+
 ## v0.8.0
 
 - fix: Fix case of withUUIDPlugin import to match file
