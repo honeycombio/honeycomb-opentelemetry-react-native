@@ -127,9 +127,7 @@ jobs:
           device: "iPhone 17"
       - checkout
       - run: corepack enable
-      - run: brew tap wix/brew
-      - run: brew trust wix/brew
-      - run: brew install applesimutils
+      - run: brew install wix/brew/applesimutils
       - run: yarn install
       - bats/install
       - run:
