@@ -1,24 +1,33 @@
 import { trace } from '@opentelemetry/api';
-import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useEffect, useRef } from 'react';
 
 const LIBRARY_NAME = '@honeycombio/navigation';
 
-type NavigationInstrumentationProps<T extends {}> = React.PropsWithChildren<{
-  ref: NavigationContainerRefWithCurrent<T>;
+/**
+ * Methods this component reads. A navigation container ref satisfies this
+ * without pinning the app to one installed copy of React Navigation.
+ */
+type NavigationRouteRef = {
+  isReady: () => boolean;
+  addListener: (event: 'state', callback: () => void) => () => void;
+  getCurrentRoute: () => { readonly name?: string } | undefined;
+};
+
+type NavigationInstrumentationProps = React.PropsWithChildren<{
+  ref: NavigationRouteRef;
 }>;
 
-export function NavigationInstrumentation<T extends {}>({
+export function NavigationInstrumentation({
   ref,
   children,
-}: NavigationInstrumentationProps<T>) {
+}: NavigationInstrumentationProps) {
   const routeNameRef = useRef<string>(undefined);
 
   useEffect(() => {
     if (!ref || !ref.isReady()) {
       return;
     }
-    ref.addListener('state', () => {
+    return ref.addListener('state', () => {
       const timestamp = Date.now();
       const previousRoute = routeNameRef.current;
       const { name: currentRoute } = ref.getCurrentRoute() ?? {};

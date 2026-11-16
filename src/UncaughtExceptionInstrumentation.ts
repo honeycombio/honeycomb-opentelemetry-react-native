@@ -4,6 +4,7 @@ import {
   type InstrumentationConfig,
 } from '@opentelemetry/instrumentation';
 import type { Span } from '@opentelemetry/api';
+import { normalizeCaughtError } from './caughtError';
 import { VERSION } from './version';
 
 const LIBRARY_NAME = '@honeycombio/instrumentation-global-errors';
@@ -42,17 +43,7 @@ export class UncaughtExceptionInstrumentation extends InstrumentationBase {
   }
 
   onError = (caughtError: any, isFatal?: boolean) => {
-    const error: Error =
-      caughtError.stack && caughtError.message && caughtError.name
-        ? caughtError
-        : {
-            name: 'UnknownErrorType',
-            message: `${caughtError}`,
-            stack: caughtError.stack ?? '',
-          };
-
-    // Remove the "address at" in stack traces that break parsing.
-    error.stack = error.stack?.replace(/ \(address at \/?/g, ' (/');
+    const error = normalizeCaughtError(caughtError);
 
     recordException(error, {}, this.tracer, this.applyCustomAttributesOnSpan);
 

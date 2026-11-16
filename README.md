@@ -399,6 +399,47 @@ export default function App() {
 }
 ```
 
+### Time to interactive
+
+`markInteractive()` records one span named `time to interactive`. The span starts when the native app started and ends when you call it. Call it from each screen the app can open on, after that screen's first load. Only the first successful call in the JavaScript runtime is recorded.
+
+`useMarkInteractive(ready)` does the same thing when `ready` becomes true.
+
+```tsx
+import { useMarkInteractive } from '@honeycombio/opentelemetry-react-native';
+
+export function FeedScreen({ loading }: { loading: boolean }) {
+  useMarkInteractive(!loading);
+  return null;
+}
+```
+
+Optional attributes on `markInteractive` are set on that single span. Do not put tokens, names, or contact details in them.
+
+This span needs the native module. `react native startup` still measures SDK startup and ends earlier.
+
+### Render errors
+
+The global error handler does not see errors thrown while React is rendering. Wrap the tree in `HoneycombErrorBoundary`. It records an `exception` span with `exception.source` set to `react.render` and, when React provides one, `exception.component_stack`. Then it renders `fallback` instead of a blank screen.
+
+```tsx
+import { HoneycombErrorBoundary } from '@honeycombio/opentelemetry-react-native';
+
+export function App() {
+  return (
+    <HoneycombErrorBoundary
+      fallback={({ resetError }) => (
+        <TryAgain onPress={resetError} />
+      )}
+    >
+      {/* Navigation/UI code */}
+    </HoneycombErrorBoundary>
+  );
+}
+```
+
+`fallback` may be a function, an element, or `null`. `resetError` clears the error and renders the children again.
+
 ### Sending a custom span.
 
 ```typescript
