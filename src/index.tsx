@@ -38,7 +38,14 @@ import {
 } from './SlowEventLoopInstrumentation';
 import { type SessionProvider } from '@opentelemetry/web-common';
 
+export {
+  HoneycombErrorBoundary,
+  type HoneycombErrorBoundaryFallbackProps,
+  type HoneycombErrorBoundaryProps,
+} from './HoneycombErrorBoundary';
 export { NavigationInstrumentation } from './NavigationInstrumentation';
+export { markInteractive } from './timeToInteractive';
+export { useMarkInteractive } from './useMarkInteractive';
 export { ReactNativeStartupInstrumentation } from './ReactNativeStartupInstrumentation';
 export {
   SlowEventLoopInstrumentation,

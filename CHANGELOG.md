@@ -2,6 +2,8 @@
 
 ## v.Next
 
+- feat: Add `HoneycombErrorBoundary` to record React render errors as `exception` spans and show a fallback. Render errors do not reach the global handler
+- feat: Record one `time to interactive` span from native app start when `markInteractive()` or `useMarkInteractive()` runs. Later calls in the same JavaScript runtime do nothing. `react native startup` still ends when the SDK finishes starting
 - ci: Trust the `wix/brew` tap before installing `applesimutils` for the iOS smoke test (Homebrew now requires explicit tap trust)
 - ci: Install `applesimutils` via its fully-qualified tap name in the iOS smoke test
 
